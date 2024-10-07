@@ -1,0 +1,25 @@
+<!--Testing frontend integration-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Frontend</title>
+</head>
+<body>
+    <h1>Frontend is Working</h1>
+    <button id="testButton">Test Backend</button>
+    <p id="response"></p>
+
+    <script>
+        document.getElementById('testButton').addEventListener('click', () => {
+            fetch('/test')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('response').innerText = data.message;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
