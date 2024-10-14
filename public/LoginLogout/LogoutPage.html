@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Document CSS-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+                
+        header {
+            /*background: #35424a;*/
+            /*color: white;*/
+            padding: 10px 0;
+            text-align: center;
+            /*border: 1px solid black; Additional line*/
+        }
+
+        body{
+            min-height: 100vh;
+            background: #eee;
+            display: flex;
+            font-family: sans-serif;
+        }
+
+        .container{
+            margin: auto;
+            width: 500px;
+            max-width: 90%;
+        }
+
+        .container form{
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 8px 16px rgba(0,0,0,.3);
+
+        }
+
+        .container form h1{
+            text-align: center;
+            margin-bottom: 12px;
+            color: #222;
+        }
+
+        .container form p{
+            text-align: center;
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        .container form button{
+            margin-left:50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 34px;
+            border: none;
+            outline: none;
+            background: #27a350;
+            cursor: pointer;
+            font-size: 16px;
+            color:white;
+            border-radius: 4px;
+            transition: .3s;
+        }
+        .container form button:hover{
+            opacity: .6;
+        }
+    </style>
+
+    <!-- Javascript -->
+    <script>
+        function signInAgainBtn(){
+            event.preventDefault(); // Prevent the form from submitting
+            document.location.href="./LoginPage.html"; // Use relative path
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form action="">
+            <h1>Logged Out</h1>
+            <p>Thank you for using <b>CarTakers</b>.</p>
+            <button onclick="signInAgainBtn()">Return to Login Page</button>
+        </form>
+    </div>
+    
+</body>
+</html>
