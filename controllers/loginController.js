@@ -17,6 +17,7 @@ const loginController = {
             return res.status(400).json({ message: 'Role is required' })
         }
 
+        console.log(role);
         try {
             // find user by email
             const user = await User.findByEmail(email);

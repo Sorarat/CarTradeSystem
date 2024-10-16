@@ -21,8 +21,10 @@ class User {
     }
 
     static async verifyPassword(password, storedHash) {
+        const hash = await bcrypt.hash(password, 10);
+
         const match = await bcrypt.compare(password, storedHash);
-        console.log(`Password: ${password}, Stored Hash: ${storedHash}, Match: ${match}`);
+        console.log(`Password: ${password}, Newly hash: ${hash}, Stored Hash: ${storedHash}, Match: ${match}`);
         return match;
     }
 
