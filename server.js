@@ -23,9 +23,9 @@ pool.getConnection((err, connection) => {
 // Middleware to serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve the index.html for the root route
+// Serve LoginPage.html for the root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'LoginLogout', 'LoginPage.html'));
 });
 
 // Dynamically import all route files from the 'routes' directory
