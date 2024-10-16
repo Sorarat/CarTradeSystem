@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve LoginPage.html for the root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'LoginLogout', 'LoginPage.html'));
+    res.sendFile(path.join(__dirname, 'public', 'LoginPage', 'LoginPage.html'));
 });
 
 // Dynamically import all route files from the 'routes' directory

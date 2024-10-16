@@ -17,8 +17,9 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         const data = await response.json();
 
         if (response.ok) {
-            alert('Login successful!');
             console.log('Login successful!');
+
+            window.location.href = '/HomePage/HomePage.html';
             /*
             // Redirect user based on role
             if (data.user.role === 'user-admin') {
