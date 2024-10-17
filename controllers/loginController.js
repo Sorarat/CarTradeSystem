@@ -1,4 +1,5 @@
 const User = require('../entities/User');
+const bcrypt = require('bcrypt');
 
 const loginController = {
     login: async(req, res) => {
@@ -29,7 +30,7 @@ const loginController = {
 
             
             // verify password 
-            const isPasswordValid = await User.verifyPassword(password, user.password_hash);
+            const isPasswordValid = await bcrypt.compare(password, user.password_hash);
             console.log('Password Valid:', isPasswordValid);
             if (!isPasswordValid) {
                 return res.status(403).json({ message: 'Invalid password' });

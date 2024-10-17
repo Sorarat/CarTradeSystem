@@ -20,14 +20,6 @@ class User {
         return results.length > 0 ? new User(results[0]) : null;
     }
 
-    static async verifyPassword(password, storedHash) {
-        const hash = await bcrypt.hash(password, 10);
-
-        const match = await bcrypt.compare(password, storedHash);
-        console.log(`Password: ${password}, Newly hash: ${hash}, Stored Hash: ${storedHash}, Match: ${match}`);
-        return match;
-    }
-
     async getRole() {
         const query = 'SELECT role FROM UserProfile WHERE profile_id = ?';
         const [results] = await db.promise().query(query, [this.profile_id]);
