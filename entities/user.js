@@ -15,9 +15,9 @@ class User {
     async findByEmail(email) {
         const query = 'SELECT * FROM User WHERE email = ?';
         const [results] = await db.promise().query(query, [email]);
-        console.log([results]);
-        // return an instance of user if found
-        return results.length > 0 ? new User(results[0]) : null;
+
+        // Return plain user data object if found
+        return results.length > 0 ? results[0] : null; // Return user data or null
     }
 
     async getRole(profile_id) {
@@ -28,10 +28,13 @@ class User {
 
     async login(email, password, role) {
         
-        const userInstance = await this.findByEmail(email); // Use instance method
-        if (!userInstance) {
-            return false; // User not found
+        const userData = await this.findByEmail(email); // Get plain user data
+        if (!userData) {
+            return false; // Return false if user not found
         }
+
+        // Create an instance of User using the user data
+        const userInstance = new User(userData);
 
         const isPasswordValid = await bcrypt.compare(password, userInstance.password_hash);
         if (!isPasswordValid) {
