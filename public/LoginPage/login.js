@@ -16,7 +16,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
         const data = await response.json();
 
-        if (response.ok) {
+        if (data.success) {
             console.log('Login successful!');
 
             window.location.href = '/HomePage/HomePage.html';
@@ -34,7 +34,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             */
 
         } else {
-            alert(data.message);
+            alert('Login failed. Please check your credentials.'); // Generic error message
         }
     } catch (err) {
         console.error(err);

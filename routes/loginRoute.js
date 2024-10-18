@@ -1,8 +1,10 @@
 const express = require('express');
-const loginController = require('../controllers/loginController');
+const LoginController = require('../controllers/loginController');
 const router = express.Router();
 
-// Define a POST route for logging in
-router.post('/login', loginController.login);
+const loginController = new LoginController();
+
+// Use the instance method
+router.post('/login', (req, res) => loginController.login(req, res));
 
 module.exports = router;
