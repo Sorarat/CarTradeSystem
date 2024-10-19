@@ -2,14 +2,48 @@ const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
 class User {
+    // private variables
+    #user_id;
+    #email;
+    #username;
+    #password_hash;
+    #phone;
+    #suspendStatus;
+    #profile_id;
+
     constructor(userData = {}) {
-        this.user_id = userData.user_id || null;
-        this.email = userData.email || null;
-        this.username = userData.username || null;
-        this.password_hash = userData.password_hash || null;
-        this.phone = userData.phone || null;
-        this.suspendStatus = userData.suspendStatus || false;
-        this.profile_id = userData.profile_id || null;
+        this.#user_id = userData.user_id || null;
+        this.#email = userData.email || '';
+        this.#username = userData.username || '';
+        this.#password_hash = userData.password_hash || '';
+        this.#phone = userData.phone || '';
+        this.#suspendStatus = userData.suspendStatus || false;
+        this.#profile_id = userData.profile_id || null;
+    }
+
+    // getters
+    get getUserId() {
+        return this.#user_id;
+    }
+
+    get getEmail() {
+        return this.#email;
+    }
+
+    get getUsername() {
+        return this.#username;
+    }
+
+    get getPhone() {
+        return this.#phone;
+    }
+
+    get getSuspendStatus() {
+        return this.#suspendStatus;
+    }
+
+    get getProfileId() {
+        return this.#profile_id;
     }
 
     async findByEmail(email) {
@@ -18,6 +52,10 @@ class User {
 
         // Return plain user data object if found
         return results.length > 0 ? results[0] : null; // Return user data or null
+    }
+
+    async verifyPassword(password) {
+        return await bcrypt.compare(password, this.#password_hash);
     }
 
     async getRole(profile_id) {
@@ -36,16 +74,16 @@ class User {
         // Create an instance of User using the user data
         const userInstance = new User(userData);
 
-        const isPasswordValid = await bcrypt.compare(password, userInstance.password_hash);
+        const isPasswordValid = await userInstance.verifyPassword(password);
         if (!isPasswordValid) {
             return false; // Invalid password
         }
 
-        if (userInstance.suspendStatus) {
+        if (userInstance.getSuspendStatus) {
             return false; // User is suspended
         }
 
-        const userRole = await this.getRole(userInstance.profile_id); // Use instance method
+        const userRole = await this.getRole(userInstance.getProfileId); // Use instance method
         if (userRole !== role) {
             return false; // Role does not match
         }
