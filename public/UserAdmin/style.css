@@ -2,9 +2,14 @@
 /* Declare color scheme: TO BE CONFIRMED*/
 :root{
     --header-height: 10rem;
-    --orange: #ff7800;
-    --black: #130f40;
-    --light-color: #666;
+    --orange: #ff7800;      /* hover text */
+    --silver: #c0c0c0;      /* hover background */
+    --black: #130f40;       /* text */
+    --white: #fff;          /* header background */
+    --light-gray: #eee;     /* body background */
+    --light-gray1: #f1f1f1; /* menu-dropdown background */
+    --light-gray2: #ccc;    /* separator line */ 
+    --dark-gray: #666;
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
     --outline: .1rem solid rgba(0, 0, 0, .1);
@@ -35,12 +40,12 @@ body {
     /*margin: 0;
     padding: 0;*/
     padding: var(--header-height); /* To match the height of the header*/
-    background: #eee;
+    background: var(--light-gray);
     /*display: flex;*/
 }
 
 /* ---------------------------------- */
-/* Header CSS */
+/* Header CSS - STANDARD */
 .header {
     position: fixed;
     top: 0;
@@ -51,7 +56,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 2rem 9%;
-    background: #fff;
+    background: var(--white);
     box-shadow: var(--box-shadow);
     text-align: center;
 }
@@ -77,25 +82,9 @@ body {
     color: var(--black)
 }
 
-/* OPTIONAL */
-footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
-
-/* OPTIONAL */
-main {
-    padding: 20px;
-}
-
 /* Dropdown Button */
 .dropbtn {
-    background-color: #fff;
+    background-color: var(--white);
     font-size: 1.7rem;
     margin: 1rem;
     color: var(--black);
@@ -122,16 +111,15 @@ main {
 .menu-content {
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
+    background-color: var(--light-gray1);
     min-width: 160px;
     box-shadow: var(--box-shadow);
-    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
     z-index: 1;
 }
   
 /* Links inside the dropdown */
 .menu-content a {
-    color: black;
+    color: var(--black);
     padding: 6px 12px;
     text-decoration: none;
     display: block;
@@ -139,7 +127,9 @@ main {
   
 /* Change color of dropdown links on hover */
 .menu-content a:hover {
-    background-color: #C0C0C0;
+    background-color: var(--silver);
+    border: var(--border);
+    outline: var(--outline-hover);
 }
   
 /* Show the dropdown menu 
@@ -151,9 +141,9 @@ when the user clicks on the dropdown button) */
 
 /* ---------------------------------- */
 /* AdminDashboard CSS */
-/* User Information Card */
+/* User Information Card - STANDARD */
 .card{
-    background-color: #fff;
+    background-color: var(--white);
     border-radius: 18px;
     box-shadow: var(--box-shadow);
     height: auto;
@@ -169,32 +159,29 @@ when the user clicks on the dropdown button) */
 }
 
 table {
-    width: 100%; /* Ensure the table takes the full width of the card */
+    width: 100%; /* Full width of the card */
     border-collapse: collapse; /* Collapse borders for a cleaner look */
     font-size: 1.5rem; /* Set font size for the table */
 }
 
 th, td {
-    padding: 10px; /* Add padding to table cells */
-    text-align: left; /* Align text to the left */
-    /*border: 1px solid #ddd; /* Add borders to table cells */
+    padding: 10px; /* Cell padding */
+    text-align: left; /* Left alignment */
+    border: 1px solid #ddd; /* Cell borders */
     text-transform: none; /* Preserve original capitalization */
-    white-space: nowrap; /* Prevent text from wrapping */
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
-/* Use flexbox to center the image horizontally and vertically within the table cell */
 .center{
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically*/
+    text-align: center;
 }
 
 .round-image{
-    width: 60px; /* Set the desired width */
-    height: 60px; /* Set the desired height */
-    border-radius: 60%; /* This makes the image round */
-    object-fit: cover; /* Ensures the image covers the area without distortion */
-    border: 3px solid #CCC;
+    width: 60px; /* Image width */
+    height: 60px; /* Image height */
+    border-radius: 60%; /* Makes the image round */
+    object-fit: cover; /* Cover the area without distortion */
+    border: 3px solid var(--light-gray2);
 }
 
 /* Admin Functions */
@@ -204,7 +191,7 @@ th, td {
     font-size: 1.5rem; /* Set font size for the table */
 }
 
-.create-profile-link {
+.link {
     display: inline-block;
     margin-top: 10px;
     padding: 10px 30px;
@@ -215,21 +202,68 @@ th, td {
     text-align: center;
 }
 
-.create-profile-link:hover {
-    background-color: #C0C0C0; /* Darker shade on hover */
+.link:hover {
+    background-color: var(--silver); /* Darker shade on hover */
     color: var(--orange);
+    border: var(--border);
+    outline: var(--outline-hover);
 }
 
 .separator {
     border: none; /* Remove default border */
     height: 1px; /* Set height for the line */
-    background-color: #CCC; /* Line color */
+    background-color: var(--light-gray2); /* Line color */
     margin: 10px auto; /* Space above and below the line */
     width: 40%;
 }
 
 /* ---------------------------------- */
-/* AdminDashboard CSS */
+/* CreateProfile CSS */
+.card .account-info input{
+    width: 100%;
+    height: 40px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid silver;
+    /*margin: 10px 0 18px 0;*/
+    padding: 0 10px;
+}
+
+.card .account-info textarea{
+    width: 100%;
+    height: auto;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid silver;
+    /*margin: 10px 0 18px 0;*/
+    padding: 10px; /* Padding to textarea */
+    resize: none; /* Prevent resizing */
+    box-sizing: border-box; /* Include padding and border in height */
+}
+
+.button-container {
+    display: flex;                /* Enable flexbox */
+    justify-content: right;      /* Center buttons horizontally */
+    gap: 10px;                   /* Space between buttons */
+    margin-top: 20px;            /* Add some margin on top */
+}
+
+.card .account-info button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: #27a350;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: white;
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.card .account-info button:hover{
+    opacity: .6;
+}
 
 /* ---------------------------------- */
 
