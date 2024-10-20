@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--Document CSS-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">    <!-- CSS -->
+    <script src="script.js"></script>           <!-- Javascript -->
+</head>
+<body>
+    <!-- begin header section -->
+    <header class="header">
+        <!-- logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- navigation links -->
+        <nav class="navbar">
+            <!-- <a href="#Home">Home</a> -->
+            <!-- <a href="#Username">Username</a> -->
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username</button>
+                <div id="menu-dropdown" class="menu-content">
+                  <a href="#">Dashboard</a>
+                </div>
+                <span>|</span>
+                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Account Information -->
+    <div class="card">
+        <div class="account-info">
+            <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td class="center"><img src="./profile-icon.png" alt="profile icon" class="round-image"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td>:</td>
+                        <td>John Doe Anderson</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>:</td>
+                        <td>John@hotmail.com</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>:</td>
+                        <td>12345678</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Admin Functions -->
+    <div class="admin-functions">
+        <a href="create-profile.html" class="create-profile-link">Create User Profile</a>
+        <hr class="separator">
+        <a href="create-profile.html" class="create-profile-link">View All User Profile</a>
+        <hr class="separator">
+        <a href="create-profile.html" class="create-profile-link">Create User Account</a>
+        <hr class="separator">
+        <a href="create-profile.html" class="create-profile-link">View All User Account</a>
+        <hr class="separator">
+    </div>
+
+    <!-- OPTIONAL -->
+    <!--
+    <main></main>
+    
+    <footer></footer>
+    -->
+    
+</body>
+</html>
