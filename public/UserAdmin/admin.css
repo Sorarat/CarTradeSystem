@@ -10,7 +10,7 @@
     --light-gray1: #f1f1f1; /* menu-dropdown background */
     --light-gray2: #ccc;    /* separator line */ 
     --medium-gray: #999;    /* button background */
-    --dark-gray: #666;
+    --dark-gray: #666;      /* suspended background */
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
     --outline: .1rem solid rgba(0, 0, 0, .1);
@@ -144,29 +144,29 @@ when the user clicks on the dropdown button) */
     border-radius: 18px;
     box-shadow: var(--box-shadow);
     height: auto;
-    margin: 20px auto; /* Center the card with auto margins */
+    margin: 20px auto;                  /* Center the card with auto margins */
     padding: 20px 50px 20px 50px;
-    width: 80%; /* Adjust this value as needed */
-    max-width: 600px; /* Set a maximum width */
-    overflow: hidden; /* Prevent content overflowing */
+    width: 80%;                         /* Adjust this value as needed */
+    max-width: 600px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
 }
 
 .account-info {
-    overflow-x: auto; /* Horizontal scroll if the table is too wide */
+    overflow-x: auto;                   /* Horizontal scroll if the table is too wide */
 }
 
 table {
-    width: 100%; /* Full width of the card */
-    border-collapse: collapse; /* Collapse borders for a cleaner look */
-    font-size: 1.5rem; /* Set font size for the table */
+    width: 100%;                        /* Full width of the card */
+    border-collapse: collapse;          /* Collapse borders for a cleaner look */
+    font-size: 1.5rem;                  /* Set font size for the table */
 }
 
 th, td {
-    padding: 10px; /* Cell padding */
-    text-align: left; /* Left alignment */
-    border: 1px solid #ddd; /* Cell borders */
-    text-transform: none; /* Preserve original capitalization */
-    white-space: nowrap; /* Prevent text wrapping */
+    padding: 10px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
 }
 
 .center{
@@ -174,18 +174,18 @@ th, td {
 }
 
 .round-image{
-    width: 60px; /* Image width */
-    height: 60px; /* Image height */
-    border-radius: 60%; /* Makes the image round */
-    object-fit: cover; /* Cover the area without distortion */
+    width: 60px;                        /* Image width */
+    height: 60px;                       /* Image height */
+    border-radius: 60%;                 /* Makes the image round */
+    object-fit: cover;                  /* Cover the area without distortion */
     border: 3px solid var(--light-gray2);
 }
 
 /* Admin Functions */
 .admin-functions {
-    text-align: center; /* Center align the link */
-    margin-top: 20px; /* Optional: Add some space above */
-    font-size: 1.5rem; /* Set font size for the table */
+    text-align: center;                 /* Center align the link */
+    margin-top: 20px;                   /* Optional: Add some space above */
+    font-size: 1.5rem;                  /* Set font size for the table */
 }
 
 .link {
@@ -200,22 +200,22 @@ th, td {
 }
 
 .link:hover {
-    background-color: var(--silver); /* Darker shade on hover */
+    background-color: var(--silver);    /* Darker shade on hover */
     color: var(--orange);
     border: var(--border);
     outline: var(--outline-hover);
 }
 
 .separator {
-    border: none; /* Remove default border */
-    height: 1px; /* Set height for the line */
-    background-color: var(--light-gray2); /* Line color */
-    margin: 10px auto; /* Space above and below the line */
+    border: none;                           /* Remove default border */
+    height: 1px;                            /* Set height for the line */
+    background-color: var(--light-gray2);   /* Line color */
+    margin: 10px auto;                      /* Space above and below the line */
     width: 40%;
 }
 
 /* ---------------------------------- */
-/* CreateProfile CSS */
+/* CreateProfile & CreateAccount CSS */
 .card .account-info .form-control1{
     width: 100%;
     height: 40px;
@@ -233,21 +233,22 @@ th, td {
     border-radius: 4px;
     border: 1px solid silver;
     /*margin: 10px 0 18px 0;*/
-    padding: 10px; /* Padding to textarea */
-    resize: none; /* Prevent resizing */
-    box-sizing: border-box; /* Include padding and border in height */
+    padding: 10px;                      /* Padding to textarea */
+    resize: none;                       /* Prevent resizing */
+    box-sizing: border-box;             /* Include padding and border in height */
 }
 
 .card .account-info .align-textarea {
-    padding: 20px 10px 10px 10px; /* Cell padding */
-    text-align: left; /* Left alignment */
-    vertical-align: top; /* Top alignment */
-    border: 1px solid #ddd; /* Cell borders */
-    text-transform: none; /* Preserve original capitalization */
-    white-space: nowrap; /* Prevent text wrapping */
+    padding: 20px 10px 10px 10px;       /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    vertical-align: top;                /* Top alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
 }
 
-.button-container {
+/* Create & Cancel button */
+.button-container1 {
     display: flex;               /* Enable flexbox */
     justify-content: right;      /* Right alignment */
     gap: 10px;                   /* Space between buttons */
@@ -285,6 +286,84 @@ th, td {
 }
 
 /* ---------------------------------- */
-/* CreateAccount CSS */
+/* ViewAccount & ViewProfile CSS */
+/* Basic styling for the search bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  
+  .search-email {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--light-gray2);
+    border-radius: 4px;
+    width: 300px;
+  }
+  
+  .search-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--orange);
+    color: white;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  
+  .search-button:hover {
+    opacity: .6;
+  }
 
+/* Update & Suspend button */
+.button-container2 {
+    display: flex;               /* Enable flexbox */
+    flex-direction: column;      /* Stack buttons vertically */
+    align-items: flex-end;       /* Align buttons to the right */
+    justify-content: center;     /* Align buttons vertically */
+    gap: 10px;                   /* Space between buttons */
+    /*margin-top: 20px;            /* Top margin */
+    height: 100px;               /* To center vertically */
+    width: 150px;
+}
 
+.card .account-info .update-button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.card .account-info .suspend-button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--medium-gray);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.card .account-info button:hover{
+    opacity: .6;
+}
+
+/* Effect of the suspend button */
+.disabled {
+    pointer-events: none;                   /* Disable all mouse events */
+    opacity: 0.5;                           /* Make the card look greyed out */
+    background-color: var(--dark-gray);     /* Optional: Change background color */
+}
+
+/* ---------------------------------- */

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View User Account</title>
+    <link rel="stylesheet" href="admin.css">    <!-- CSS -->
+    <script src="admin.js" defer></script>      <!-- Javascript -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- Logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- Navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username</button>
+                <div id="menu-dropdown" class="menu-content">
+                  <a href="./AdminDashboard.html">Dashboard</a>
+                </div>
+                <span>|</span>
+                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <h1>View All User Account</h1>
+
+    <!-- Search by email-->
+    <div class="search-container">
+        <input type="text" id="searchEmail" class="search-email" placeholder="Search by email..." />
+        <button class="search-button" onclick="performSearch()">Search</button>
+    </div>
+
+    <!-- Account Information -->
+    <div class="card">
+        <div class="account-info">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>Username</th>
+                        <td>:</td>
+                        <td><input type="text" class="form-control1" id="username" name="username" value="text" readonly></td>
+                        <td colspan="2" rowspan="3">
+                            <div class="button-container2">
+                                <button class="update-button" type="button" onclick="updateAccPageBtn(event)">Update</button>
+                                <button class="suspend-button" type="button" onclick="suspendBtn(event)">Suspend</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>:</td>
+                        <td><input type="text" class="form-control1" id="email" name="email" value="text" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>:</td>
+                        <td><input type="text" class="form-control1" id="phoneNumber" name="phoneNumber" value="text" readonly></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

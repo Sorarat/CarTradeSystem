@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View User Account</title>
+    <link rel="stylesheet" href="admin.css">    <!-- CSS -->
+    <script src="admin.js" defer></script>      <!-- Javascript -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- Logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- Navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username</button>
+                <div id="menu-dropdown" class="menu-content">
+                  <a href="./AdminDashboard.html">Dashboard</a>
+                </div>
+                <span>|</span>
+                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <h1>View All User Profile</h1>
+
+    <!-- Search by email-->
+    <div class="search-container">
+        <input type="text" id="searchEmail" class="search-email" placeholder="Search by email..." />
+        <button class="search-button" onclick="performSearch()">Search</button>
+    </div>
+
+    <!-- Account Information -->
+    <div class="card">
+        <div class="account-info">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>Role</th>
+                        <td>:</td>
+                        <td><input type="text" class="form-control1" id="role" name="role" value="text" readonly></td>
+                        <td colspan="2" rowspan="2">
+                            <div class="button-container2">
+                                <button class="update-button" type="button" onclick="updateProPageBtn(event)">Update</button>
+                                <button class="suspend-button" type="button" onclick="suspendBtn(event)">Suspend</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="align-textarea">Description</th>
+                        <td class="align-textarea">:</td>
+                        <td><textarea rows="5" class="form-control2" id="description" name="description" readonly>Text</textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
