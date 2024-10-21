@@ -37,12 +37,8 @@ html{
 }
 
 body {
-    /*font-family: Arial, sans-serif;*/
-    /*margin: 0;
-    padding: 0;*/
     padding: var(--header-height); /* To match the height of the header*/
     background: var(--light-gray);
-    /*display: flex;*/
 }
 
 /* ---------------------------------- */

@@ -1,8 +1,16 @@
-/* Declare color scheme */
+/* General CSS */
+/* Declare color scheme: TO BE CONFIRMED*/
 :root{
-    --orange: #ff7800;
-    --black: #130f40;
-    --light-color: #666;
+    --header-height: 10rem;
+    --orange: #ff7800;      /* hover text */
+    --silver: #c0c0c0;      /* hover background */
+    --black: #130f40;       /* text */
+    --white: #fff;          /* header background */
+    --light-gray: #eee;     /* body background */
+    --light-gray1: #f1f1f1; /* menu-dropdown background */
+    --light-gray2: #ccc;    /* separator line */ 
+    --medium-gray: #999;    /* button background */
+    --dark-gray: #666;
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
     --outline: .1rem solid rgba(0, 0, 0, .1);
@@ -30,13 +38,12 @@ html{
 }
 
 body {
-    /*font-family: Arial, sans-serif;*/
-    /*margin: 0;
-    padding: 0;*/
+    padding: var(--header-height); /* To match the height of the header*/
     background: #eee;
-    /*display: flex;*/
 }
 
+/* ---------------------------------- */
+/* Header CSS - STANDARD */
 .header {
     position: fixed;
     top: 0;
@@ -47,14 +54,13 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 2rem 9%;
-    background: #fff;
+    background: var(--white);
     box-shadow: var(--box-shadow);
     text-align: center;
 }
 
 .header .logo{
     font-size: 2.5rem;
-    /*font-weight: bolder;*/
     color:var(--black);
 }
 
@@ -68,16 +74,67 @@ body {
     color: var(--orange);
 }
 
-footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+.header .navbar span{
+    font-size: 1.7rem;
+    margin: 1rem;
+    color: var(--black)
 }
 
-main {
-    padding: 20px;
+/* Dropdown Button */
+.dropbtn {
+    background-color: var(--white);
+    font-size: 1.7rem;
+    margin: 1rem;
+    color: var(--black);
+    /*color: white;*/
+    /*padding: 16px;*/
+    /*font-size: 16px;*/
+    border: none;
+    cursor: pointer;
 }
+  
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    /*background-color: var(--orange);*/
+    color: var(--orange);
+}
+  
+/* The container <div> - needed to position the dropdown content */
+.menu {
+    position: relative;
+    display: inline-block;
+}
+  
+/* Dropdown Content (Hidden by Default) */
+.menu-content {
+    display: none;
+    position: absolute;
+    background-color: var(--light-gray1);
+    min-width: 160px;
+    box-shadow: var(--box-shadow);
+    z-index: 1;
+}
+  
+/* Links inside the dropdown */
+.menu-content a {
+    color: var(--black);
+    padding: 6px 12px;
+    text-decoration: none;
+    display: block;
+}
+  
+/* Change color of dropdown links on hover */
+.menu-content a:hover {
+    background-color: var(--silver);
+    border: var(--border);
+    outline: var(--outline-hover);
+}
+  
+/* Show the dropdown menu 
+(use JS to add this class to the .menu-content container 
+when the user clicks on the dropdown button) */
+.show {
+    display:block;
+}
+
+/* ---------------------------------- */
