@@ -9,6 +9,7 @@
     --light-gray: #eee;     /* body background */
     --light-gray1: #f1f1f1; /* menu-dropdown background */
     --light-gray2: #ccc;    /* separator line */ 
+    --medium-gray: #999;    /* button background */
     --dark-gray: #666;
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
@@ -155,7 +156,7 @@ when the user clicks on the dropdown button) */
 }
 
 .account-info {
-    overflow-x: auto; /* Allow horizontal scrolling if the table is too wide */
+    overflow-x: auto; /* Horizontal scroll if the table is too wide */
 }
 
 table {
@@ -219,7 +220,7 @@ th, td {
 
 /* ---------------------------------- */
 /* CreateProfile CSS */
-.card .account-info input{
+.card .account-info .form-control1{
     width: 100%;
     height: 40px;
     background: white;
@@ -229,7 +230,7 @@ th, td {
     padding: 0 10px;
 }
 
-.card .account-info textarea{
+.card .account-info .form-control2{
     width: 100%;
     height: auto;
     background: white;
@@ -241,22 +242,44 @@ th, td {
     box-sizing: border-box; /* Include padding and border in height */
 }
 
-.button-container {
-    display: flex;                /* Enable flexbox */
-    justify-content: right;      /* Center buttons horizontally */
-    gap: 10px;                   /* Space between buttons */
-    margin-top: 20px;            /* Add some margin on top */
+.card .account-info .align-textarea {
+    padding: 20px 10px 10px 10px; /* Cell padding */
+    text-align: left; /* Left alignment */
+    vertical-align: top; /* Top alignment */
+    border: 1px solid #ddd; /* Cell borders */
+    text-transform: none; /* Preserve original capitalization */
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
-.card .account-info button {
+.button-container {
+    display: flex;               /* Enable flexbox */
+    justify-content: right;      /* Right alignment */
+    gap: 10px;                   /* Space between buttons */
+    margin-top: 20px;            /* Top margin */
+}
+
+.card .account-info .create-button {
     width: 100px;
     height: 34px;
     border: none;
     outline: none;
-    background: #27a350;
+    background: var(--orange);
     cursor: pointer;
     font-size: 1.5rem;
-    color: white;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.card .account-info .cancel-button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--medium-gray);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
     border-radius: 4px;
     transition: .3s;
 }
@@ -266,4 +289,6 @@ th, td {
 }
 
 /* ---------------------------------- */
+/* CreateAccount CSS */
+
 

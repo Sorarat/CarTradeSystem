@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--Document CSS-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create User Profile</title>
     <link rel="stylesheet" href="style.css">    <!-- CSS -->
-    <script src="script.js"></script>           <!-- Javascript -->
+    <script src="script.js" defer></script>           <!-- Javascript -->
 </head>
 <body>
     <!-- Header Section -->
@@ -24,14 +23,14 @@
                   <a href="#">Dashboard</a>
                 </div>
                 <span>|</span>
-                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+                <a href="#" onclick="logoutBtn(event)">Logout</a>
             </div>
         </nav>
     </header>
 
     <!-- Create User Profile Form -->
     <h1>Create User Profile</h1>
-    <form>
+    <form id="createProfileForm">
         <div class="card">
             <div class="account-info">
                 <table>
@@ -39,24 +38,19 @@
                         <tr>
                             <th>Role</th>
                             <td>:</td>
-                            <td>
-                                <input type="text" class="form-control" name="role" required>
-                            </td>
+                            <td><input type="text" class="form-control1" id="role" name="role" required></td>
                         </tr>
                         <tr>
-                            <th>Description</th>
-                            <td>:</td>
-                            <td>
-                                <textarea rows="5" class="form-control" name="description" required></textarea>
-                            </td>
+                            <th class="align-textarea">Description</th>
+                            <td class="align-textarea">:</td>
+                            <td><textarea rows="5" class="form-control2" id="description" name="description" required></textarea></td>
                         </tr>
                         <tr>
                             <td colspan="3">
                                 <div class="button-container">
-                                    <button class="btn" type="submit">Create</button>
-                                    <button class="btn" type="submit">Cancel</button>
+                                    <button class="create-button" id="createProfile" type="submit">Create</button>
+                                    <button class="cancel-button" type="button" onclick="cancelCreateBtn(event)">Cancel</button>
                                 </div>
-                                
                             </td>
                         </tr>
                     </tbody>
