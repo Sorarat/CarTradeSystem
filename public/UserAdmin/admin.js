@@ -68,9 +68,10 @@ function cancelCreateBtn(event){
 // Ensure the DOM is fully loaded before accessing elements
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('createAccount').addEventListener('click', createAccountBtn);
+
 });
 
-function createAccountBtn(event) {
+async function createAccountBtn(event) {
   const form = document.getElementById('createAccountForm');
   
   // Get input and textarea values
@@ -91,10 +92,33 @@ function createAccountBtn(event) {
   if (form.checkValidity()) {
     event.preventDefault(); // Prevent default only if the form is valid
 
-    // Create account ...
+    try {
 
-    alert('User account created!');
-    document.location.href = "./AdminDashboard.html"; // Use relative path
+      const response = await fetch('/createAccountRoute/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password, username, phoneNumber, role })
+    });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert ('User account created');
+        document.location.href = "/UserAdmin/AdminDashboard.html"; 
+      }
+      else {
+        alert('Account creation failed. Please try again.'); 
+      }
+
+    
+    }
+
+    catch(err) {
+      console.error(err);
+      alert('An error occurred during account creation');
+    }
   }
 }
 
@@ -198,4 +222,5 @@ function updateProfileBtn(event) {
   }
 }
 
-/* ---------------------------------- */
+/* ---------------------------------- */ 
+
