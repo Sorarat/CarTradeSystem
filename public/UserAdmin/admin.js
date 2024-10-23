@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('createProfile').addEventListener('click', createProfileBtn);
 });
 
-function createProfileBtn(event) {
+async function createProfileBtn(event) {
   const form = document.getElementById('createProfileForm');
   
   // Get input and textarea values
@@ -49,11 +49,34 @@ function createProfileBtn(event) {
   // Check if the form is valid
   if (form.checkValidity()) {
     event.preventDefault(); // Prevent default only if the form is valid
-
+    console.log(role);
+    console.log(description);
     // Create profile...
-    
-    alert('User profile created!');
-    document.location.href = "./AdminDashboard.html"; // Use relative path
+    try {
+      const response = await fetch('/createProfileRoute/createProfile', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ role, description })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('Profile created successfully');
+      alert('User profile created!');
+      document.location.href = "./AdminDashboard.html"; // Use relative path
+    }
+    else {
+      alert('Profile cannot be created. Please check your input.');
+    }
+
+    }
+    catch (err) {
+      console.error(err);
+      alert('An error occurred during creation');
+    }
   }
 }
 
@@ -139,7 +162,7 @@ async function fetchAllAccounts() {
   }
 
   catch(err) {
-    console.error('Failed to fetch accounts: ', error);
+    console.error('Failed to fetch accounts: ', err);
     alert('Failed to load accounts. Please try again.');
 
   }
@@ -159,8 +182,8 @@ function populateAccountTable(accounts) {
           <td><input type="text" class="form-control1" value="${account.email}" readonly></td>
           <td><input type="text" class="form-control1" value="${account.phone}" readonly></td>
           <td>
-              <button class="update-button" onclick="updateAccPageBtn('${account.id}')">Update</button>
-              <button class="suspend-button" onclick="suspendBtn('${account.id}')">Suspend</button>
+              <button class="update-button" onclick="updateAccPageBtn('${account.user_id}')">Update</button>
+              <button class="suspend-button" onclick="suspendBtn('${account.user_id}')">Suspend</button>
           </td>
       `;
 
@@ -169,21 +192,38 @@ function populateAccountTable(accounts) {
 }
 
 // call the fetchAllAccount function when the page loads
-document.addEventListener('DOMContentLoaded', fetchAllAccounts);
-
-
+document.addEventListener('DOMContentLoaded', function() {
+  const accountTable = document.getElementById('accountTable');
+  if (accountTable) {
+    fetchAllAccounts();
+  }
+});
 
 /* Search Bar */
-function performSearch() {
-  const email = document.getElementById('searchEmail').value.trim();
-  const filteredAccounts = allAccounts.filter(account => account.email.includes(email));
+function performAccountSearch() {
+  const searchInput = document.getElementById('searchEmail').value.trim().toLowerCase();
+  const filteredAccounts = allAccounts.filter(account => account.email.toLowerCase().includes(searchInput));
 
-  populateAccountTable(filteredAccounts);
-
-  if (filteredAccounts.length == 0) {
-    alert('No accounts found with this email.');
+    // If no matches are found, display all accounts
+    if (filteredAccounts.length === 0) {
+      populateAccountTable(allAccounts);
+      alert('No accounts found with this email.');
+  } else {
+      populateAccountTable(filteredAccounts);
   }
+}
 
+function performProfileSearch() {
+  const searchInput = document.getElementById('searchRole').value.trim().toLowerCase();
+  const filteredProfiles = allProfiles.filter(profile => profile.role.toLowerCase().includes(searchInput));
+
+  // If no matches are found, display all profiles
+  if (filteredProfiles.length === 0) {
+      populateProfileTable(allProfiles);
+      alert('No profile found with this role name.');
+  } else {
+      populateProfileTable(filteredProfiles);
+  }
 }
 
 /* Update Button - redirect to UpdateAccount page */
@@ -199,6 +239,54 @@ function suspendBtn(event) {
 
 /* ---------------------------------- */
 /* ViewProfile JS */
+let allProfiles = [];
+
+async function fetchAllProfiles() {
+  try {
+    const response = await fetch('/viewProfileRoute/view-profiles'); 
+    allProfiles = await response.json();
+
+    populateProfileTable(allProfiles);
+  }
+
+  catch(err) {
+    console.error('Failed to fetch profiles: ', err);
+    alert('Failed to load profiles. Please try again.');
+
+  }
+}
+
+function populateProfileTable(profiles) {
+
+  const tableBody = document.getElementById('profileTable');
+    tableBody.innerHTML = ''; // clear previous content
+
+    profiles.forEach(profile => {
+      const row = document.createElement('tr');
+
+      // Populate table rows with account data
+      row.innerHTML = `
+        <td><input type="text" class="form-control1" value="${profile.role}" readonly></td>
+        <td><input type="text" class="form-control2" value="${profile.roleDesc}" readonly></td>
+        <td>
+            <button class="update-button" type="button" onclick="updateProPageBtn('${profile.profile_id}')">Update</button>
+            <button class="suspend-button" type="button" onclick="suspendBtn('${profile.profile_id}')">Suspend</button>
+        </td>
+    `;
+
+
+      tableBody.appendChild(row);
+    });
+}
+
+// call the fetchAllProfile function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  const profileTable = document.getElementById('profileTable');
+  if (profileTable) {
+    fetchAllProfiles();
+  }
+});
+
 /* Update Button - redirect to UpdateProfile page */
 function updateProPageBtn(event){
   document.location.href="./UpdateProfile.html"; // Use relative path

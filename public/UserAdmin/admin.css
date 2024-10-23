@@ -292,6 +292,10 @@ th, td {
     max-width: 1000px;
 }
 
+.view-profile-card {
+    max-width: 1000px;
+}
+
 /* Basic styling for the search bar */
 .search-container {
     display: flex;
@@ -305,6 +309,14 @@ th, td {
     border: 1px solid var(--light-gray2);
     border-radius: 4px;
     width: 300px;
+  }
+
+  .search-role {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--light-gray2);
+    border-radius: 4px;
+    width: 300px; 
   }
   
   .search-button {

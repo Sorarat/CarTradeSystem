@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View User Account</title>
+    <title>View User Profile</title>
     <link rel="stylesheet" href="admin.css">    <!-- CSS -->
     <script src="admin.js" defer></script>      <!-- Javascript -->
 </head>
@@ -28,33 +28,25 @@
 
     <h1>View All User Profile</h1>
 
-    <!-- Search by email-->
+    <!-- Search by role-->
     <div class="search-container">
-        <input type="text" id="searchEmail" class="search-email" placeholder="Search by email..." />
-        <button class="search-button" onclick="performSearch()">Search</button>
+        <input type="text" id="searchRole" class="search-role" placeholder="Search by role..." />
+        <button class="search-button" onclick="performProfileSearch()">Search</button>
     </div>
 
     <!-- Account Information -->
-    <div class="card">
+    <div class="card view-profile-card">
         <div class="account-info">
             <table>
-                <tbody>
+                <thead>
                     <tr>
                         <th>Role</th>
-                        <td>:</td>
-                        <td><input type="text" class="form-control1" id="role" name="role" value="text" readonly></td>
-                        <td colspan="2" rowspan="2">
-                            <div class="button-container2">
-                                <button class="update-button" type="button" onclick="updateProPageBtn(event)">Update</button>
-                                <button class="suspend-button" type="button" onclick="suspendBtn(event)">Suspend</button>
-                            </div>
-                        </td>
+                        <th>Description</th>
                     </tr>
-                    <tr>
-                        <th class="align-textarea">Description</th>
-                        <td class="align-textarea">:</td>
-                        <td><textarea rows="5" class="form-control2" id="description" name="description" readonly>Text</textarea></td>
-                    </tr>
+                </thead>
+
+                <tbody id="profileTable">
+                    <!--dynamically populated rows-->
                 </tbody>
             </table>
         </div>
