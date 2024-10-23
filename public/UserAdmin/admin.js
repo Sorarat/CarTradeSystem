@@ -257,27 +257,36 @@ async function fetchAllProfiles() {
 }
 
 function populateProfileTable(profiles) {
-
   const tableBody = document.getElementById('profileTable');
-    tableBody.innerHTML = ''; // clear previous content
+  tableBody.innerHTML = ''; // Clear previous content
 
-    profiles.forEach(profile => {
+  profiles.forEach(profile => {
       const row = document.createElement('tr');
+      row.setAttribute('data-profile-id', profile.profile_id); // Add the data attribute
+
+      // Check if the profile is suspended
+      const isSuspended = profile.suspendStatus; // Adjust this based on your actual profile data
 
       // Populate table rows with account data
       row.innerHTML = `
-        <td><input type="text" class="form-control1" value="${profile.role}" readonly></td>
-        <td><input type="text" class="form-control2" value="${profile.roleDesc}" readonly></td>
-        <td>
-            <button class="update-button" type="button" onclick="updateProPageBtn('${profile.profile_id}')">Update</button>
-            <button class="suspend-button" type="button" onclick="suspendBtn('${profile.profile_id}')">Suspend</button>
-        </td>
-    `;
+          <td><input type="text" class="form-control1" value="${profile.role}" readonly></td>
+          <td><input type="text" class="form-control2" value="${profile.roleDesc}" readonly></td>
+          <td>
+              ${isSuspended ? '' : `<button class="update-button" type="button" onclick="updateProPageBtn('${profile.profile_id}')">Update</button>`}
+              ${isSuspended ? '' : `<button class="suspend-button" type="button" onclick="suspendProfile('${profile.profile_id}')">Suspend</button>`}
+              ${isSuspended ? '<span class="suspended-label">Suspended</span>' : ''}
+          </td>
+      `;
 
+      // If the profile is suspended, gray out the row
+      if (isSuspended) {
+          row.classList.add('suspended'); // Add the suspended class to gray it out
+      }
 
       tableBody.appendChild(row);
-    });
+  });
 }
+
 
 // call the fetchAllProfile function when the page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -360,4 +369,41 @@ function updateProfileBtn(event) {
 }
 
 /* ---------------------------------- */ 
+/* SuspendProfile JS */
+async function suspendProfile(profileId) {
+  try {
+      const response = await fetch(`/suspendProfileRoute/suspend/${profileId}`, { 
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      });
+
+      // Log the response to see what is being returned
+      const responseText = await response.text();
+      console.log('Response:', responseText);
+
+      const data = JSON.parse(responseText); // Parse the response as JSON
+
+      if (data.success) {
+          alert('Profile suspended');
+
+          const profileRow = document.querySelector(`tr[data-profile-id="${profileId}"]`);
+          if (profileRow) {
+            profileRow.classList.add('suspended'); // Gray out the row
+
+            // Find the buttons and replace them with the "Suspended" label
+            const actionCell = profileRow.querySelector('td:last-child'); // Target the action buttons cell
+            actionCell.innerHTML = '<span class="suspended-label">Suspended</span>'; // Replace buttons with 'Suspended' label
+          } else {
+              console.error(`Row not found for profile ID: ${profileId}`);
+          }
+      } else {
+          alert('Failed to suspend profile. Please try again.');
+      }
+  } catch (error) {
+      console.error('Error suspending profile:', error);
+      alert('An error occurred while suspending the profile.');
+  }
+}
 
