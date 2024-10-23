@@ -287,6 +287,11 @@ th, td {
 
 /* ---------------------------------- */
 /* ViewAccount & ViewProfile CSS */
+
+.view-account-card {
+    max-width: 1000px;
+}
+
 /* Basic styling for the search bar */
 .search-container {
     display: flex;

@@ -124,17 +124,66 @@ async function createAccountBtn(event) {
 
 /* ---------------------------------- */
 /* ViewAccount JS */
+
+let allAccounts = [];
+
+// function to fetch all user accounts and populate the table
+async function fetchAllAccounts() {
+
+  try {
+    const response = await fetch('/viewAccountRoute/view-accounts'); 
+    allAccounts = await response.json();
+
+    populateAccountTable(allAccounts);
+
+  }
+
+  catch(err) {
+    console.error('Failed to fetch accounts: ', error);
+    alert('Failed to load accounts. Please try again.');
+
+  }
+}
+
+function populateAccountTable(accounts) {
+
+  const tableBody = document.getElementById('accountTable');
+    tableBody.innerHTML = ''; // clear previous content
+
+    accounts.forEach(account => {
+      const row = document.createElement('tr');
+
+      // Populate table rows with account data
+      row.innerHTML = `
+          <td><input type="text" class="form-control1" value="${account.username}" readonly></td>
+          <td><input type="text" class="form-control1" value="${account.email}" readonly></td>
+          <td><input type="text" class="form-control1" value="${account.phone}" readonly></td>
+          <td>
+              <button class="update-button" onclick="updateAccPageBtn('${account.id}')">Update</button>
+              <button class="suspend-button" onclick="suspendBtn('${account.id}')">Suspend</button>
+          </td>
+      `;
+
+      tableBody.appendChild(row);
+    });
+}
+
+// call the fetchAllAccount function when the page loads
+document.addEventListener('DOMContentLoaded', fetchAllAccounts);
+
+
+
 /* Search Bar */
 function performSearch() {
-  const query = document.getElementById('searchInput').value.trim();
-  if (query) {
-      // Filter & Display the specific account info...
+  const email = document.getElementById('searchEmail').value.trim();
+  const filteredAccounts = allAccounts.filter(account => account.email.includes(email));
 
-      alert(`Searching for: ${query}`);
-      // window.location.href = `searchResults.html?query=${encodeURIComponent(query)}`;
-  } else {
-      alert('Please enter a search term.');
+  populateAccountTable(filteredAccounts);
+
+  if (filteredAccounts.length == 0) {
+    alert('No accounts found with this email.');
   }
+
 }
 
 /* Update Button - redirect to UpdateAccount page */

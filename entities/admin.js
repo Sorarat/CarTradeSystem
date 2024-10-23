@@ -43,6 +43,24 @@ class Admin extends User{
 
     }
 
+
+
+    async getUserAccounts() {
+
+        const query = 'SELECT * FROM User';
+        const [rows] = await db.promise().query(query);
+        return rows; // returns an array of user accounts
+
+    }
+
+    async updateAccount() {
+
+    }
+
+    async suspendAccount() {
+
+    }
+
     getProfileId(role) {
         switch(role) {
             case 'admin':
@@ -57,20 +75,6 @@ class Admin extends User{
                 throw new Error('Invalid role'); // Handle invalid role
         }
     }
-
-
-    async getUserAccounts() {
-
-    }
-
-    async updateAccount() {
-
-    }
-
-    async suspendAccount() {
-
-    }
-
 
 
 }

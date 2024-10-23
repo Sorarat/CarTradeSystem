@@ -35,31 +35,21 @@
     </div>
 
     <!-- Account Information -->
-    <div class="card">
+    <div class="card view-account-card">
         <div class="account-info">
             <table>
-                <tbody>
+                <thead>
                     <tr>
                         <th>Username</th>
-                        <td>:</td>
-                        <td><input type="text" class="form-control1" id="username" name="username" value="text" readonly></td>
-                        <td colspan="2" rowspan="3">
-                            <div class="button-container2">
-                                <button class="update-button" type="button" onclick="updateAccPageBtn(event)">Update</button>
-                                <button class="suspend-button" type="button" onclick="suspendBtn(event)">Suspend</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
                         <th>Email</th>
-                        <td>:</td>
-                        <td><input type="text" class="form-control1" id="email" name="email" value="text" readonly></td>
-                    </tr>
-                    <tr>
                         <th>Phone Number</th>
-                        <td>:</td>
-                        <td><input type="text" class="form-control1" id="phoneNumber" name="phoneNumber" value="text" readonly></td>
+                        <th>Actions</th>
                     </tr>
+                </thead>
+
+                <tbody id="accountTable">
+                   <!-- dynamically populatd rows will go here  -->
+
                 </tbody>
             </table>
         </div>
