@@ -175,6 +175,10 @@ function populateAccountTable(accounts) {
 
     accounts.forEach(account => {
       const row = document.createElement('tr');
+      row.setAttribute('data-user-id', account.user_id);
+
+      // check if the account is suspended
+      const isSuspended = account.suspendStatus; 
 
       // Populate table rows with account data
       row.innerHTML = `
@@ -182,10 +186,16 @@ function populateAccountTable(accounts) {
           <td><input type="text" class="form-control1" value="${account.email}" readonly></td>
           <td><input type="text" class="form-control1" value="${account.phone}" readonly></td>
           <td>
-              <button class="update-button" onclick="updateAccPageBtn('${account.user_id}')">Update</button>
-              <button class="suspend-button" onclick="suspendBtn('${account.user_id}')">Suspend</button>
+              ${isSuspended ? '' : `<button class="update-button" onclick="updateAccPageBtn('${account.user_id}')">Update</button>`}
+              ${isSuspended ? '' : ` <button class="suspend-button" onclick="suspendAccount('${account.user_id}')">Suspend</button>`}
+              ${isSuspended ? '<span class="suspended-label">Suspended</span>' : ''}
           </td>
       `;
+
+      // If the profile is suspended, gray out the row
+      if (isSuspended) {
+        row.classList.add('suspended'); // Add the suspended class to gray it out
+    }
 
       tableBody.appendChild(row);
     });
@@ -231,11 +241,44 @@ function updateAccPageBtn(event){
   document.location.href="./UpdateAccount.html";  // Use relative path
 }
 
-/* Suspend Button - ViewProfile & ViewAccount */
-function suspendBtn(event) {
-  const card = event.target.closest('.card'); // Get the closest card element
-  card.classList.add('disabled');             // Add the 'disabled' class to the card
+/* Suspend Account */
+async function suspendAccount(userId) {
+  try {
+      const response = await fetch(`/SuspendAccountRoute/suspend/${userId}`, { 
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      });
+
+      // Log the response to see what is being returned
+      const responseText = await response.text();
+      console.log('Response:', responseText);
+
+      const data = JSON.parse(responseText); // Parse the response as JSON
+
+      if (data.success) {
+          alert('Account suspended');
+
+          const accountRow = document.querySelector(`tr[data-user-id="${userId}"]`);
+          if (accountRow) {
+            accountRow.classList.add('suspended'); // Gray out the row
+
+            // Find the buttons and replace them with the "Suspended" label
+            const actionCell = accountRow.querySelector('td:last-child'); // Target the action buttons cell
+            actionCell.innerHTML = '<span class="suspended-label">Suspended</span>'; // Replace buttons with 'Suspended' label
+          } else {
+              console.error(`Row not found for user ID: ${userId}`);
+          }
+      } else {
+          alert('Failed to suspend account. Please try again.');
+      }
+  } catch (error) {
+      console.error('Error suspending account:', error);
+      alert('An error occurred while suspending the account.');
+  }
 }
+
 
 /* ---------------------------------- */
 /* ViewProfile JS */

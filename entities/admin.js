@@ -57,7 +57,10 @@ class Admin extends User{
 
     }
 
-    async suspendAccount() {
+    async suspendAccount(user_id) {
+        const query = 'UPDATE User SET suspendStatus = ? WHERE user_id = ?';
+        const [result] = await db.promise().query(query, [true, user_id]);
+        return result.affectedRows > 0;
 
     }
 
