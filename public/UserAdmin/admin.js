@@ -391,7 +391,7 @@ async function updateAccountBtn(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, username, phoneNumber, role  })
+        body: JSON.stringify({ userId, email, password, username, phoneNumber, role  })
       })
       
       const data = await response.json();

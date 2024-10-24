@@ -63,10 +63,12 @@ class Admin extends User{
         const existingUser = await this.findByEmail(email);
 
         // If the email exists and belongs to a different user, return an error
-        if (existingUser && existingUser.user_id !== userId) {
-            return false;   // I ONLY CHANGED HERE
+        if (existingUser && existingUser.user_id !== Number(userId)) {
+            console.log('User ID mismatch. Existing user ID:', existingUser.user_id, 'Current user ID:', userId);
+            return false;   
         }
 
+       
         // If the existing user is null (new email), call findbyid to get the user's info
         const currentUser = existingUser || await this.findById(userId); 
 
