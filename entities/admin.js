@@ -64,7 +64,7 @@ class Admin extends User{
 
         // If the email exists and belongs to a different user, return an error
         if (existingUser && existingUser.user_id !== userId) {
-            return false;
+            return false;   // I ONLY CHANGED HERE
         }
 
         // If the existing user is null (new email), call findbyid to get the user's info
