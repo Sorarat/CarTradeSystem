@@ -383,4 +383,7 @@ th, td {
     background-color: var(--dark-gray);     /* Optional: Change background color */
 }
 
+.suspended input {
+    opacity: 0.5;
+}
 /* ---------------------------------- */

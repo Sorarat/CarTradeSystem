@@ -19,7 +19,13 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         if (data.success) {
             console.log('Login successful!');
 
-            window.location.href = '/HomePage/HomePage.html';
+            if (role === 'admin')
+            {
+                window.location.href = '/UserAdmin/AdminDashboard.html';
+            }
+            else {
+                window.location.href = '/HomePage/HomePage.html';
+            }
             /*
             // Redirect user based on role
             if (data.user.role === 'user-admin') {
