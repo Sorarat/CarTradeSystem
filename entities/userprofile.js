@@ -63,6 +63,22 @@ class UserProfile {
         return rows;
     }
 
+
+    // update profile
+    async updateProfile(profileId, role, roleDesc) {
+        // check if updated role already exist
+        const existingRole = await this.check_role(role);
+
+        if (existingRole) {
+            const query = 'UPDATE UserProfile SET role = ?, roleDesc = ? WHERE profile_id = ?';
+            await db.promise().query(query, [role, roleDesc, profileId]);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     // suspend profile
     async suspendProfile(profileId) {
         const query = 'UPDATE UserProfile SET suspendStatus = ? WHERE profile_id = ?';

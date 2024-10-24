@@ -151,14 +151,14 @@ async function createAccountBtn(event) {
 let allAccounts = [];
 
 // function to fetch all user accounts and populate the table
-async function fetchAllAccounts() {
+async function fetchAllAccounts(shouldPopulateTable = true) {
 
   try {
     const response = await fetch('/viewAccountRoute/view-accounts'); 
     allAccounts = await response.json();
-
-    populateAccountTable(allAccounts);
-
+    if (shouldPopulateTable) {
+      populateAccountTable(allAccounts);
+    }
   }
 
   catch(err) {
@@ -340,9 +340,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /* Update Button - redirect to UpdateProfile page */
-function updateProPageBtn(event){
-  document.location.href="./UpdateProfile.html"; // Use relative path
+function updateProPageBtn(profileId){
+  document.location.href=`./UpdateProfile.html?profileId=${profileId}`; // Use relative path
 }
+
+/*
+const urlParams = new URLSearchParams(window.location.search);
+const profileId = urlParams.get('profileId');
+*/
+
 
 /* ---------------------------------- */
 /* UpdateAccount JS */
@@ -386,12 +392,18 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('updateProfile').addEventListener('click', updateProfileBtn);
 });
 
-function updateProfileBtn(event) {
+async function updateProfileBtn(event) {
   const form = document.getElementById('updateProfileForm');
   
   // Get input and textarea values
   const role = document.getElementById('role').value.trim();
   const description = document.getElementById('description').value.trim();
+
+   // get profile id of row to be updated
+   const urlParams = new URLSearchParams(window.location.search);
+   const profileId = urlParams.get('profileId');
+ 
+   console.log(profileId);
 
   // Check for empty or whitespace-only values
   if (role === "" || description === "") {
@@ -405,9 +417,30 @@ function updateProfileBtn(event) {
     event.preventDefault(); // Prevent default only if the form is valid
 
     // Update profile info...
+    try {
+      const response = await fetch(`/updateProfileRoute/updateProfile/${profileId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ role, description })
+      });
 
-    alert('User profile updated!');
-    document.location.href = "./ViewProfile.html"; // Use relative path
+      const data = await response.json();
+
+      if (data.success) {
+        console.log('Profile updated successfully');
+        alert('User profile updated!');
+        document.location.href = "./ViewProfile.html"; // Use relative path
+      }
+      else {
+        alert('Profile cannot be updated. Please check your input.');
+      }
+    }
+    catch (err) {
+      console.error(err);
+      alert('An error occurred during update');
+    }
   }
 }
 
