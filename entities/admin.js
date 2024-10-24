@@ -4,13 +4,11 @@ const User = require('../entities/user');
 
 class Admin extends User{
 
-    
     constructor(adminData = {}) {
         // call parent constructor to initoalize 
         super(adminData);
         
     }
-
 
     async check_email(email)
     {
@@ -51,8 +49,6 @@ class Admin extends User{
         return rows.length > 0 ? rows[0] : null;
     }
     
-
-
     async getUserAccounts() {
 
         const query = 'SELECT * FROM User';
@@ -68,10 +64,10 @@ class Admin extends User{
 
         // If the email exists and belongs to a different user, return an error
         if (existingUser && existingUser.user_id !== userId) {
-            return { success: false, message: "Email already in use by another account." };
+            return false;
         }
 
-        // If the existing user is null (new email), call findbyid to get the user's id
+        // If the existing user is null (new email), call findbyid to get the user's info
         const currentUser = existingUser || await this.findById(userId); 
 
         if (!currentUser) {
@@ -90,9 +86,6 @@ class Admin extends User{
 
         return result.affectedRows > 0 ? { success: true, message: "Account updated successfully." } : { success: false, message: "Failed to update account." };
     }
-
-
-
 
 
     async suspendAccount(user_id) {

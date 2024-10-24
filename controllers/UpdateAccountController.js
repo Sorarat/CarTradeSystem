@@ -7,7 +7,7 @@ class UpdateAccountController {
 
         try {
             const admin = new Admin();
-            const updated = await admin.updateAccount(userId, email, password, username, phoneNumber, role );
+            const updated = await admin.updateAccount(userId, email, password, username, phoneNumber, role);
             
             if (updated) {
                 return res.status(200).json({ success: true });

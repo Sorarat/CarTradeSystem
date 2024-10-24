@@ -237,8 +237,8 @@ function performProfileSearch() {
 }
 
 /* Update Button - redirect to UpdateAccount page */
-function updateAccPageBtn(event){
-  document.location.href="./UpdateAccount.html";  // Use relative path
+function updateAccPageBtn(userId){
+  document.location.href=`./UpdateAccount.html?userId=${userId}`;  // Use relative path
 }
 
 /* Suspend Account */
