@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('updateAccount').addEventListener('click', updateAccountBtn);
 });
 
-function updateAccountBtn(event) {
+async function updateAccountBtn(event) {
   const form = document.getElementById('updateAccountForm');
   
   // Get input and textarea values
@@ -367,10 +367,16 @@ function updateAccountBtn(event) {
   const phoneNumber = document.getElementById('phoneNumber').value.trim();
   const password = document.getElementById('password').value.trim(); // Check to reject whitespace?
 
+  // get user id of row to be updated
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get('userId');
+
+  console.log(userId);
+
   // Check for empty or whitespace-only values
   if (role === "" || username === "" || email === "" || phoneNumber === "" || password === "") {
     event.preventDefault(); // Prevent form submission
-    alert('Both fields are required and cannot be empty or whitespace.'); // Custom alert
+    alert('All fields are required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
   }
 
@@ -379,9 +385,34 @@ function updateAccountBtn(event) {
     event.preventDefault(); // Prevent default only if the form is valid
 
     // Update account info...
+    try {
+      const response = await fetch(`/updateAccountRoute/updateAccount/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password, username, phoneNumber, role  })
+      })
+      
+      const data = await response.json();
 
-    alert('User account updated!');
-    document.location.href = "./ViewAccount.html"; // Use relative path
+      if (data.success) {
+        console.log('Account updated successfully');
+        alert('User account updated!');
+        document.location.href = "./ViewAccount.html"; // Use relative path
+      }
+      else {
+        alert('Account cannot be updated. Please check your input.');
+      }
+    }
+
+    catch (err) {
+      console.error(err);
+      alert('An error occurred during update');
+    }
+    
+
+    
   }
 }
 

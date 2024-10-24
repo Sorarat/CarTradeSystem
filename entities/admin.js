@@ -43,6 +43,14 @@ class Admin extends User{
 
     }
 
+    async findById(userId) {
+        const query = 'SELECT * FROM User WHERE user_id = ?';
+        const [rows] = await db.promise().query(query, [userId]);
+    
+        // Assuming the user_id is unique, return the first user found or null
+        return rows.length > 0 ? rows[0] : null;
+    }
+    
 
 
     async getUserAccounts() {
@@ -53,9 +61,39 @@ class Admin extends User{
 
     }
 
-    async updateAccount() {
+    async updateAccount(userId, email, password, username, phoneNumber, role) {
+        
+        // Check if an account with the provided email exists (this could be the current user's email or another user's)
+        const existingUser = await this.findByEmail(email);
 
+        // If the email exists and belongs to a different user, return an error
+        if (existingUser && existingUser.user_id !== userId) {
+            return { success: false, message: "Email already in use by another account." };
+        }
+
+        // If the existing user is null (new email), call findbyid to get the user's id
+        const currentUser = existingUser || await this.findById(userId); 
+
+        if (!currentUser) {
+            return { success: false, message: "User not found." };
+        }
+
+        // Hash the password if provided, otherwise use the current password
+        const hashedPassword = password ? await bcrypt.hash(password, 10) : existingUser.password_hash;
+
+        // Get the profile ID for the role
+        const profileId = this.getProfileId(role);
+
+        // Perform the update
+        const query = 'UPDATE User SET email = ?, password_hash = ?, username = ?, phone = ?, profile_id = ? WHERE user_id = ?';
+        const [result] = await db.promise().query(query, [email, hashedPassword, username, phoneNumber, profileId, userId]);
+
+        return result.affectedRows > 0 ? { success: true, message: "Account updated successfully." } : { success: false, message: "Failed to update account." };
     }
+
+
+
+
 
     async suspendAccount(user_id) {
         const query = 'UPDATE User SET suspendStatus = ? WHERE user_id = ?';
