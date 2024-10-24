@@ -31,17 +31,26 @@ class UserProfile {
         return this.#suspendStatus;
     }
 
-    async check_role(role, profileId) {
-        const query = 'SELECT * FROM UserProfile WHERE role = ? AND profile_id != ?';
-        const [existingRoles] = await db.promise().query(query, [role, profileId]);
+    async check_role(role, profileId = null) {
+        let query = 'SELECT * FROM UserProfile WHERE role = ?';
+        const params = [role];
     
-        // If there's any result, that means another profile has this role
-        if (existingRoles.length > 0) {
-            return false;   // role already exists for another profile
+        // If profileId is provided (for update), exclude this profile from the check
+        if (profileId) {
+            query += ' AND profile_id != ?';
+            params.push(profileId);
         }
     
-        return true;  // no conflict, role can be updated
-    }    
+        const [existingRoles] = await db.promise().query(query, params);
+    
+        // Return false if any matching role exists, except for the current profile
+        if (existingRoles.length > 0) {
+            return false;   // role already exists
+        }
+    
+        return true;  // role is available
+    }
+    
 
     // create profile
     async createProfile(role, description) {
