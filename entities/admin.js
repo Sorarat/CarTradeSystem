@@ -64,20 +64,11 @@ class Admin extends User{
 
         // If the email exists and belongs to a different user, return an error
         if (existingUser && existingUser.user_id !== Number(userId)) {
-            console.log('User ID mismatch. Existing user ID:', existingUser.user_id, 'Current user ID:', userId);
             return false;   
         }
 
-       
-        // If the existing user is null (new email), call findbyid to get the user's info
-        const currentUser = existingUser || await this.findById(userId); 
-
-        if (!currentUser) {
-            return { success: false, message: "User not found." };
-        }
-
-        // Hash the password if provided, otherwise use the current password
-        const hashedPassword = password ? await bcrypt.hash(password, 10) : existingUser.password_hash;
+        // Hash the password 
+        const hashedPassword = await bcrypt.hash(password, 10)
 
         // Get the profile ID for the role
         const profileId = this.getProfileId(role);
@@ -86,7 +77,7 @@ class Admin extends User{
         const query = 'UPDATE User SET email = ?, password_hash = ?, username = ?, phone = ?, profile_id = ? WHERE user_id = ?';
         const [result] = await db.promise().query(query, [email, hashedPassword, username, phoneNumber, profileId, userId]);
 
-        return result.affectedRows > 0 ? { success: true, message: "Account updated successfully." } : { success: false, message: "Failed to update account." };
+        return result.affectedRows > 0 ? true : false;
     }
 
 
