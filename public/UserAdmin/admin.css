@@ -4,6 +4,7 @@
     --header-height: 10rem;
     --orange: #ff7800;      /* hover text */
     --silver: #c0c0c0;      /* hover background */
+    --gray: #ddd;           /* hover background - previous page icon */
     --black: #130f40;       /* text */
     --white: #fff;          /* header background */
     --light-gray: #eee;     /* body background */
@@ -79,6 +80,24 @@ body {
     color: var(--black)
 }
 
+/* drop-down icon */
+.arrow{
+    border: solid var(--black);
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    vertical-align: middle;     /* Align it with the text */
+    margin-left: 1rem;          /* Add space between the button and the arrow */
+    position: relative;         /* Allow positioning adjustments */
+    top: -2px;                  /* Move the arrow up;*/
+    cursor: pointer;
+}
+
+.down{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
 /* Dropdown Button */
 .dropbtn {
     background-color: var(--white);
@@ -134,6 +153,22 @@ body {
 when the user clicks on the dropdown button) */
 .show {
     display:block;
+}
+
+/* Previous page icon - return to previous page */
+.previous {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    color: var(--black);
+}
+
+.round {
+    border-radius: 50%;
+}
+  
+.previous:hover {
+    background-color: var(--gray);
 }
 
 /* ---------------------------------- */
@@ -287,7 +322,7 @@ th, td {
 
 /* ---------------------------------- */
 /* ViewAccount & ViewProfile CSS */
-
+/* Standard card size */
 .view-account-card {
     max-width: 1000px;
 }

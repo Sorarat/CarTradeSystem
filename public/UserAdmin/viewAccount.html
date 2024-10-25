@@ -16,7 +16,7 @@
         <!-- Navigation links -->
         <nav class="navbar">
             <div class="menu">
-                <button onclick="menuBtn()" class="dropbtn">Username</button>
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
                 <div id="menu-dropdown" class="menu-content">
                   <a href="./AdminDashboard.html">Dashboard</a>
                 </div>
@@ -26,8 +26,9 @@
         </nav>
     </header>
 
-    <h1>View All User Account</h1>
-
+    <!-- View All User Account Form -->
+    <h1><a href="./AdminDashboard.html" class="previous round">&#8249;</a>View All User Account</h1>
+    
     <!-- Search by email-->
     <div class="search-container">
         <input type="text" id="searchEmail" class="search-email" placeholder="Search by email..." />

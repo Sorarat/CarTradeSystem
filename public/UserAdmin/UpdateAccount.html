@@ -18,7 +18,7 @@
             <!-- <a href="#Home">Home</a> -->
             <!-- <a href="#Username">Username</a> -->
             <div class="menu">
-                <button onclick="menuBtn()" class="dropbtn">Username</button>
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
                 <div id="menu-dropdown" class="menu-content">
                   <a href="./AdminDashboard.html">Dashboard</a>
                 </div>
@@ -29,7 +29,7 @@
     </header>
 
     <!-- Update User Account Form -->
-    <h1>Update User Account</h1>
+    <h1><a href="./viewAccount.html" class="previous round">&#8249;</a>Update User Account</h1>
     <form id="updateAccountForm">
         <div class="card">
             <div class="account-info">
@@ -38,14 +38,7 @@
                         <tr>
                             <th>Role</th>
                             <td>:</td>
-                            <td><select id="role" name="role" class="form-control1" required> <!-- options fetch from database -->
-                                    <option disabled selected value> -- Select an option -- </option>
-                                    <option value="admin">User Admin</option>
-                                    <option value="agent">Used Car Agent</option>
-                                    <option value="buyer">Buyer</option>
-                                    <option value="seller">Seller</option>
-                                </select>
-                            </td>
+                            <td><input type="text" class="form-control1" id="role" name="role" readonly></td>
                         </tr>
                         <tr>
                             <th>Username</th>
