@@ -352,6 +352,50 @@ const profileId = urlParams.get('profileId');
 
 /* ---------------------------------- */
 /* UpdateAccount JS */
+// pre-fill update form with account information
+
+document.addEventListener('DOMContentLoaded', async function() {
+  if (window.location.pathname.includes('UpdateAccount.html')) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+
+    if (userId) {
+      try {
+        const response = await fetch(`/viewAccountRoute/getAccount/${userId}`);
+        const userData = await response.json();
+
+       
+         if (userData) {
+
+          const roleMap = {
+            1: 'admin',
+            2: 'agent',
+            3: 'buyer',
+            4: 'seller'
+          };
+  
+          // map profile id to role
+          role = roleMap[userData.profile_id] || 'Invalid role';
+
+          // Populate the form fields
+          document.getElementById('role').value = role;
+          document.getElementById('username').value = userData.username;
+          document.getElementById('email').value = userData.email;
+          document.getElementById('phoneNumber').value = userData.phone;
+          document.getElementById('password').value = userData.password;
+        } else {
+          alert('Account not found');
+        }
+      } catch (error) {
+        console.error('Failed to load user data:', error);
+        alert('Error loading user data');
+      }
+    }
+  }
+});
+
+
+
 // Ensure the DOM is fully loaded before accessing elements
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('updateAccount').addEventListener('click', updateAccountBtn);

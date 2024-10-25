@@ -17,6 +17,14 @@ class Admin extends User{
 
     }
 
+    // get specific account for update form
+    async getAccountById(userId) {
+        const query = 'SELECT * FROM User WHERE user_id = ?';
+        const [rows] = await db.promise().query(query, [userId]);
+
+        return rows[0] || null; // Return the first result if exists, otherwise null
+    }
+
     async createAccount(email, password, username, phoneNumber, role) {
 
         // check if the email is already in use
