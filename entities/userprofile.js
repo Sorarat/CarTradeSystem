@@ -103,6 +103,15 @@ class UserProfile {
         return result.affectedRows > 0; 
     }
 
+    // search profile by role
+    
+    async searchProfilesByRole(role) {
+        const query = 'SELECT * FROM UserProfile WHERE LOWER(role) LIKE ?';
+        const [rows] = await db.promise().query(query, [`%${role.toLowerCase()}%`]);
+        return rows;
+    }
+
+
     
 }
 

@@ -104,11 +104,21 @@ async function createAccountBtn(event) {
   const phoneNumber = document.getElementById('phoneNumber').value.trim();
   const password = document.getElementById('password').value.trim(); // Check to reject whitespace?
 
+  // Email validation regex pattern
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   // Check for empty or whitespace-only values
   if (role === "" || username === "" || email === "" || phoneNumber === "" || password === "") {
     event.preventDefault(); // Prevent form submission
     alert('Both fields are required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
+  }
+
+  // Validate email format
+  if (!emailPattern.test(email)) {
+    event.preventDefault();
+    alert('Please enter a valid email address.');
+    return;
   }
 
   // Check if the form is valid
@@ -223,16 +233,22 @@ function performAccountSearch() {
   }
 }
 
-function performProfileSearch() {
-  const searchInput = document.getElementById('searchRole').value.trim().toLowerCase();
-  const filteredProfiles = allProfiles.filter(profile => profile.role.toLowerCase().includes(searchInput));
+async function performProfileSearch() {
+  const searchInput = document.getElementById('searchRole').value.trim();
 
-  // If no matches are found, display all profiles
-  if (filteredProfiles.length === 0) {
-      populateProfileTable(allProfiles);
-      alert('No profile found with this role name.');
-  } else {
-      populateProfileTable(filteredProfiles);
+  try {
+      const response = await fetch(`/searchProfileRoute/searchProfiles?role=${encodeURIComponent(searchInput)}`);
+      const profiles = await response.json();
+
+      if (profiles.length === 0) {
+          alert('No profile found with this role name.');
+          populateProfileTable(allProfiles); // Display all if no matches
+      } else {
+          populateProfileTable(profiles); // Display filtered profiles
+      }
+  } catch (error) {
+      console.error('Failed to perform profile search:', error);
+      alert('An error occurred during the search.');
   }
 }
 
@@ -243,6 +259,12 @@ function updateAccPageBtn(userId){
 
 /* Suspend Account */
 async function suspendAccount(userId) {
+  // Display confirmation prompt
+  const confirmAction = confirm("Are you sure you want to suspend this account? This action cannot be undone.");
+  if (!confirmAction) {
+    return; // Exit if admin clicks "Cancel"
+  }
+
   try {
       const response = await fetch(`/SuspendAccountRoute/suspend/${userId}`, { 
           method: 'PUT',
@@ -549,6 +571,12 @@ async function updateProfileBtn(event) {
 /* ---------------------------------- */ 
 /* SuspendProfile JS */
 async function suspendProfile(profileId) {
+  // Display confirmation prompt
+  const confirmAction = confirm("Are you sure you want to suspend this profile? This action cannot be undone.");
+  if (!confirmAction) {
+    return; // Exit if admin clicks "Cancel"
+  }
+
   try {
       const response = await fetch(`/suspendProfileRoute/suspend/${profileId}`, { 
           method: 'PUT',
