@@ -418,6 +418,33 @@ async function updateAccountBtn(event) {
 
 /* ---------------------------------- */
 /* UpdateProfile JS */
+// Pre-fill update form with current information
+document.addEventListener('DOMContentLoaded', async function () {
+  if (window.location.pathname.includes('UpdateProfile.html')) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const profileId = urlParams.get('profileId');
+
+    if (profileId) {
+      try {
+        const response = await fetch(`/viewProfileRoute/getProfile/${profileId}`);
+        const profileData = await response.json();
+
+        if (profileData) {
+          // Populate the form fields
+          document.getElementById('role').value = profileData.role;
+          document.getElementById('description').value = profileData.roleDesc;
+        } else {
+          alert('Profile not found');
+        }
+      } catch (error) {
+        console.error('Failed to load profile data:', error);
+        alert('Error loading profile data');
+      }
+    }
+  }
+});
+
+
 // Ensure the DOM is fully loaded before accessing elements
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('updateProfile').addEventListener('click', updateProfileBtn);

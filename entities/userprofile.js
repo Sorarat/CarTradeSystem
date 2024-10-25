@@ -50,6 +50,14 @@ class UserProfile {
     
         return true;  // role is available
     }
+
+    // get specific profile for update form
+    async getProfileById(profileId) {
+        const query = 'SELECT * FROM UserProfile WHERE profile_id = ?';
+        const [rows] = await db.promise().query(query, [profileId]);
+
+        return rows[0] || null;  // Return the first result if exists, otherwise null
+    }
     
 
     // create profile
