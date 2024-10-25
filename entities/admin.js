@@ -96,6 +96,12 @@ class Admin extends User{
 
     }
 
+    async searchAccountByEmail(email) {
+        const query = 'SELECT * FROM User WHERE LOWER(email) LIKE ?';
+        const [rows] = await db.promise().query(query, [`%${email.toLowerCase()}%`]);
+        return rows;
+    }
+
     getProfileId(role) {
         switch(role) {
             case 'admin':

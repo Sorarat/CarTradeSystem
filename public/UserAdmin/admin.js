@@ -220,17 +220,42 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /* Search Bar */
-function performAccountSearch() {
+async function performAccountSearch() {
   const searchInput = document.getElementById('searchEmail').value.trim().toLowerCase();
-  const filteredAccounts = allAccounts.filter(account => account.email.toLowerCase().includes(searchInput));
+
+  try {
+    const response = await fetch(`/searchAccountRoute/searchAccounts?email=${encodeURIComponent(searchInput)}`);
+    const accounts = await response.json();
 
     // If no matches are found, display all accounts
-    if (filteredAccounts.length === 0) {
+    // if (accounts.length === 0) {
+    //   populateAccountTable(allAccounts);
+    //   alert('No accounts found with this email.');
+    // } 
+    // else {
+    //   populateAccountTable(accounts); // display filtered accounts
+    // }
+
+    // Ensure `accounts` is an array and check length
+    if (Array.isArray(accounts) && accounts.length === 0) {
       populateAccountTable(allAccounts);
       alert('No accounts found with this email.');
-  } else {
-      populateAccountTable(filteredAccounts);
+    } 
+    else if (Array.isArray(accounts)) {
+      populateAccountTable(accounts); // display filtered accounts
+    } 
+    else {
+      console.error('Unexpected data format:', accounts);
+      alert('An error occurred while retrieving accounts.');
+    }
   }
+
+  catch (error) {
+    console.error('Failed to perform account search:', error);
+    alert('An error occured during the search.');
+  }
+
+    
 }
 
 async function performProfileSearch() {
