@@ -301,23 +301,23 @@ th, td {
     display: flex;
     justify-content: center;
     margin-top: 50px;
-  }
+}
   
-  .search-email {
+.search-email {
     padding: 10px;
     font-size: 16px;
     border: 1px solid var(--light-gray2);
     border-radius: 4px;
     width: 300px;
-  }
+}
 
-  .search-role {
+.search-role {
     padding: 10px;
     font-size: 16px;
     border: 1px solid var(--light-gray2);
     border-radius: 4px;
     width: 300px; 
-  }
+}
   
   .search-button {
     padding: 10px 15px;
