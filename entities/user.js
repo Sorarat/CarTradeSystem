@@ -45,14 +45,16 @@ class User {
     get getProfileId() {
         return this.#profile_id;
     }
-
+    
     async findByEmail(email) {
-        const query = 'SELECT * FROM User WHERE email = ?';
-        const [results] = await db.promise().query(query, [email]);
-
-        // Return plain user data object if found
-        return results.length > 0 ? results[0] : null; // Return user data or null
+        const lowercasedEmail = email.toLowerCase();  // Convert input email to lowercase
+        const query = 'SELECT * FROM User WHERE LOWER(email) = ?';  // Ensure case-insensitive comparison
+        const [results] = await db.promise().query(query, [lowercasedEmail]);
+    
+        return results.length > 0 ? results[0] : null;
+  
     }
+    
 
     async verifyPassword(password) {
         return await bcrypt.compare(password, this.#password_hash);

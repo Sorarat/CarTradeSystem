@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View User Profile</title>
+    <link rel="stylesheet" href="admin.css">    <!-- CSS -->
+    <script src="admin.js" defer></script>      <!-- Javascript -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- Logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- Navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
+                <div id="menu-dropdown" class="menu-content">
+                  <a href="./AdminDashboard.html">Dashboard</a>
+                </div>
+                <span>|</span>
+                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- View All User Profile Form -->
+    <h1><a href="./AdminDashboard.html" class="previous round">&#8249;</a>View All User Profile</h1>
+    
+    <!-- Search by role-->
+    <div class="search-container">
+        <input type="text" id="searchRole" class="search-role" placeholder="Search by role..." onchange="performProfileSearch()"/>
+        <button class="search-button">Search</button>
+    </div>
+
+    <!-- Account Information -->
+    <div class="card view-profile-card">
+        <div class="account-info">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="profileTable">
+                    <!--dynamically populated rows-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

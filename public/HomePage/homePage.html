@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--Document CSS-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="homePage.css">    <!-- CSS -->
+    <script src="homePage.js"></script>           <!-- Javascript -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- Logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- Navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username</button>
+                <div id="menu-dropdown" class="menu-content">
+                  <a href="/UserAdmin/AdminDashboard.html">Dashboard</a>
+                  <a href="#">Home</a>
+                  <a href="#">Favourites</a>
+                </div>
+                <span>|</span>
+                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+    
+</body>
+</html>
