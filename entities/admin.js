@@ -78,7 +78,7 @@ class Admin extends User{
         // Hash the password 
         const hashedPassword = await bcrypt.hash(password, 10)
 
-        // Get the profile ID for the role
+        // Get the profile id for the role
         const profileId = this.getProfileId(role);
 
         // Perform the update
