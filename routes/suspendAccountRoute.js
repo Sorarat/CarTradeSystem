@@ -1,5 +1,5 @@
 const express = require('express');
-const SuspendAccountController = require('../controllers/SuspendAccountController');
+const SuspendAccountController = require('../controllers/suspendAccountController');
 const router = express.Router();
 
 const suspendAccountController = new SuspendAccountController();

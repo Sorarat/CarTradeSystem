@@ -1,5 +1,5 @@
 const express = require('express');
-const UpdateAccountController = require('../controllers/UpdateAccountController');
+const UpdateAccountController = require('../controllers/updateAccountController');
 const router = express.Router();
 
 const updateAccountController = new UpdateAccountController();

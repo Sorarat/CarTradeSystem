@@ -1,5 +1,5 @@
 const express = require('express');
-const ViewAccountController = require('../controllers/ViewAccountController');
+const ViewAccountController = require('../controllers/viewAccountController');
 const router = express.Router();
 
 const viewAccountController = new ViewAccountController();
