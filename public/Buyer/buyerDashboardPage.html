@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard</title>
+    <link rel="stylesheet" href="buyer.css">    <!-- CSS -->
+    <script src="buyer.js" defer></script>      <!-- Javascript -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- Logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- Navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
+                <div id="menu-dropdown" class="menu-content">
+                  <a href="./buyerDashboardPage.html">Dashboard</a>
+                  <a href="../homePage/homePage.html">Home</a>
+                </div>
+                <span>|</span>
+                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Buyer Dashboard -->
+    <h1>Buyer Dashboard</h1>
+    
+    <!-- Account Information -->
+    <div class="card">
+        <div class="account-info">
+            <table>
+                <tbody>
+                    <tr>
+                        <td colspan="3" class="center">
+                            <img src="./profile-icon.png" alt="profile icon" class="round-image">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td>:</td>
+                        <td>John Doe Anderson</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>:</td>
+                        <td>John@hotmail.com</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>:</td>
+                        <td>12345678</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Buyer Functions -->
+    <div class="admin-functions">
+        <a href="./viewShortlistPage.html" class="link">View My Shortlist</a>
+        <hr class="separator">
+        <a href="./createRatingReviewPage.html" class="link">Create Rating & Review</a>
+        <hr class="separator">
+    </div>
+</body>
+</html>
