@@ -25,7 +25,7 @@ function logoutBtn(event){
 }
 
 // Simulate fetching user role after login
-let userRole = 'seller'; // Example role, this should be dynamically set based on the logged-in user
+let userRole = 'buyer'; // Example role, this should be dynamically set based on the logged-in user
 
 // Function to set the dashboard link based on user role
 function setDashboardLink() {
