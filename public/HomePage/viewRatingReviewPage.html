@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating & Review</title>
+    <link rel="stylesheet" href="homePage.css">    <!-- CSS -->
+    <script src="homePage.js" defer></script>      <!-- Javascript -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
+                <div id="menu-dropdown" class="menu-content">
+                  <a href="../buyer/buyerDashboardPage.html">Dashboard</a>     <!-- Directory to change according to login role -->
+                  <a href="../homePage/homePage.html">Home</a>
+                </div>
+                <span>|</span>
+                <a href="#" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- View Rating & Reviews -->
+    <h1><a href="./carDetailsPage.html" class="previous round">&#8249;</a>View Rating & Reviews</h1>
+    <!-- Fetch agent info-->
+    <div class="agent-card">
+        <div class="account-info">
+            <table>
+                <tbody>
+                    <tr>
+                        <td rowspan="4" class="center right-border">
+                            <img src="./profile-icon.png" alt="profile icon" class="round-image">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>John Doe Anderson</td>
+                    </tr>
+                    <tr>
+                        <td>John@hotmail.com</td>
+                    </tr>
+                    <tr>
+                        <td>12345678</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Fetch all rating & reviews -->
+    <div class="review-card">
+        <div class="review-header">
+            <p class="review-username">Username</p>
+            <div class="star"> 
+                <input type="radio" id="star" name="star" value="star" checked>
+                <label for="star"></label>
+                <p class="rating-text">5</p>
+            </div>
+        </div>
+        <p class="review">
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        </p>
+    </div>
+
+    <!-- Dummy to visualise -->
+    <div class="review-card">
+        <div class="review-header">
+            <p class="review-username">Username</p>
+            <div class="star"> 
+                <input type="radio" id="star" name="star" value="star" checked>
+                <label for="star"></label>
+                <p class="rating-text">1</p>
+            </div>
+        </div>
+        <p class="review">
+            Lorem ipsum odor amet, consectetuer adipiscing elit. Iaculis auctor nam vitae nec maximus, adipiscing fames luctus. Scelerisque congue venenatis elementum tortor neque.
+        </p>
+    </div>
+
+    <div class="review-card">
+        <div class="review-header">
+            <p class="review-username">Username</p>
+            <div class="star"> 
+                <input type="radio" id="star" name="star" value="star" checked>
+                <label for="star"></label>
+                <p class="rating-text">5</p>
+            </div>
+        </div>
+        <p class="review">
+            Lorem ipsum odor amet, consectetuer adipiscing elit.
+        </p>
+    </div>
+    
+</body>
+</html>
