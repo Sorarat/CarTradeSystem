@@ -24,6 +24,7 @@ function logoutBtn(event){
   document.location.href = "../logoutPage/logoutPage.html"; // Use relative path (one directory level up)
 }
 
+/* Dynamically update Dashboard link */
 // Simulate fetching user role after login
 let userRole = 'buyer'; // Example role, this should be dynamically set based on the logged-in user
 
@@ -47,6 +48,51 @@ window.onload = setDashboardLink;
 
 /* ---------------------------------- */
 /* homePage JS */
+/* Ensure that min is always >= max */
+document.addEventListener('DOMContentLoaded', function() {
+  // Get the min and max select elements
+  const minSelect = document.getElementById('min');
+  const maxSelect = document.getElementById('max');
+
+  // Function to update max options based on min selection
+  function updateMaxOptions() {
+    const minValue = parseInt(minSelect.value);
+
+    for (let i = 0; i < maxSelect.options.length; i++) {
+      const optionValue = parseInt(maxSelect.options[i].value);
+      // Disable options in max <= selected min value
+      maxSelect.options[i].disabled = optionValue <= minValue;
+    }
+  }
+
+  // Function to update min options based on max selection
+  function updateMinOptions() {
+    const maxValue = parseInt(maxSelect.value);
+
+    for (let i = 0; i < minSelect.options.length; i++) {
+      const optionValue = parseInt(minSelect.options[i].value);
+      // Disable options in min >= selected max value
+      minSelect.options[i].disabled = optionValue >= maxValue;
+    }
+  }
+
+  // Add event listeners to both select elements
+  minSelect.addEventListener('change', function() {
+    updateMaxOptions();
+    updateMinOptions(); // Update min options as well
+  });
+
+  maxSelect.addEventListener('change', function() {
+    updateMinOptions();
+    updateMaxOptions(); // Update max options as well
+  });
+
+  // Initialize the options based on the initial selections
+  updateMaxOptions();
+  updateMinOptions();
+});
+
+
 /* Search button */
 function performCarSearch() {
 /* TO DO... */
