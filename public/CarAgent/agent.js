@@ -72,14 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Create an input element
         const input = document.createElement('input');
         if(i == 2){
-          // const row = document.getElementById("car-data");
-          // const dateString = (row.getElementsByTagName('td')[2]).textContent.trim();
-          // console.log(dateString);
-          // // const dateString = document.getElementById("date"); // DD/MM/YYYY format
-          // const [day, month, year] = dateString.split('-');
-
-          // // // Note: months are 0-based
-          // const formattedDate = `${day.padStart(2, '0')}-${month.padStart(2, '0')}-${year}`;
           const dateString = cellValue.trim();
           const [year, month, day] = dateString.split("-");
           const formattedDate = `${year}-${month}-${day}`
@@ -104,16 +96,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function save() {
     const row = document.getElementById('car-data');
+    let allFilled = true; //track if all the input field in filled up
 
     // Loop through each cell and get the value from the input
     for (let i = 0; i < row.cells.length; i++) {
         const cell = row.cells[i];
         const input = cell.querySelector('input'); // Get the input from the cell
 
-        if (input) {
+        if(input){
+          if (input.value.trim() == '') {
             // cell.textContent = input.value; // Set the cell's text to the input's value
-            cell.textContent = input.type === 'date' ? input.value : input.value;
+            allFilled = false;
+            break;
+          }
+        cell.textContent = input.type === 'date' ? input.value : input.value;
+
         }
+        
+    }
+    if(!allFilled){
+      alert("Please fill in all the fields before saving.")
+      return;
     }
 
     // Change the button back to update
