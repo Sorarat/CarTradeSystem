@@ -24,6 +24,27 @@ function logoutBtn(event){
   document.location.href = "../logoutPage/logoutPage.html"; // Use relative path (one directory level up)
 }
 
+// Simulate fetching user role after login
+let userRole = 'seller'; // Example role, this should be dynamically set based on the logged-in user
+
+// Function to set the dashboard link based on user role
+function setDashboardLink() {
+    const dashboardLink = document.getElementById('dashboardLink');
+
+    if (userRole === 'buyer') {
+        dashboardLink.href = '../buyer/buyerDashboardPage.html';
+    } else if (userRole === 'seller') {
+        dashboardLink.href = '../seller/sellerDashboardPage.html';
+    } else if (userRole === 'agent') {
+        dashboardLink.href = '../agent/agentDashboardPage.html';
+    } else {
+        dashboardLink.href = '#'; // Default or error page
+    }
+}
+
+// Call the function to set the link when the page loads
+window.onload = setDashboardLink;
+
 /* ---------------------------------- */
 /* homePage JS */
 /* Search button */
