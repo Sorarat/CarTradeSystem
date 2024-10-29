@@ -17,17 +17,168 @@
         <!-- Navigation links -->
         <nav class="navbar">
             <div class="menu">
-                <button onclick="menuBtn()" class="dropbtn">Username</button>
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
                 <div id="menu-dropdown" class="menu-content">
-                  <a href="/UserAdmin/AdminDashboard.html">Dashboard</a>
-                  <a href="#">Home</a>
-                  <a href="#">Favourites</a>
+                  <a href="../buyer/buyerDashboardPage.html">Dashboard</a>      <!-- Directory to change according to login role -->
+                  <a href="../homePage/homePage.html">Home</a>
                 </div>
                 <span>|</span>
                 <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
             </div>
         </nav>
     </header>
-    
+
+    <!-- Image Section -->
+    <div>
+        <img src="car.jpg" alt="Car Image" class="car-image">
+    </div>
+
+    <!-- Search Bar Section -->
+    <form id="searchCarForm">
+        <div class="card">
+            <div class="account-info">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" id="searchCar" class="search-car" placeholder="Car Make/Model"/></td>
+                            <td>
+                                <select id="min" name="min" class="search-price" required>
+                                    <option disabled selected value>Min Price</option>
+                                    <option value="70000">$70,000</option>
+                                    <option value="80000">$80,000</option>
+                                    <option value="90000">$90,000</option>
+                                    <option value="100000">$100,000</option>
+                                    <option value="110000">$110,000</option>
+                                    <option value="120000">$120,000</option>
+                                    <option value="130000">$130,000</option>
+                                    <option value="140000">$140,000</option>
+                                    <option value="150000">$150,000</option>
+                                    <option value="200000">$200,000</option>
+                                    <option value="210000">$210,000</option>
+                                    <option value="220000">$220,000</option>
+                                    <option value="230000">$230,000</option>
+                                    <option value="240000">$240,000</option>
+                                    <option value="250000">$250,000</option>
+                                    <option value="300000">$300,000</option>
+                                    <option value="350000">$350,000</option>
+                                    <option value="400000">$400,000</option>
+                                    <option value="500000">$500,000</option>
+                                    <option value="600000">$600,000</option>
+                                    <option value="700000">$700,000</option>
+                                </select>
+                                <select id="max" name="max" class="search-price" required>
+                                    <option disabled selected value>Max Price</option>
+                                    <option value="700000">$700,000</option>
+                                    <option value="600000">$600,000</option>
+                                    <option value="500000">$500,000</option>
+                                    <option value="400000">$400,000</option>
+                                    <option value="350000">$350,000</option>
+                                    <option value="300000">$300,000</option>
+                                    <option value="250000">$250,000</option>
+                                    <option value="240000">$240,000</option>
+                                    <option value="230000">$230,000</option>
+                                    <option value="220000">$220,000</option>
+                                    <option value="210000">$210,000</option>
+                                    <option value="200000">$200,000</option>
+                                    <option value="150000">$150,000</option>
+                                    <option value="140000">$140,000</option>
+                                    <option value="130000">$130,000</option>
+                                    <option value="120000">$120,000</option>
+                                    <option value="110000">$110,000</option>
+                                    <option value="100000">$100,000</option>
+                                    <option value="90000">$90,000</option>
+                                    <option value="80000">$80,000</option>
+                                    <option value="70000">$70,000</option>
+                                </select>
+                            </td>
+                            <td><button class="search-button" onclick="performCarSearch()">Search</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+    <!-- Car Listings Section -->
+    <div class="grid-container">
+        <!-- Fetch all car listings -->
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist1" name="shortlist1" value="1" required>
+                    <label for="shortlist1"></label>
+                </div>
+            </div>
+            <div class="price-button">
+                <span class="price">$85,000</span>
+                <button class="create-button" onclick="viewCarDetails()">View Details</button>
+            </div>
+        </div>
+        
+        <!-- Sample for SOLD CAR -->
+        <div class="car-card disabled">
+            <div class="car-header">
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
+                <div class="shortlist"> 
+                    <input type="checkbox" id="shortlist2" name="shortlist2" value="1" required>
+                    <label for="shortlist2"></label>
+                </div>
+            </div>
+            <span class="sold-label">SOLD</span>    <!-- Indicate SOLD -->
+            <div class="price-button">
+                <span class="price">$85,000</span>
+                <button class="create-button" onclick="viewCarDetails()">View Details</button>
+            </div>
+        </div>
+
+        <!-- Dummy to visualise -->
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
+                <div class="shortlist"> 
+                    <input type="checkbox" id="shortlist3" name="shortlist3" value="1" required>
+                    <label for="shortlist3"></label>
+                </div>
+            </div>
+            <div class="price-button">
+                <span class="price">$85,000</span>
+                <button class="create-button" onclick="viewCarDetails()">View Details</button>
+            </div>
+        </div>
+
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
+                <div class="shortlist"> 
+                    <input type="checkbox" id="shortlist4" name="shortlist4" value="1" required>
+                    <label for="shortlist4"></label>
+                </div>
+            </div>
+            <div class="price-button">
+                <span class="price">$85,000</span>
+                <button class="create-button" onclick="viewCarDetails()">View Details</button>
+            </div>
+        </div>
+
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
+                <div class="shortlist"> 
+                    <input type="checkbox" id="shortlist5" name="shortlist5" value="1" required>
+                    <label for="shortlist5"></label>
+                </div>
+            </div>
+            <div class="price-button">
+                <span class="price">$85,000</span>
+                <button class="create-button" onclick="viewCarDetails()">View Details</button>
+            </div>
+        </div>
+        
+        
+    </div>
+
 </body>
 </html>

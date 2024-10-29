@@ -4,13 +4,15 @@
     --header-height: 10rem;
     --orange: #ff7800;      /* hover text */
     --silver: #c0c0c0;      /* hover background */
+    --gray: #ddd;           /* hover background - previous page icon */
     --black: #130f40;       /* text */
     --white: #fff;          /* header background */
     --light-gray: #eee;     /* body background */
     --light-gray1: #f1f1f1; /* menu-dropdown background */
-    --light-gray2: #ccc;    /* separator line */ 
+    --light-gray2: #ccc;    /* separator line & SOLD background*/ 
     --medium-gray: #999;    /* button background */
-    --dark-gray: #666;
+    --dark-gray: #666;      /* suspended background */
+    --yellow: #ffd300;      /* star rating */
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
     --outline: .1rem solid rgba(0, 0, 0, .1);
@@ -26,15 +28,15 @@
     outline: none; 
     border: none;
     text-decoration: none;
-    text-transform: capitalize;
+    /*text-transform: capitalize;*/
     transition: all .2s linear;
 }
 
 html{
     font-size: 62.5%;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    scroll-padding-top: 7rem;
+    overflow-x: hidden;             /* Hide content that overflow horizontally */
+    scroll-behavior: smooth;        /* Smooth scrolling for the entire page */
+    scroll-padding-top: 7rem;       /* Ensure that content is not hidden under the fixed header when scrolling */
 }
 
 body {
@@ -78,6 +80,24 @@ body {
     font-size: 1.7rem;
     margin: 1rem;
     color: var(--black)
+}
+
+/* drop-down icon */
+.arrow {
+    border: solid var(--black);
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    vertical-align: middle;     /* Align it with the text */
+    margin-left: 1rem;          /* Add space between the button and the arrow */
+    position: relative;         /* Allow positioning adjustments */
+    top: -2px;                  /* Move the arrow up;*/
+    cursor: pointer;
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }
 
 /* Dropdown Button */
@@ -135,6 +155,373 @@ body {
 when the user clicks on the dropdown button) */
 .show {
     display:block;
+}
+
+/* Previous page icon - return to previous page */
+.previous {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    color: var(--black);
+}
+
+.round {
+    border-radius: 50%;
+}
+  
+.previous:hover {
+    background-color: var(--gray);
+}
+
+/* ---------------------------------- */
+/* homePage CSS */
+/* Image below the header */
+.car-image {
+    width: 100%;        /* Cover the full width of the viewport */
+    height: 200px;      /* Set the height to 200 pixels */
+    object-fit: cover;  /* Ensures the image covers the area without distortion */
+}
+
+/* General Layout */
+.card {
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 20px auto;                  /* Center the card with auto margins */
+    padding: 20px 50px 20px 50px;
+    /*width: 80%;                         /* Adjust this value as needed */
+    max-width: 950px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
+}
+
+.account-info {
+    overflow-x: auto;                   /* Horizontal scroll if the table is too wide */
+}
+
+table {
+    width: 100%;                        /* Full width of the card */
+    border-collapse: collapse;          /* Collapse borders for a cleaner look */
+    font-size: 1.5rem;                  /* Set font size for the table */
+}
+
+th, td {
+    padding: 10px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+}
+
+/* Basic styling for the search bar */
+.search-container { /* not used */
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+  
+.search-car {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--light-gray2);
+    border-radius: 20px;
+    width: 400px;
+}
+
+.search-price {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--light-gray2);
+    border-radius: 20px;
+    width: 150px;
+}
+  
+.search-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--orange);
+    color: white;
+    cursor: pointer;
+    margin-left: 5px;
+}
+  
+.search-button:hover {
+    opacity: .6;
+}
+
+/* Car listings */
+/* Responsive grid - layout */
+.grid-container{
+    display: grid;
+    grid-template-columns: 
+        repeat(auto-fit,
+               minmax(380px, 1fr));     /* each column at least 320px*/
+    gap: 10px;
+    justify-items: start;               /* Align items to left */
+    /*border: 1px solid black;          /* Cell borders - FOR CHECKING */
+}
+
+/* Individual car listing */
+.car-card {
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 10px auto;                  /* Left align, change 20px to auto to center align */
+    padding: 10px 30px;
+    /*width: 400px;                       /* Fixed width */
+    width: 100%;                        /* Set width to 100% to fill the grid cell */
+    max-width: 380px;                   /* Optional: Max width to limit size on larger screens */
+    height: 120px;                      /* Fixed height */
+    /*overflow: hidden;                   /* Prevent content overflowing */
+    display: flex;                      /* Use flexbox for internal layout */
+    flex-direction: column;             /* Stack items vertically */
+}
+
+/* Alignment for car-name & shortlist(heart-icon) */
+.car-header {
+    display: flex;                  /* Use flexbox for alignment */
+    justify-content: space-between; /* Space between element */
+    align-items: center;            /* Center align items vertically */
+    margin-bottom: auto;            /* Push car-info to the bottom of the car-card */
+}
+
+.car-name {
+    font-size: 1.5rem;                  /* Font size for the car name */
+    font-weight: bold;                  /* Bold text for emphasis */
+    /*margin-bottom: auto;                /* Push car-info to the bottom of the car-card */
+}
+
+.price-button {
+    display: flex;                      /* Use flexbox for alignment */
+    justify-content: space-between;     /* Space between price and button */
+    align-items: center;                /* Center vertically */
+}
+
+.price {
+    font-size: 1.7rem;                  /* Font size for the price */
+    font-weight: bold;                  /* Bold text for emphasis */
+    color: green;                     /* Color for price */
+}
+
+/* View Details button - adapt from Create & Cancel button */
+.create-button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.create-button:hover{
+    opacity: .6;
+}
+
+
+/* Sold Cars - adapt from suspend button */
+.disabled {
+    pointer-events: none;                   /* Disable all mouse events */
+    opacity: 0.5;                           /* Make the card look greyed out */
+    background-color: var(--light-gray2);     /* Optional: Change background color */
+}
+
+.sold-label {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ---------------------------------- */
+/* carDetailsPage CSS */
+/* Shortlisting - heart-icon*/
+.shortlist input {
+    display: none;          /* hide the checkbox */
+}
+
+.shortlist label {          /* default heart */
+    float: right;
+    cursor: pointer;
+    color: var(--medium-gray);
+}
+
+.shortlist label:before {   /* display stars before the label of each rating option */
+    content: '\2764';       /* unicode for a solid heart */
+    font-size: 3rem;
+}
+
+.shortlist input:checked~label {    /* change heart color when checked */
+    color: red;
+}
+
+/* Individual info container */
+.info-container {
+    margin-bottom: 15px;                        /* Space between container */
+    padding: 10px;                              /* Padding inside each container */
+    border: 1px solid var(--light-gray);                /* Border for each container*/
+    border-radius: 5px;                         /* Rounded corners for container */
+    background-color: var(--light-gray1);        /* Background color - FOR CHECKING */
+}
+
+.info-container .price {
+    font-size: 1.8rem;                  /* Font size for the price */
+    font-weight: bold;                  /* Bold text for emphasis */
+    color: green;                     /* Color for price */
+}
+
+.info-container p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+/* Table Layout - display info */
+.info-table {
+    width: 100%;                        /* Full width of the card */
+    border-collapse: collapse;          /* Collapse borders for a cleaner look */
+}
+
+.info-table th {
+    padding: 0px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+    font-size: 1.7rem;                  /* Set font size for the table */
+}
+
+.info-table td {
+    padding: 0px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+    font-size: 1.2rem;                  /* Set font size for the table */
+}
+
+/* Set fixed widths for each column */
+.info-table th:nth-child(1),
+.info-table td:nth-child(1) {
+    width: 30%;                        /* First column width */
+}
+
+.info-table th:nth-child(2),
+.info-table td:nth-child(2) {
+    width: 10%;                        /* Second column width */
+}
+
+.info-table th:nth-child(3),
+.info-table td:nth-child(3) {
+    width: 60%;                        /* Third column width */
+}
+
+/* Clickable <div> - Agent's info */
+.clickable-container {
+    transition: color 0.3s;     /* Set time for transition - color change */
+}
+
+.clickable-container:hover {
+    color: var(--orange);       /* Text color change on hover*/
+}
+
+/* ---------------------------------- */
+/* viewRatingReviewPage CSS */
+/* Agent details */
+.agent-card {
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 20px auto;                  /* Center the card with auto margins */
+    padding: 20px 50px 20px 50px;
+    width: 80%;                         /* Adjust this value as needed */
+    max-width: 600px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
+}
+
+/* Profile-icon */
+.center {                               /* Center alignment */
+    text-align: center;
+}
+
+.round-image {
+    width: 70px;                        /* Image width */
+    height: 70px;                       /* Image height */
+    border-radius: 60%;                 /* Makes the image round */
+    object-fit: cover;                  /* Cover the area without distortion */
+    border: 3px solid var(--light-gray2);
+}
+
+/* Add specific right border style to the last column */
+.right-border {
+    border-right: 2px solid var(--silver); /* Change color and width as needed */
+}
+
+
+/* Individual Rating & Review - layout */
+.review-card {
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 20px auto;                  /* Center the card with auto margins */
+    padding: 20px 50px 20px 50px;
+    /*width: 80%;                         /* Adjust this value as needed */
+    max-width: 950px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
+}
+
+/* Star-icon */
+.star {
+    display: flex;          /* Use flexbox for alignment */
+    align-items: center;    /* Center align items vertically */
+}
+
+.star input {
+    display: none;     /* hide the radio buttons */
+}
+
+.star label {         /* yellow star */
+    float: right;
+    cursor: pointer;
+    color: var(--yellow);
+}
+
+.star label:before {        /* display stars before the label of each rating option */
+    content: '\2605';       /* unicode for a solid star */
+    font-size: 2rem;
+}
+
+/* Display no. of star rating */
+.rating-text {
+    font-size: 1.75rem;
+    color: var(--black);
+    line-height: 1.5;
+    margin-left: 5px;
+}
+
+/* Align reviewer's Username & the star-icon */
+.review-header {
+    display: flex;                  /* Use flexbox for alignment */
+    justify-content: space-between; /* Space between username and star rating */
+    align-items: center;            /* Center align items vertically */
+}
+
+.review-username {
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 2;
+}
+
+.review {
+    font-size: 1.5rem;
+    color: var(--black);
+    line-height: 1.5;
 }
 
 /* ---------------------------------- */
