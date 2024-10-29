@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Car Listing</title>
+    <link rel="stylesheet" href="agent.css">    <!-- CSS -->
+    <script src="agent.js" defer></script>      <!-- Javascript -->
+
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- navigation links -->
+        <nav class="navbar">
+            <!-- <a href="#Home">Home</a> -->
+            <!-- <a href="#Username">Username</a> -->
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
+                <div id="menu-dropdown" class="menu-content">
+                    <a href="./agentDashboard.html">Dashboard</a>
+                    <a href="../HomePage/homePage.html">Home</a>
+                </div>
+                <span>|</span>
+                <a href="#" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Create Car Listing Input-->
+    <h1><a href="./agentDashboard.html" class="previous">&#8249;</a>Create Car Listing</h1>
+    <form>
+        <div class = "card">
+            <div class = "account-info">
+                <table>
+                    <tr>
+                        <th>Car Make/Model</th>
+                        <td>:</td>
+                        <td><input type="text" class="form1" id="carModel" name="carModel" required></td>
+                    </tr>
+                    <tr>
+                        <th>Price</th>
+                        <td>:</td>
+                        <td><input type="number" class="form1" id="price" name="price" required></td>
+                    </tr>
+                    <tr>
+                        <th>Reg Date</th>
+                        <td>:</td>
+                        <td><input type="date" class="form1" id="regDate" name="regDate" required></td>
+                    </tr>
+                    <tr>
+                        <th>Remaining COE (months)</th>
+                        <td>:</td>
+                        <td><input type="number" class="form1" id="COE" name="COE" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="button1">
+                                <button class="create-button" id="createListing" type="submit">Create</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </form>
+    
+</body>
+</html>
