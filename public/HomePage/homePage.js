@@ -100,14 +100,14 @@ document.addEventListener('DOMContentLoaded', function() {
   let count = 0; // Initialize counter
 
   function updateCounter(checkbox) {
-      // Update the count based on the checkbox state
-      if (checkbox.checked) {
-          count += 1; // Increment if checked
-      } else {
-          count -= 1; // Decrement if unchecked
-      }
+    // Update the count based on the checkbox state
+    if (checkbox.checked) {
+      count += 1; // Increment if checked
+    } else {
+      count -= 1; // Decrement if unchecked
+    }
 
-      console.log('Current Count:', count); // Log the count to the console
+    console.log('Current Count:', count); // Log the count to the console
   }
 
   // Get all checkboxes with the name "shortlist"
@@ -115,9 +115,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Add event listeners to each checkbox
   checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', function() {
-          updateCounter(checkbox); // Call the function to update the counter
-      });
+    checkbox.addEventListener('change', function() {
+        updateCounter(checkbox); // Call the function to update the counter
+    });
   });
 });
 
@@ -135,8 +135,9 @@ function viewCarDetails() {
 /* ---------------------------------- */
 /* carDetailsPage JS */
 
-/* Loan Calculator - TO DO... */
 
+
+/* Loan Calculator - TO DO... */
 // JS code to convert string/int fetched from db to SGD format
 // Define the price you want to format
 const price = 79000;
