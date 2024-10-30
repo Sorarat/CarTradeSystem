@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <link rel="stylesheet" href="homePage.css">    <!-- CSS -->
-    <script src="homePage.js"></script>           <!-- Javascript -->
+    <script src="homePage.js" defer></script>           <!-- Javascript -->
 </head>
 <body>
     <!-- Header Section -->
@@ -21,6 +21,7 @@
                 <div id="menu-dropdown" class="menu-content">
                   <a id="dashboardLink" href="#">Dashboard</a>      <!-- Placeholder for the dashboard link -->
                   <a href="../HomePage/homePage.html">Home</a>
+                  <a href="../HomePage/viewAgentsPage.html">Agents</a>
                 </div>
                 <span>|</span>
                 <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
@@ -102,34 +103,36 @@
     <!-- Car Listings Section -->
     <div class="grid-container">
         <!-- Fetch all car listings -->
+
+        <!-- Sample for a Car listing-->
         <div class="car-card">
             <div class="car-header">
-                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div> <!-- Fetch Car name -->
                 <div class="shortlist"> 
                     <!-- input id has to be diff for each car-card for it to work individually -->
                     <!-- label for has to be the same as id -->
-                    <input type="checkbox" id="shortlist1" name="shortlist1" value="1" required>
+                    <input type="checkbox" id="shortlist1" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
                     <label for="shortlist1"></label>
                 </div>
             </div>
             <div class="price-button">
-                <span class="price">$85,000</span>
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
                 <button class="create-button" onclick="viewCarDetails()">View Details</button>
             </div>
         </div>
         
-        <!-- Sample for SOLD CAR -->
+        <!-- Sample for a SOLD CAR -->
         <div class="car-card disabled">
             <div class="car-header">
-                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div> <!-- Fetch Car name -->
                 <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist2" name="shortlist2" value="1" required>
+                    <input type="checkbox" id="shortlist2" name="shortlist" value="1"> <!-- Fetch checked or uncheck? -->
                     <label for="shortlist2"></label>
                 </div>
             </div>
             <span class="sold-label">SOLD</span>    <!-- Indicate SOLD -->
             <div class="price-button">
-                <span class="price">$85,000</span>
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
                 <button class="create-button" onclick="viewCarDetails()">View Details</button>
             </div>
         </div>
@@ -139,7 +142,7 @@
             <div class="car-header">
                 <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
                 <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist3" name="shortlist3" value="1" required>
+                    <input type="checkbox" id="shortlist3" name="shortlist" value="1">
                     <label for="shortlist3"></label>
                 </div>
             </div>
@@ -153,7 +156,7 @@
             <div class="car-header">
                 <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
                 <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist4" name="shortlist4" value="1" required>
+                    <input type="checkbox" id="shortlist4" name="shortlist" value="1">
                     <label for="shortlist4"></label>
                 </div>
             </div>
@@ -167,7 +170,7 @@
             <div class="car-header">
                 <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
                 <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist5" name="shortlist5" value="1" required>
+                    <input type="checkbox" id="shortlist5" name="shortlist" value="1">
                     <label for="shortlist5"></label>
                 </div>
             </div>

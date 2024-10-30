@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Agents</title>
+    <link rel="stylesheet" href="homePage.css">    <!-- CSS -->
+    <script src="homePage.js" defer></script>      <!-- Javascript -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- Logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- Navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
+                <div id="menu-dropdown" class="menu-content">
+                    <a id="dashboardLink" href="#">Dashboard</a>      <!-- Placeholder for the dashboard link -->
+                    <a href="../HomePage/homePage.html">Home</a>
+                    <a href="../HomePage/viewAgentsPage.html">Agents</a>
+                </div>
+                <span>|</span>
+                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- View All Agents -->
+    <h1>View Agents</h1>
+    
+    <!-- Search by email - OPTIONAL -->
+    <div class="search-container">
+        <input type="text" id="searchEmail" class="search-email" placeholder="Search by email..." onchange="performProfileSearch()"/>
+        <button class="search-button">Search</button>
+    </div>
+
+    <!-- Agent Username & -->
+    <div class="card view-profile-card">
+        <div class="account-info">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Overall Rating</th>
+                    </tr>
+                </thead>
+
+                <tbody id="agentInfoTable">
+                    <!--dynamically populated rows-->
+                    <tr class="border-row">
+                        <td><input type="text" class="form-control1" value="John Doe Anderson" readonly></td>
+                        <td><input type="text" class="form-control1" value="john@hotmail.com" readonly></td>
+                        <td>
+                            <div class="overall-star"> 
+                                <input type="radio" id="star" name="star" value="star" checked>
+                                <label for="star"></label>
+                                <p class="overall-rating-text">5</p>
+                            </div>
+                        </td>
+                        <td><button class="view-rating-review-button" onclick="viewRatingReviewBtn()">View Rating & Review</button></td>
+                    </tr>
+
+                    <tr class="border-row">
+                        <td><input type="text" class="form-control1" value="John Doe Anderson" readonly></td>
+                        <td><input type="text" class="form-control1" value="john@hotmail.com" readonly></td>
+                        <td>
+                            <div class="overall-star"> 
+                                <input type="radio" id="overall-star" name="overall-star" value="overall-star" checked>
+                                <label for="overall-star"></label>
+                                <p class="overall-rating-text">5</p>
+                            </div>
+                        </td>
+                        <td><button class="view-rating-review-button" onclick="viewRatingReviewBtn()">View Rating & Review</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

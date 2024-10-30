@@ -24,20 +24,17 @@ function logoutBtn(event){
   document.location.href = "../logoutPage/logoutPage.html"; // Use relative path (one directory level up)
 }
 
-/* Dynamically update Dashboard link */
-// Simulate fetching user role after login
-let userRole = 'buyer'; // Example role, this should be dynamically set based on the logged-in user
-
-// Function to set the dashboard link based on user role
+/* Function to set the Dashboard link based on user role */
 function setDashboardLink() {
     const dashboardLink = document.getElementById('dashboardLink');
+    const userRole = sessionStorage.getItem('role'); // Retrieve the user role from sessionStorage
 
     if (userRole === 'buyer') {
         dashboardLink.href = '../buyer/buyerDashboardPage.html';
     } else if (userRole === 'seller') {
         dashboardLink.href = '../seller/sellerDashboardPage.html';
     } else if (userRole === 'agent') {
-        dashboardLink.href = '../agent/agentDashboardPage.html';
+        dashboardLink.href = '../CarAgent/agentDashboard.html';
     } else {
         dashboardLink.href = '#'; // Default or error page
     }
@@ -95,12 +92,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Search button */
 function performCarSearch() {
-/* TO DO... */
+  // To do...
 }
+
+/* Shortlist checkbox - heart-icon */
+document.addEventListener('DOMContentLoaded', function() {
+  let count = 0; // Initialize counter
+
+  function updateCounter(checkbox) {
+      // Update the count based on the checkbox state
+      if (checkbox.checked) {
+          count += 1; // Increment if checked
+      } else {
+          count -= 1; // Decrement if unchecked
+      }
+
+      console.log('Current Count:', count); // Log the count to the console
+  }
+
+  // Get all checkboxes with the name "shortlist"
+  const checkboxes = document.querySelectorAll('input[name="shortlist"]');
+
+  // Add event listeners to each checkbox
+  checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+          updateCounter(checkbox); // Call the function to update the counter
+      });
+  });
+});
+
 
 /* View Details button */
 function viewCarDetails() {
-window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
+  // Update database accordingly - for seller to see
+  let viewCount = 0;
+  viewCount += 1; // Increment onclick
+  console.log('Current Count:', viewCount); // Log the count to the console - FOR CHECKING
+
+  window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
 }
 
 /* ---------------------------------- */
@@ -125,6 +154,10 @@ const formattedPrice = `$${formatter.format(price)}`;
 console.log(formattedPrice); // Output: $79,000
 
 /* ---------------------------------- */
-/* viewRatingReviewPage JS */
+/* viewAgentPage JS */
+/* View Details button */
+function viewRatingReviewBtn() {
+  window.location.href = "./viewRatingReviewPage.html"; // Redirect to the specified page
+}
 
 /* ---------------------------------- */

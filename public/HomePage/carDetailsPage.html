@@ -18,8 +18,9 @@
             <div class="menu">
                 <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
                 <div id="menu-dropdown" class="menu-content">
-                  <a id="dashboardLink" href="#">Dashboard</a>     <!-- Directory to change according to login role -->
-                  <a href="../HomePage/homePage.html">Home</a>
+                    <a id="dashboardLink" href="#">Dashboard</a>      <!-- Placeholder for the dashboard link -->
+                    <a href="../HomePage/homePage.html">Home</a>
+                    <a href="../HomePage/viewAgentsPage.html">Agents</a>
                 </div>
                 <span>|</span>
                 <a href="#" onclick="logoutBtn(event)">Logout</a>
@@ -34,57 +35,55 @@
 
             <!-- Car Details -->
             <div class="car-header">
-                <h2>Bentley Continental Flying Spur 6.0A (COE till 04/2031)</h2>
+                <h2>Bentley Continental Flying Spur 6.0A (COE till 04/2031)</h2>    <!-- Fetch Car name -->
                 <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist1" name="shortlist1" value="1" required>
-                    <label for="shortlist1"></label>
+                    <input type="checkbox" id="shortlist" name="shortlist" value="1"> <!-- Fetch check or uncheck -->
+                    <label for="shortlist"></label>
                 </div>
             </div>
             <div class="info-container">
-                <p class="price">$79,000</p>
+                <p class="price">$79,000</p>    <!-- Fetch Car price -->
                 <table class="info-table">
                     <tbody>
                         <tr>
                             <td>Reg Date</td>
                             <td>:</td>
-                            <td>DD/MM/YYY</td>
+                            <td>DD/MM/YYY</td>  <!-- Fetch Car register date -->
                         </tr>
                         <tr>
                             <td>Remaining COE(months)</td>
                             <td>:</td>
-                            <td>57</td>
+                            <td>57</td> <!-- Fetch Car remaining COE (no. of months) -->
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             <!-- Agent Details -->
-            <a href="./viewRatingReviewPage.html" class="clickable-container">
-                <div class="info-container">
-                    <table class="info-table">
-                        <tbody>
-                            <tr>
-                                <th colspan="3">Agent</th>
-                            </tr>
-                            <tr>
-                                <td>Username</td>
-                                <td>:</td>
-                                <td>John Doe Anderson</td>
-                            </tr>
-                            <tr>
-                                <td>Email</td>
-                                <td>:</td>
-                                <td>John@hotmail.com</td>
-                            </tr>
-                            <tr>
-                                <td>Phone Number</td>
-                                <td>:</td>
-                                <td>12345678</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </a>
+            <div class="info-container">
+                <table class="info-table">
+                    <tbody>
+                        <tr>
+                            <th colspan="3">Agent</th>
+                        </tr>
+                        <tr>
+                            <td>Username</td>
+                            <td>:</td>
+                            <td>John Doe Anderson</td>  <!-- Fetch Agent username -->
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>:</td>
+                            <td>John@hotmail.com</td>   <!-- Fetch Agent email -->
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td>:</td>
+                            <td>12345678</td>   <!-- Fetch Agent phone number -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             
             <!-- Loan Calculator Section -->
             <div class="info-container">

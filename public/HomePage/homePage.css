@@ -208,7 +208,7 @@ table {
 th, td {
     padding: 10px;                      /* Cell padding */
     text-align: left;                   /* Left alignment */
-    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+   /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
     /*text-transform: none;               /* Preserve original capitalization */
     white-space: nowrap;                /* Prevent text wrapping */
 }
@@ -420,15 +420,6 @@ th, td {
     width: 60%;                        /* Third column width */
 }
 
-/* Clickable <div> - Agent's info */
-.clickable-container {
-    transition: color 0.3s;     /* Set time for transition - color change */
-}
-
-.clickable-container:hover {
-    color: var(--orange);       /* Text color change on hover*/
-}
-
 /* ---------------------------------- */
 /* viewRatingReviewPage CSS */
 /* Agent details */
@@ -480,6 +471,7 @@ th, td {
 .star {
     display: flex;          /* Use flexbox for alignment */
     align-items: center;    /* Center align items vertically */
+    pointer-events: none;                   /* Disable all mouse events */
 }
 
 .star input {
@@ -522,6 +514,99 @@ th, td {
     font-size: 1.5rem;
     color: var(--black);
     line-height: 1.5;
+}
+
+/* ---------------------------------- */
+/* viewAgentPage CSS */
+.view-profile-card {
+    max-width: 1000px;
+}
+
+/* Search bar */
+.search-email {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--light-gray2);
+    border-radius: 4px;
+    width: 300px;
+}
+
+/* Agent info readonly fields */
+.card .account-info .form-control1{
+    width: 100%;
+    height: 40px;
+    /*background: white;*/
+    /*border-radius: 4px;*/
+    /*border: 1px solid silver;
+    /*margin: 10px 0 18px 0;*/
+    /*padding: 0 10px;*/
+}
+
+/* view rating & review button - adapt from create-button*/
+.view-rating-review-button {
+    width: 160px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+    margin-left: auto;      /* Pushes the button to the right */
+    display: block;         /* Makes the button a block element */
+}
+
+.view-rating-review-button:hover{
+    opacity: .6;
+}
+
+/* Add bottom border to separate each row of Agent info */
+#agentInfoTable .border-row {
+    position: relative; /* Required for positioning the pseudo-element */
+}
+
+#agentInfoTable .border-row td::after {
+    content: '';
+    display: block;
+    height: 1px;                    /* Thickness of the border */
+    background: #ccc;             /* Color of the border */
+    position: absolute;
+    left: 50%;                      /* Center the border */
+    transform: translateX(-50%);    /* Adjust to center */
+    width: 90%;                     /* Adjust the width of the border */
+    bottom: 0;                      /* Position it at the bottom of the cell */
+}
+
+/* Star-icon - overall rating */
+.overall-star {
+    display: flex;          /* Use flexbox for alignment */
+    align-items: center;    /* Center align items vertically */
+    pointer-events: none;                   /* Disable all mouse events */
+}
+
+.overall-star input {
+    display: none;     /* hide the radio buttons */
+}
+
+.overall-star label {         /* yellow star */
+    float: right;
+    cursor: pointer;
+    color: var(--yellow);
+}
+
+.overall-star label:before {        /* display stars before the label of each rating option */
+    content: '\2605';       /* unicode for a solid star */
+    font-size: 1.7rem;
+}
+
+/* Display no. of star rating */
+.overall-rating-text {
+    font-size: 1.5rem;
+    color: var(--black);
+    line-height: 1.5;
+    margin-left: 5px;
 }
 
 /* ---------------------------------- */
