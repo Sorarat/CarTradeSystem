@@ -32,32 +32,103 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // Event listener for the Create button
-  createButton.addEventListener("click", function (event) {
+  createButton.addEventListener("click", async function (event) {
       event.preventDefault(); // Prevents the form from submitting immediately
 
       // Retrieve input values
       const carModel = document.getElementById("carModel").value;
       const regDate = document.getElementById("regDate").value;
-      const price = document.getElementById("price").value;
-      const COE = document.getElementById("COE").value;
-      const sellerEmail = document.getElementById("sellerEmail").value; // To check if seller email exist?
+      const price = parseInt(document.getElementById("price").value);
+      const COE = parseInt(document.getElementById("COE").value);
+      const sellerEmail = document.getElementById("sellerEmail").value; 
 
       /*Checking input value */
       if (!carModel || !regDate || !price || !COE || !sellerEmail) {
         alert("Please fill in all fields.");
         return;
       }
+      
+      // check if COE months is within 0 to 120
+      if (COE < 0 || COE > 120) {
+        alert("Please enter a number between 0 and 120");
+        return;
+      }
 
-      /*Success message*/
-      alert("Car Listing successfully created!");
+      if (!validateCOEMonths(regDate, COE)) {
+        alert("Invalid COE months input. Please check the registration date and COE months.");
+        return; // Stop form submission if validation fails
+      }
 
-      /* Redirect to agent dashboard */
-      setTimeout(() => {
-        window.location.href = './agentDashboard.html'; 
-    }, 3000); /* go back to agent dashboard after 3 sec */
+      // Check if the form is valid
+      if (form.checkValidity()) {
+        event.preventDefault(); // Prevent default only if the form is valid
+        
+        // retrieve agent email from session storage
+        const agentEmail = sessionStorage.getItem('email');
+
+        // Create car listing
+        try {
+          const response = await fetch('/createListingRoute/createListing', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ carModel, regDate, price, COE, agentEmail, sellerEmail })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+           /*Success message*/
+          alert("Car Listing successfully created!");
+
+            /* Redirect to agent dashboard */
+            setTimeout(() => {
+              window.location.href = './agentDashboard.html'; 
+          }, 3000); /* go back to agent dashboard after 3 sec */
+        }
+        else {
+          alert('Carlisting cannot be created. Please check your input.');
+        }
+
+        }
+        catch (err) {
+          console.error(err);
+          alert('An error occurred during creation');
+        }
+      }
 
   });
 });
+
+function validateCOEMonths(regDate, coeMonths) {
+  const totalCOEMonths = 120;
+  const registrationDate = new Date(regDate);
+  const currentDate = new Date();
+
+  // Get the difference in years and months
+  let yearsPassed = currentDate.getFullYear() - registrationDate.getFullYear();
+  let monthsPassed = currentDate.getMonth() - registrationDate.getMonth();
+
+  // Calculate total months passed
+  let totalMonthsPassed = yearsPassed * 12 + monthsPassed;
+
+  // Adjust for days
+  if (currentDate.getDate() < registrationDate.getDate()) {
+      totalMonthsPassed -= 1; // Reduce total months by 1 if not yet reached the day of the month
+  }
+
+  // Calculate remaining COE months
+  const remainingCOEMonths = totalCOEMonths - totalMonthsPassed;
+  console.log(remainingCOEMonths);
+
+  // Check if the input COE months are valid
+  if (coeMonths !== remainingCOEMonths) {
+      return false; // Invalid input
+  }
+
+  return true; // Valid input
+}
 
 /*---------------------*/
 /*View All Car Listing - update button & suspend button */

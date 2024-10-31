@@ -52,9 +52,7 @@ class User {
         const [results] = await db.promise().query(query, [lowercasedEmail]);
     
         return results.length > 0 ? results[0] : null;
-  
     }
-    
 
     async verifyPassword(password) {
         return await bcrypt.compare(password, this.#password_hash);
