@@ -18,7 +18,7 @@
             <div class="menu">
                 <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
                 <div id="menu-dropdown" class="menu-content">
-                    <a id="dashboardLink" href="#">Dashboard</a>      <!-- Placeholder for the dashboard link -->
+                    <a href="../Buyer/buyerDashboardPage.html">Dashboard</a>      <!-- Placeholder for the dashboard link -->
                     <a href="../HomePage/homePage.html">Home</a>
                     <a href="../HomePage/viewAgentsPage.html">Agents</a>
                 </div>
@@ -32,27 +32,30 @@
     <h1><a href="./viewAgentsPage.html" class="previous round">&#8249;</a>View Rating & Reviews</h1>
 
     <!-- Fetch agent info-->
-    <div class="agent-card">
-        <div class="account-info">
-            <table>
-                <tbody>
-                    <tr>
-                        <td rowspan="4" class="center right-border">
-                            <img src="./profile-icon.png" alt="profile icon" class="round-image">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Doe Anderson</td>
-                    </tr>
-                    <tr>
-                        <td>John@hotmail.com</td>
-                    </tr>
-                    <tr>
-                        <td>12345678</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="agent-card-container">
+        <div class="agent-card">
+            <div class="account-info">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td rowspan="4" class="center right-border">
+                                <img src="./profile-icon.png" alt="profile icon" class="round-image">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>John Doe Anderson</td>
+                        </tr>
+                        <tr>
+                            <td>John@hotmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>12345678</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <button class="create-rating-review-btn" onclick="createRatingReviewBtn()">Create Rating & Review</button>
     </div>
 
     <!-- Fetch all rating & reviews -->

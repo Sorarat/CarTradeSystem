@@ -435,6 +435,38 @@ th, td {
     overflow: hidden;                   /* Prevent content overflowing */
 }
 
+.agent-card-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-center; /* Center-aligns the container content */
+    gap: 0px; /* Adds space between agent card and button */
+    margin-top: 20px;
+    margin: 0 auto;
+    max-width: 620px;
+    margin-top: 20px;
+}
+
+.create-rating-review-btn {
+    width: 200px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+    margin-left: 60px;      
+    display: block;        
+}
+
+.create-rating-review-btn:hover {
+    opacity: .6;
+}
+
+
+
 /* Profile-icon */
 .center {                               /* Center alignment */
     text-align: center;
@@ -543,7 +575,7 @@ th, td {
 }
 
 /* view rating & review button - adapt from create-button*/
-.view-rating-review-button {
+.rating-review-button {
     width: 160px;
     height: 34px;
     border: none;
@@ -558,7 +590,7 @@ th, td {
     display: block;         /* Makes the button a block element */
 }
 
-.view-rating-review-button:hover{
+.rating-review-button:hover{
     opacity: .6;
 }
 

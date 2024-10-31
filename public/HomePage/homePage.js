@@ -172,3 +172,10 @@ function viewRatingReviewBtn() {
 }
 
 /* ---------------------------------- */
+
+/* createRatingReview JS */
+function createRatingReviewBtn() {
+  window.location.href = "../Buyer/createRatingReviewPage.html"; // Redirect to the specified page
+}
+
+/* ---------------------------------- */
