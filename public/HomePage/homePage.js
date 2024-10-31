@@ -26,28 +26,26 @@ function logoutBtn(event){
 
 /* Function to set the Dashboard link & create "Agents" dropdown option */
 function setDashboardLink() {
-    const dashboardLink = document.getElementById('dashboardLink');
-    const agentsLinkContainer = document.getElementById('agents-link-container');
-    const userRole = sessionStorage.getItem('role'); // Retrieve the user role from sessionStorage
+  const dashboardLink = document.getElementById('dashboardLink');
+  const agentsLinkContainer = document.getElementById('agents-link-container');
+  const userRole = sessionStorage.getItem('role'); // Retrieve the user role from sessionStorage
 
-    // Create a dropdown menu option "Agents" for buyer & seller only
-    if (userRole === 'buyer' || userRole === 'seller') {
-      const agentsLink = document.createElement('a');
-      agentsLink.href = '../HomePage/viewAgentsPage.html';
-      agentsLink.textContent = 'Agents';
-      agentsLinkContainer.appendChild(agentsLink);
-    }
+  // Create a dropdown menu option "Agents" for buyer & seller only
+  if (userRole === 'buyer' || userRole === 'seller') {
+    const agentsLink = document.createElement('a');
+    agentsLink.href = '../HomePage/viewAgentsPage.html';
+    agentsLink.textContent = 'Agents';
+    agentsLinkContainer.appendChild(agentsLink);
+  }
 
-    // Update Dashboard link according to user role upon login
-    if (userRole === 'buyer') {
-        dashboardLink.href = '../Buyer/buyerDashboardPage.html';
-    } else if (userRole === 'seller') {
-        dashboardLink.href = '../Seller/sellerDashboardPage.html';
-    } else if (userRole === 'agent') {
-        dashboardLink.href = '../CarAgent/agentDashboard.html';
-    } else {
-        dashboardLink.href = '#'; // Default or error page
-    }
+  // Update Dashboard link according to user role upon login
+  if (userRole === 'buyer') {
+    dashboardLink.href = '../Buyer/buyerDashboardPage.html';
+  } else if (userRole === 'seller') {
+    dashboardLink.href = '../Seller/sellerDashboardPage.html';
+  } else {
+    dashboardLink.href = '#'; // Default or error page
+  }
 }
 
 // Call the function to set the link when the page loads

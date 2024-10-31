@@ -26,10 +26,11 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
             if (role === 'admin')
             {
-                window.location.href = '/UserAdmin/AdminDashboard.html';
-            }
-            else {
-                window.location.href = '/HomePage/HomePage.html';
+                window.location.href = '/UserAdmin/adminDashboard.html';
+            } else if (role === 'agent') {
+                dashboardLink.href = '../CarAgent/agentDashboard.html';
+            } else {
+                window.location.href = '/HomePage/homePage.html';
             }
             /*
             // Redirect user based on role
