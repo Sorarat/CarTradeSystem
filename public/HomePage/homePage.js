@@ -40,9 +40,9 @@ function setDashboardLink() {
 
     // Update Dashboard link according to user role upon login
     if (userRole === 'buyer') {
-        dashboardLink.href = '../buyer/buyerDashboardPage.html';
+        dashboardLink.href = '../Buyer/buyerDashboardPage.html';
     } else if (userRole === 'seller') {
-        dashboardLink.href = '../seller/sellerDashboardPage.html';
+        dashboardLink.href = '../Seller/sellerDashboardPage.html';
     } else if (userRole === 'agent') {
         dashboardLink.href = '../CarAgent/agentDashboard.html';
     } else {

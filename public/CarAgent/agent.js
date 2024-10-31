@@ -24,8 +24,6 @@ function logoutBtn(event){
     document.location.href="../LogoutPage/LogoutPage.html"; // Use relative path (one directory level up)
 }
 
-
-
 /*---------------------*/
 /*Create Car Listing - Create Button */
 document.addEventListener("DOMContentLoaded", function () {
@@ -42,18 +40,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const regDate = document.getElementById("regDate").value;
       const price = document.getElementById("price").value;
       const COE = document.getElementById("COE").value;
+      const sellerEmail = document.getElementById("sellerEmail").value; // To check if seller email exist?
 
       /*Checking input value */
-      if (!carModel || !regDate || !price || !COE) {
-          alert("Please fill in all fields.");
-          return;
+      if (!carModel || !regDate || !price || !COE || !sellerEmail) {
+        alert("Please fill in all fields.");
+        return;
       }
 
       /*Success message*/
       alert("Car Listing successfully created!");
 
-       /* Redirect to agent dashboard */
-       setTimeout(() => {
+      /* Redirect to agent dashboard */
+      setTimeout(() => {
         window.location.href = './agentDashboard.html'; 
     }, 3000); /* go back to agent dashboard after 3 sec */
 
