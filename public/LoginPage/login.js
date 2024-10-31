@@ -22,6 +22,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
             // Store the user role in sessionStorage (works only for same tab)
             sessionStorage.setItem('role', role);
+            sessionStorage.setItem('email', email);
 
             if (role === 'admin')
             {
