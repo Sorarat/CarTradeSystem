@@ -274,7 +274,7 @@ th, td {
     /*width: 400px;                       /* Fixed width */
     width: 100%;                        /* Set width to 100% to fill the grid cell */
     max-width: 380px;                   /* Optional: Max width to limit size on larger screens */
-    height: 100px;                      /* Fixed height */
+    height: 120px;                      /* Fixed height */
     /*overflow: hidden;                   /* Prevent content overflowing */
     display: flex;                      /* Use flexbox for internal layout */
     flex-direction: column;             /* Stack items vertically */
@@ -334,8 +334,11 @@ th, td {
 /* Sold Cars - adapt from suspend button */
 .disabled {
     pointer-events: none;                   /* Disable all mouse events */
-    opacity: 0.5;                           /* Make the card look greyed out */
     background-color: #FFB6C1;            /* Light pink background */
+}
+
+.disabled button{
+    opacity: 0.5;                           /* Lighten the button (not clickable) */
 }
 
 .sold-label {
