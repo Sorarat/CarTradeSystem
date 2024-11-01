@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View All Car Listing </title>
+    <title>View My Car Listing</title>
     <link rel="stylesheet" href="agent.css">    <!-- CSS -->
     <script src="agent.js" defer></script>      <!-- Javascript -->
 
@@ -31,7 +31,7 @@
     </header>
     
     <!-- View All Car Listing -->
-    <h1><a href="./agentDashboard.html" class="previous">&#8249;</a>View All Car Listing</h1>
+    <h1><a href="./agentDashboard.html" class="previous">&#8249;</a>View My Car Listing</h1>
 
     <!-- Search by car make / model -->
     <div class="search-container">
@@ -48,25 +48,12 @@
                         <th>Car Make / Model</th>
                         <th>Price</th>
                         <th>Reg Date</th>
-                        <th>Remaining COE (months)</th>
                         <th>Seller's Email</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr id = "car-data">
-                        <td>Toyota Corolla</td>
-                        <td>$15,000</td>
-                        <td>2021-05-11</td>
-                        <td>24</td>
-                        <td>sampleSeller@email.com</td>
-                        <td>
-                            <div class="button-container1">
-                                <button class="update-button" id="update-button" onclick="updateRow()">Update</button>
-                                <button class="suspend-button" id="suspendCar" onclick="suspendRow()">Suspend</button>
-                            </div>
-                        </td>
-                    </tr>
+                <tbody id="carlistingTable">
+                    <!--dynamically populate car listings-->
                 </tbody>
             </table>
         </div>

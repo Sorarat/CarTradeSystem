@@ -32,18 +32,6 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             } else {
                 window.location.href = '/HomePage/homePage.html';
             }
-            /*
-            // Redirect user based on role
-            if (data.user.role === 'user-admin') {
-                window.location.href = '/admin/dashboard';
-            } else if (data.user.role === 'used-car-agent') {
-                window.location.href = '/agent/dashboard';
-            } else if (data.user.role === 'buyer') {
-                window.location.href = '/buyer/home';
-            } else if (data.user.role === 'seller') {
-                window.location.href = '/seller/home';
-            }
-            */
 
         } else {
             alert('Login failed. Please check your credentials.'); // Generic error message

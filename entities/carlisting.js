@@ -7,7 +7,6 @@ class Carlisting {
     #car_model;
     #reg_date;
     #price;
-    #coe_months;
     #agent_id;
     #seller_id;
     #num_views;
@@ -19,7 +18,6 @@ class Carlisting {
         this.#car_model = carData.car_model || '';
         this.#reg_date = carData.reg_date || '';
         this.#price = carData.price || null;
-        this.#coe_months = carData.coe_months || null;
         this.#agent_id = carData.agent_id || null;
         this.#seller_id = carData.seller_id || null;
         this.#num_views = carData.num_views || null;
@@ -44,10 +42,6 @@ class Carlisting {
         return this.#price;
     }
 
-    get getMonths() {
-        return this.#coe_months;
-    }
-
     get getAgentId() {
         return this.#agent_id;
     }
@@ -69,7 +63,7 @@ class Carlisting {
     }
 
     // create car listing
-    async createListing(carModel, regDate, price, coeMonths, agentEmail, sellerEmail) {
+    async createListing(carModel, regDate, price, agentEmail, sellerEmail) {
         // create empty instance of user
         const user = new User();
         // get seller id
@@ -89,12 +83,39 @@ class Carlisting {
         const agent = await user.findByEmail(agentEmail);
 
         // insert listing
-        const query = 'INSERT INTO Carlisting (car_model, reg_date, price, coe_months, agent_id, seller_id) VALUES (?, ?, ?, ?, ?, ?)';
-        const values = [carModel, regDate, price, coeMonths, agent.user_id, seller.user_id];
+        const query = 'INSERT INTO Carlisting (car_model, reg_date, price, agent_id, seller_id) VALUES (?, ?, ?, ?, ?)';
+        const values = [carModel, regDate, price, agent.user_id, seller.user_id];
 
         const [result] = await db.promise().query(query, values);
 
         return result.affectedRows > 0;
+    }
+
+    // view particular agent's car listings
+    async viewAgentCarListings(agentEmail) {
+        // get agent id
+        const user = new User();
+        const agent = await user.findByEmail(agentEmail);
+
+        const query = 'SELECT car_id, car_model, DATE_FORMAT(reg_date, "%Y-%m-%d") as reg_date, price, seller_id, status from Carlisting WHERE agent_id = ?';
+        const [listings] = await db.promise().query(query, [agent.user_id]);
+
+        // For each listing, retrieve the seller's email
+        const listingsWithSellerEmail = await Promise.all(
+            listings.map(async (listing) => {
+                const sellerQuery = 'SELECT email FROM User WHERE user_id = ?';
+                const [sellerResult] = await db.promise().query(sellerQuery, [listing.seller_id]);
+    
+                const sellerEmail = sellerResult[0]?.email || 'Email not found';
+                return {
+                    ...listing,
+                    seller_email: sellerEmail,
+                };
+            })
+        );
+
+        return listingsWithSellerEmail;
+
     }
 }
 
