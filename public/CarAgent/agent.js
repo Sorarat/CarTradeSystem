@@ -39,24 +39,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const carModel = document.getElementById("carModel").value;
       const regDate = document.getElementById("regDate").value;
       const price = parseInt(document.getElementById("price").value);
-      const COE = parseInt(document.getElementById("COE").value);
       const sellerEmail = document.getElementById("sellerEmail").value; 
 
       /*Checking input value */
-      if (!carModel || !regDate || !price || !COE || !sellerEmail) {
+      if (!carModel || !regDate || !price || !sellerEmail) {
         alert("Please fill in all fields.");
         return;
-      }
-      
-      // check if COE months is within 0 to 120
-      if (COE < 0 || COE > 120) {
-        alert("Please enter a number between 0 and 120");
-        return;
-      }
-
-      if (!validateCOEMonths(regDate, COE)) {
-        alert("Invalid COE months input. Please check the registration date and COE months.");
-        return; // Stop form submission if validation fails
       }
 
       // Check if the form is valid
@@ -73,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ carModel, regDate, price, COE, agentEmail, sellerEmail })
+            body: JSON.stringify({ carModel, regDate, price, agentEmail, sellerEmail })
         });
 
         const data = await response.json();
@@ -85,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
             /* Redirect to agent dashboard */
             setTimeout(() => {
               window.location.href = './agentDashboard.html'; 
-          }, 3000); /* go back to agent dashboard after 3 sec */
+          }, 1000); /* go back to agent dashboard after 1 sec */
         }
         else {
           alert('Carlisting cannot be created. Please check your input.');
@@ -101,38 +89,67 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-function validateCOEMonths(regDate, coeMonths) {
-  const totalCOEMonths = 120;
-  const registrationDate = new Date(regDate);
-  const currentDate = new Date();
+/*---------------------------------------------------------*/
+/* View Agent's Car Listing*/
+let allCarListings = [];
 
-  // Get the difference in years and months
-  let yearsPassed = currentDate.getFullYear() - registrationDate.getFullYear();
-  let monthsPassed = currentDate.getMonth() - registrationDate.getMonth();
+async function fetchAgentCarListing() {
+  // get agent email
+  const agentEmail = sessionStorage.getItem('email');
 
-  // Calculate total months passed
-  let totalMonthsPassed = yearsPassed * 12 + monthsPassed;
+  try {
+    const response = await fetch(`/viewAgentCarlistingRoute/view-carlisting/${agentEmail}`); 
+    allCarListings = await response.json();
 
-  // Adjust for days
-  if (currentDate.getDate() < registrationDate.getDate()) {
-      totalMonthsPassed -= 1; // Reduce total months by 1 if not yet reached the day of the month
+    populateCarListingTable(allCarListings);
   }
 
-  // Calculate remaining COE months
-  const remainingCOEMonths = totalCOEMonths - totalMonthsPassed;
-  console.log(remainingCOEMonths);
+  catch(err) {
+    console.error('Failed to fetch car listings: ', err);
+    alert('Failed to load car listings. Please try again.');
 
-  // Check if the input COE months are valid
-  if (coeMonths !== remainingCOEMonths) {
-      return false; // Invalid input
   }
-
-  return true; // Valid input
 }
 
+function populateCarListingTable(carlistings) {
+  const tableBody = document.getElementById('carlistingTable');
+  tableBody.innerHTML = ''; // Clear previous content
+
+  carlistings.forEach(carlisting => {
+      const row = document.createElement('tr');
+      row.setAttribute('data-car-id', carlisting.car_id); // Add the data attribute
+      row.setAttribute('id', 'car-data');
+
+      // Populate table rows with car listing data
+      row.innerHTML = `
+        <td>${carlisting.car_model}</td>   
+        <td>$${carlisting.price.toLocaleString()}</td> 
+        <td>${carlisting.reg_date}</td>
+        <td>${carlisting.seller_email}</td>
+        <td>
+            <div class="button-container1">
+                <button class="update-button" type="button" onclick="updateRow(${carlisting.car_id})">Update</button>
+                <button class="delete-button" type="button" onclick="deleteRow(${carlisting.car_id})">Delete</button>
+            </div>
+        </td>
+      `;
+
+      tableBody.appendChild(row); // Append the populated row to the table body
+  });
+}
+
+
+// call the fetchAllProfile function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  const carlistingTable = document.getElementById('carlistingTable');
+  if (carlistingTable) {
+    fetchAgentCarListing();
+  }
+});
+
 /*---------------------*/
-/*View All Car Listing - update button & suspend button */
-  function updateRow() {
+/*View Agent's Car Listing - update button & delete button */
+  function updateRow(car_id) {
     const row = document.getElementById('car-data');
 
     // Loop through each cell in the row
@@ -161,10 +178,10 @@ function validateCOEMonths(regDate, coeMonths) {
     // Change the button to save changes
     const button = document.getElementById('update-button');
     button.textContent = 'Save';
-    button.setAttribute('onclick', 'save()'); // Change the button action
+    button.setAttribute('onclick', `save(${car_id})`); // Change the button action
   }
 
-  function save() {
+  function save(car_id) {
     const row = document.getElementById('car-data');
     let allFilled = true; //track if all the input field in filled up
 
@@ -192,14 +209,14 @@ function validateCOEMonths(regDate, coeMonths) {
     // Change the button back to update
     const button = document.querySelector('.update-button');
     button.textContent = 'Update';
-    button.setAttribute('onclick', 'updateRow()'); // Reset the button action
+    button.setAttribute('onclick', `updateRow(${car_id})`); // Reset the button action
 
     alert("Update Successful!");
 
   }
 
-/* Suspend Button*/ 
-  function suspendRow() {
+/* Delete Button*/ 
+  function deleteRow(car_id) {
     const row = document.getElementById('car-data');
     const buttons = row.querySelectorAll('button');
 

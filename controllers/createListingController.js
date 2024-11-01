@@ -2,11 +2,11 @@ const Carlisting = require('../entities/carlisting');
 
 class createListingController {
     async createListing(req, res) {
-        const { carModel, regDate, price, COE, agentEmail, sellerEmail } = req.body;
+        const { carModel, regDate, price, agentEmail, sellerEmail } = req.body;
 
         try {
             const carListing = new Carlisting();
-            const created = await carListing.createListing(carModel, regDate, price, COE, agentEmail, sellerEmail);
+            const created = await carListing.createListing(carModel, regDate, price, agentEmail, sellerEmail);
 
             if (created) {
                 return res.status(200).json({ success: true });

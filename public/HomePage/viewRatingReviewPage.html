@@ -32,74 +32,26 @@
     <h1><a href="./viewAgentsPage.html" class="previous round">&#8249;</a>View Rating & Reviews</h1>
 
     <!-- Fetch agent info-->
-    <div class="agent-card-container">
-        <div class="agent-card">
-            <div class="account-info">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td rowspan="4" class="center right-border">
-                                <img src="./profile-icon.png" alt="profile icon" class="round-image">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>John Doe Anderson</td>
-                        </tr>
-                        <tr>
-                            <td>John@hotmail.com</td>
-                        </tr>
-                        <tr>
-                            <td>12345678</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="overall-rating-container">
+        <div class="rating-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Overall Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td id="overall-rating"> </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
         <button class="create-rating-review-btn" onclick="createRatingReviewBtn()">Create Rating & Review</button>
     </div>
 
-    <!-- Fetch all rating & reviews -->
-    <div class="review-card">
-        <div class="review-header">
-            <p class="review-username">Username</p>
-            <div class="star"> 
-                <input type="radio" id="star" name="star" value="star" checked>
-                <label for="star"></label>
-                <p class="rating-text">5</p>
-            </div>
-        </div>
-        <p class="review">
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        </p>
-    </div>
-
-    <!-- Dummy to visualise -->
-    <div class="review-card">
-        <div class="review-header">
-            <p class="review-username">Username</p>
-            <div class="star"> 
-                <input type="radio" id="star" name="star" value="star" checked>
-                <label for="star"></label>
-                <p class="rating-text">1</p>
-            </div>
-        </div>
-        <p class="review">
-            Lorem ipsum odor amet, consectetuer adipiscing elit. Iaculis auctor nam vitae nec maximus, adipiscing fames luctus. Scelerisque congue venenatis elementum tortor neque.
-        </p>
-    </div>
-
-    <div class="review-card">
-        <div class="review-header">
-            <p class="review-username">Username</p>
-            <div class="star"> 
-                <input type="radio" id="star" name="star" value="star" checked>
-                <label for="star"></label>
-                <p class="rating-text">5</p>
-            </div>
-        </div>
-        <p class="review">
-            Lorem ipsum odor amet, consectetuer adipiscing elit.
-        </p>
+    <div id="review-container">
+        <!-- Reviews will be populated here dynamically -->
     </div>
     
 </body>

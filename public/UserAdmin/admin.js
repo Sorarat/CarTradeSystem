@@ -391,11 +391,6 @@ function updateProPageBtn(profileId){
   document.location.href=`./UpdateProfile.html?profileId=${profileId}`; // Use relative path
 }
 
-/*
-const urlParams = new URLSearchParams(window.location.search);
-const profileId = urlParams.get('profileId');
-*/
-
 
 /* ---------------------------------- */
 /* UpdateAccount JS */

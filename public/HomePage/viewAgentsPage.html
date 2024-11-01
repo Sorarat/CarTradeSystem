@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Agents</title>
     <link rel="stylesheet" href="homePage.css">    <!-- CSS -->
-    <script src="homePage.js" defer></script>      <!-- Javascript -->
+    <script src="homePage.js" defer></script>      <!--Javascript -->
 </head>
 <body>
     <!-- Header Section -->
@@ -30,12 +31,6 @@
 
     <!-- View All Agents -->
     <h1>View Agents</h1>
-    
-    <!-- Search by email - OPTIONAL -->
-    <div class="search-container">
-        <input type="text" id="searchEmail" class="search-email" placeholder="Search by email..." onchange="performProfileSearch()"/>
-        <button class="search-button">Search</button>
-    </div>
 
     <!-- Agent Username & -->
     <div class="card view-profile-card">
@@ -45,41 +40,19 @@
                     <tr>
                         <th>Username</th>
                         <th>Email</th>
-                        <th>Overall Rating</th>
+                        <th>Phone Number</th>
+                        <th></th>
                     </tr>
                 </thead>
 
                 <tbody id="agentInfoTable">
                     <!--dynamically populated rows-->
-                    <tr class="border-row">
-                        <td><input type="text" class="form-control1" value="John Doe Anderson" readonly></td>
-                        <td><input type="text" class="form-control1" value="john@hotmail.com" readonly></td>
-                        <td>
-                            <div class="overall-star"> 
-                                <input type="radio" id="star" name="star" value="star" checked>
-                                <label for="star"></label>
-                                <p class="overall-rating-text">5</p>
-                            </div>
-                        </td>
-                        <td><button class="rating-review-button" onclick="viewRatingReviewBtn()">Rating & Review</button></td>
-                    </tr>
-
-                    <tr class="border-row">
-                        <td><input type="text" class="form-control1" value="John Doe Anderson" readonly></td>
-                        <td><input type="text" class="form-control1" value="john@hotmail.com" readonly></td>
-                        <td>
-                            <div class="overall-star"> 
-                                <input type="radio" id="overall-star" name="overall-star" value="overall-star" checked>
-                                <label for="overall-star"></label>
-                                <p class="overall-rating-text">5</p>
-                            </div>
-                        </td>
-                        <td><button class="rating-review-button" onclick="viewRatingReviewBtn()">Rating & Review</button></td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>
     </div>
+
 
 </body>
 </html>

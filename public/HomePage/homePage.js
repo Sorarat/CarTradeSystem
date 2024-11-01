@@ -157,17 +157,179 @@ const sgdFormatter = new Intl.NumberFormat('en-US', {
 });
 
 // Format the price
-const formattedPrice = `$${formatter.format(price)}`;
+const formattedPrice = `$${sgdFormatter.format(price)}`;
 
 // Output the formatted price
 console.log(formattedPrice); // Output: $79,000
 
 /* ---------------------------------- */
 /* viewAgentPage JS */
-/* View Details button */
-function viewRatingReviewBtn() {
-  window.location.href = "./viewRatingReviewPage.html"; // Redirect to the specified page
+
+let allAgents = [];
+
+// function to fetch all agetns and populate the table
+async function fetchAllAgents(shouldPopulateTable = true) {
+
+  try {
+    const response = await fetch('/viewAccountRoute/view-agents');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    allAgents = await response.json();
+
+      // Log the fetched agents to see what is being returned
+      console.log('Fetched agents:', allAgents);
+
+    if (shouldPopulateTable) {
+      populateAgentTable(allAgents);
+    }
+  }
+
+  catch(err) {
+    console.error('Failed to fetch agents accounts: ', err);
+    alert('Failed to load agents. Please try again.');
+
+  }
 }
+
+
+
+function populateAgentTable(agents) {
+  
+  const tableBody = document.getElementById('agentInfoTable');
+  tableBody.innerHTML = ''; // clear previous content
+  
+  agents.forEach(agent => {
+    const row = document.createElement('tr');
+    // row.setAttribute('data-user-id', agent.u);
+    
+    // populate table rows with agent data
+    row.innerHTML = `
+      <td><input type="text" class="form-control1" value="${agent.username}" readonly></td>
+      <td><input type="text" class="form-control1" value="${agent.email}" readonly></td>
+      <td><input type="text" class="form-control1" value="${agent.phone}" readonly></td>
+      <td><button class="rating-review-button" onclick="viewRatingReviewBtn('${agent.user_id}')">Rating & Review</button></td>
+      
+    `;
+
+    tableBody.appendChild(row);
+
+  });
+    
+}
+
+// call the fetchAllAgents function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM fully loaded and parsed'); // Add this line
+
+  const agentTable = document.getElementById('agentInfoTable');
+  if (agentTable) {
+    fetchAllAgents();
+  }
+});
+
+
+
+
+
+/* View Rating & Reviews button */
+function viewRatingReviewBtn(agent_id) {
+  window.location.href = `./viewRatingReviewPage.html?agent_id=${agent_id}`; 
+}
+
+/* ---------------------------------- */
+
+/* view rating & reviews js */
+
+let allRatingAndReviews = [];
+
+// function to fetch all rating and reviews and populate the table
+async function fetchAllRatingReviews(agent_id) {
+
+  try {
+    const response = await fetch(`/viewRatingReviewRoute/view-rating-reviews/${agent_id}`);
+    if (!response.ok) 
+      throw new Error('Failed to fetch rating and review');
+
+    const data = await response.json();
+    displayReviews(data);
+    displayOverallRating(data);
+
+  }
+
+  catch(err) {
+    console.error("Error fetching reviews: ", err);
+
+  }
+}
+
+// display fetched reviews
+function displayReviews(reviews) {
+  const container = document.getElementById("review-container");
+  container.innerHTML = ""; // clear any existing reviews
+
+  reviews.forEach(review => {
+    const reviewCard = document.createElement("div");
+    reviewCard.className = "review-card";
+    reviewCard.innerHTML = `
+      <div class="review-header">
+        <p class="review-username">${review.username}</p>
+        <div class="star">
+          <input type="radio" id="star" name="star" value="star" checked>
+          <label for="star"></label>
+          <p class="rating-text">${review.rating}</p>
+        </div>
+      </div>
+      <p class="review">${review.review}</p>
+      `;
+
+      container.appendChild(reviewCard);
+  });
+}
+
+// calculate and display the overall rating
+function displayOverallRating(reviews) {
+  const container = document.getElementById("overall-rating");
+  
+  if (reviews.length === 0) {
+    container.textContent = "No ratings available";
+  }
+
+  // sum all ratings
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  
+  // Calculate average rating
+  const averageRating = (totalRating / reviews.length).toFixed(1); // Round to 1 decimal
+  
+  // Display the average rating
+  container.innerHTML = `
+    <div class="overall-rating-content">
+      <div class="star">
+        <input type="radio" id="star-overall" name="star" value="star" checked>
+        <label for="star-overall"></label>
+      </div>
+    </div>
+    <span class="average-rating-text">${averageRating} / 5</span>
+  `;
+
+
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Extract agent_id from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const agent_id = urlParams.get('agent_id');
+   
+  if (agent_id) {
+    // Call fetchAllRatingReviews with the agent_id if it exists
+    fetchAllRatingReviews(agent_id);
+   } else {
+     onsole.error('No agent_id found in the URL');
+   }
+  
+});
+
+
 
 /* ---------------------------------- */
 

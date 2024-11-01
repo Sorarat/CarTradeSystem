@@ -10,4 +10,8 @@ router.get('/view-accounts', (req, res) => viewAccountController.viewUserAccount
 // view specific account for update account
 router.get('/getAccount/:userId', (req, res) => viewAccountController.getAccount(req, res));
 
+// view all agents accounts
+router.get('/view-agents', (req, res) => viewAccountController.viewAllAgents(req, res));
+
+
 module.exports = router;
