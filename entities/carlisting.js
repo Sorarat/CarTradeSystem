@@ -138,6 +138,13 @@ class Carlisting {
 
         return result.affectedRows > 0;
     }
+
+    // delete car listing
+    async deleteCarListing(car_id) {
+        const query = 'DELETE FROM Carlisting WHERE car_id = ?';
+        const [result] = await db.promise().query(query, [car_id]);
+        return result.affectedRows > 0;
+    }
 }
 
 module.exports = Carlisting;

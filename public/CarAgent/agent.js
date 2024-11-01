@@ -231,14 +231,17 @@ async function save(car_id) {
         // Special handling for price column (assuming it's at index 1)
         if (i === 1) {
           // validate price
-          if (input.value <= 0) {
-            alert("Please enter a valid, positive price.");
-            location.reload();
-            return;
+          const priceNumber = parseFloat(input.value); // Convert to float
+
+          // Check if the price is a valid number and positive
+          if (isNaN(priceNumber) || priceNumber <= 0) {
+              alert("Please enter a valid, positive price.");
+              location.reload();
+              return; // Early exit on invalid input
           }
 
-          // Remove dollar sign and commas
-          updatedData[cell.dataset.field] = parseFloat(input.value.replace(/[$,]/g, '')); // Convert to float
+          updatedData[cell.dataset.field] = priceNumber; // Store as number
+        
         } else {
           // Store updated data based on cell data attributes
           updatedData[cell.dataset.field] = input.value;
@@ -251,6 +254,7 @@ async function save(car_id) {
 
   if(!allFilled) {
     alert("Please fill in all the fields before saving.")
+    location.reload();
     return;
   }
 
@@ -284,24 +288,55 @@ async function save(car_id) {
 }
 
 /* Delete Button*/ 
-  function deleteRow(car_id) {
-    const row = document.getElementById('car-data');
-    const buttons = row.querySelectorAll('button');
+async function deleteRow(car_id) {
+    const row = document.getElementById(`car-data-${car_id}`);
 
+    // Confirm the deletion
+    if (!confirm("Are you sure you want to delete this car listing?")) {
+      return; // Exit if user cancels
+    }
+
+    const buttons = row.querySelectorAll('button');
     // Disable all buttons in the row
     buttons.forEach(button => {
         button.disabled = true; // Disable the button
         button.style.opacity = 0.5; // Make button appear disabled
     });
 
-    // Change row style to indicate suspension
+    try {
+      const response = await fetch(`/deleteCarlistingRoute/deleteCarlisting/${car_id}`, {
+          method: 'DELETE'
+      });
+
+      if (response.ok) {
+          alert("Car listing deleted successfully.");
+          row.remove(); // Remove the row from the table
+      } else {
+          alert("Failed to delete car listing. Please try again.");
+          // Re-enable buttons if deletion failed
+          buttons.forEach(button => {
+              button.disabled = false;
+              button.style.opacity = 1;
+          });
+      }
+    } catch (error) {
+        console.error("Error deleting car listing:", error);
+        alert("An error occurred while deleting the car listing.");
+        
+        // Re-enable buttons if an error occurred
+        buttons.forEach(button => {
+            button.disabled = false;
+            button.style.opacity = 1;
+        });
+    }
+
+    /* Change row style to indicate sold
     row.style.backgroundColor = '#f8d7da'; // Light red background
     row.style.color = '#721c24'; // Dark red text
     row.cells.forEach(cell => {
         cell.style.pointerEvents = 'none'; // Prevent any interaction with the cells
     });
-    
-
+    */
 }
 
 
