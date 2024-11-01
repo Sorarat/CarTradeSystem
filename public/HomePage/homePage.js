@@ -142,14 +142,18 @@ function viewCarDetails(button) {
   document.getElementById('button30').focus(); // Default Down Payment: Set focus to button30 when popup open
 
   // Fetch Car Price
-  const carPrice = "85000";
+  const carPrice = Number("85000");
   document.getElementById('price').value = formatPrice(carPrice);
 
   // Set default Down Payment value (30%)
   const defaultDownPaymentRate = 30; // Set a default value
-  const price = parsePrice(document.getElementById('price').value);
-  const DownPayment = price * (defaultDownPaymentRate/100);
+  const DownPayment = carPrice * (defaultDownPaymentRate/100);
   document.getElementById('downPayment').value = formatPrice(DownPayment);
+
+  // Set default Interest Rate (2.5%)
+  const defaultInterestRate = 2.5; // Set a default value
+  const interest = carPrice * (defaultInterestRate/100);
+  document.getElementById('interest').value = formatPrice(interest);
 
 
   // Set up event listeners for buttons
@@ -181,6 +185,7 @@ function setDownPaymentListeners() {
     });
   });
 }
+
 
 /* Close the popup */
 function closePopup() {

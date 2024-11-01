@@ -225,13 +225,56 @@
                             <div class="interest-rate-container">
                                 <input type="text" class="form-control1" id="interestRate" name="interestRate">
                             <span class="percentage-sign">%</span>
-                            </div>
-                            
+                            </div>    
                         </td>
                     </tr>
                     <tr>
                         <th colspan="2">Loan Term</th>
-                        <td>dropdown options</td>
+                        <td>
+                            <select id="role" name="role" class="form-control1" required> <!-- options fetch from database -->
+                                <option value="120">120 months</option>
+                                <option value="108">108 months</option>
+                                <option value="96">96 months</option>
+                                <option value="84">84 months</option>
+                                <option value="72">72 months</option>
+                                <option value="60">60 months</option>
+                                <option value="48">48 months</option>
+                                <option value="36">36 months</option>
+                                <option value="24">24 months</option>
+                                <option value="12">12 months</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="summary-container">
+                                <div class="summary-item">
+                                    <p>Total Interest Paid</p>
+                                    <span>$0</span>
+                                </div>
+                                <div class="summary-item">
+                                    <p>Total Paid Amount</p>
+                                    <span>$0</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="3">Car Loan Payment Breakdown</th>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="summary-container">
+                                <div class="summary-item">
+                                    <p>Loan Amount</p>
+                                    <span>$0</span>
+                                </div>
+                                <div class="summary-item">
+                                    <p>Monthly Instalment</p>
+                                    <span>$0 /month</span>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
