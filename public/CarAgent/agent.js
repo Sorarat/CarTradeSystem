@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Retrieve input values
       const carModel = document.getElementById("carModel").value;
       const regDate = document.getElementById("regDate").value;
-      const price = parseInt(document.getElementById("price").value);
+      const price = parseFloat(document.getElementById("price").value);
       const sellerEmail = document.getElementById("sellerEmail").value; 
 
       /*Checking input value */
