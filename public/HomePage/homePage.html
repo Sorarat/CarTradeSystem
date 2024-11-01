@@ -120,7 +120,7 @@
             <!-- Car price & loan calculator button-->
             <div class="price-button">
                 <span class="price">$85,000</span>  <!-- Fetch Car price -->
-                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+                <button class="create-button" onclick="viewCarDetails(this)">View Details</button> <!-- Button to trigger popup-->
             </div>
         </div>
         
@@ -199,6 +199,42 @@
 
             <h1>Car Loan</h1>
             <br>
+            <table class="info-table">
+                <tbody>
+                    <tr>
+                        <th>Car Price</th>
+                        <td class="dollar-sign">$</td>
+                        <td><input type="text" class="form-control1" id="price" name="price" placeholder="Input your car price"></td>
+                    </tr>
+                    <tr>
+                        <th>Down Payment</th>
+                        <td class="dollar-sign">$</td>
+                        <td><input type="text" class="form-control1" id="downPayment" name="downPayment"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><button class="down-payment-button" data-rate="30" id="button30">30%</button>
+                            <button class="down-payment-button" data-rate="40">40%</button>
+                            <button class="down-payment-button" data-rate="50">50%</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Interest Rate</th>
+                        <td>
+                            <div class="interest-rate-container">
+                                <input type="text" class="form-control1" id="interestRate" name="interestRate">
+                            <span class="percentage-sign">%</span>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Loan Term</th>
+                        <td>dropdown options</td>
+                    </tr>
+                </tbody>
+            </table>
 
 
             <button class="close-btn" onclick="closePopup()">Close</button>

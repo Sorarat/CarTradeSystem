@@ -131,21 +131,109 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-/* View Details button */
-function viewCarDetails() {
+/* View Details button - opens a popup */
+function viewCarDetails(button) { 
   // Update database accordingly - for seller to see
   let viewCount = 0;
   viewCount += 1; // Increment onclick
   console.log('Current Count:', viewCount); // Log the count to the console - FOR CHECKING
 
   document.getElementById('popupOverlay').style.display = 'flex';
+  document.getElementById('button30').focus(); // Default Down Payment: Set focus to button30 when popup open
+
+  // Fetch Car Price
+  const carPrice = "85000";
+  document.getElementById('price').value = formatPrice(carPrice);
+
+  // Set default Down Payment value (30%)
+  const defaultDownPaymentRate = 30; // Set a default value
+  const price = parsePrice(document.getElementById('price').value);
+  const DownPayment = price * (defaultDownPaymentRate/100);
+  document.getElementById('downPayment').value = formatPrice(DownPayment);
+
+
+  // Set up event listeners for buttons
+  setDownPaymentListeners();
+  
   //window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
 }
 
+
+/* Compute Loan */
+// Function to set event listeners for down payment buttons
+function setDownPaymentListeners() {
+  const buttons = document.querySelectorAll('.down-payment-button');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', function() {
+      const downPaymentInput = document.getElementById('downPayment');
+      const dataRate = this.getAttribute('data-rate'); // Get the data-rate from the clicked button
+
+      // Set the input value to the data-rate of the button clicked - FOR CHECKING
+      //downPaymentInput.value = this.getAttribute('data-rate');
+      
+      // Calculate the down payment based on the price and the clicked data-rate
+      const price = parsePrice(document.getElementById('price').value);
+      const downPayment = price * (dataRate / 100);
+      downPaymentInput.value = formatPrice(downPayment); // Update down payment input with formatted value
+
+      console.log('Button clicked:', this.getAttribute('data-rate')); // FOR CHECKING
+    });
+  });
+}
+
+/* Close the popup */
 function closePopup() {
   document.getElementById('popupOverlay').style.display = 'none';
 }
 
+/* ---------------------------------- */
+/* HELPER JS */
+/* Format Price (10000 --> 10,000) */
+function formatPrice(price) {
+  // Convert price to a number
+  const numericPrice = Number(price);
+
+  // Check if the conversion was successful
+  if (isNaN(numericPrice)) {
+    throw new Error('Invalid price input');
+  }
+  
+  // Create a formatter for Singapore Dollars
+  const sgdFormatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0, // No decimal places
+    maximumFractionDigits: 0, // No decimal places
+  });
+
+  // Format the price
+  return `${sgdFormatter.format(price)}`;
+}
+
+/* Convert the formatPrice to int (10,000 --> 10000) */
+function parsePrice(formattedPrice) {
+  // Remove commas, then convert to a number
+  return Number(formattedPrice.replace(/,/g, ''));
+}
+
+
+/* Loan Breakdown - display format */
+/* Format Price (10000 --> $10,000) */
+function formatSGD(price) {
+  // Create a formatter for Singapore Dollars
+  const sgdFormatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0, // No decimal places
+    maximumFractionDigits: 0, // No decimal places
+  });
+
+  // Format the price
+  return `$${sgdFormatter.format(price)}`;
+}
+
+/* Convert the formatSGD to int ($10,000 --> 10000) */
+function parseSGD(formattedPrice) {
+  // Remove commas, then convert to a number
+  return Number(formattedPrice.replace(/$,/g, ''));
+}
 /* ---------------------------------- */
 /* carDetailsPage JS */
 

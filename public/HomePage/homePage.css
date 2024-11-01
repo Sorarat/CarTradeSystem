@@ -383,24 +383,6 @@ th, td {
     align-items: center;
 }
 
-.info-line {
-    display: flex;                 /* Use flexbox */
-    justify-content: center;       /* Center align items horizontally */
-    align-items: center;           /* Align items vertically centered */
-    margin: 5px 0;               /* Add vertical spacing */
-}
-
-.info-line p, .popup-overlay p {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0;                    /* Remove default margin */
-    margin-right: 8px;            /* Space between elements */
-}
-
-.info-line span {
-    font-size: 1.2rem;
-}
-
 /* Popup box styling */
 .popup-box {
     background: var(--white);
@@ -409,6 +391,122 @@ th, td {
     width: 600px;
     box-shadow: var(--box-shadow);
     text-align: center;
+}
+
+/* Align <p> and <span> */
+.info-line {
+    display: flex;                 /* Use flexbox */
+    justify-content: center;       /* Center align items horizontally */
+    align-items: center;           /* Align items vertically centered */
+    margin: 5px 0;                 /* Add vertical spacing */
+}
+
+/* styling for <p> */
+.info-line p, .popup-overlay p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;                    /* Remove default margin */
+    margin-right: 8px;            /* Space between elements */
+}
+
+/* Styling for <span> */
+.info-line span {
+    font-size: 1.2rem;
+}
+
+/* Calculate Loan - table layout */
+.info-table {
+    width: 80%;                         /* Full width of the card */
+    border-collapse: collapse;          /* Collapse borders for a cleaner look */
+    margin: 0 auto;                     /* Center the table horizontally */
+}
+
+.info-table th {
+    padding: 5px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+    font-size: 1.3rem;                  /* Set font size for the table */
+}
+
+.info-table td {
+    padding: 5px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+    font-size: 1.2rem;                  /* Set font size for the table */
+}
+
+/* Set fixed widths for each column */
+.info-table th:nth-child(1),
+.info-table td:nth-child(1) {
+    width: 30%;                        /* First column width */
+}
+
+.info-table th:nth-child(2),
+.info-table td:nth-child(2) {
+    width: 10%;                        /* Second column width */
+}
+
+.info-table th:nth-child(3),
+.info-table td:nth-child(3) {
+    width: 60%;                        /* Third column width */
+}
+
+/* Dollar sign styling */
+.info-table td.dollar-sign {
+    text-align: right;
+    font-weight: bold;
+}
+
+/* 3 percentage buttons for Down Payment*/
+.down-payment-button {
+    width: 85px;
+    height: 34px;
+    border: var(--border);
+    outline: none;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--black);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.down-payment-button:focus {
+    outline: none; /* Remove the default outline */
+    border: 1px solid green; /* Set a green border */
+    box-shadow: 0 0 5px green; /* Optional: Add a subtle glow effect */
+    color: green;
+}
+
+/* User input Car Price, Down Payment & Interest Rate - modified */
+.form-control1{
+    width: 100%;
+    height: 30px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid silver;
+    margin: 0;
+    padding: 0 10px;
+    padding-right: 30px; /* Add padding to the right to prevent text overlap */
+}
+
+/* Fixed percentage sign for interest rate input */
+.interest-rate-container {
+    width: 100%;
+    position: relative;             /* Position relative for absolute positioning of child elements */
+    display: inline-block;          /* Inline-block for proper alignment */
+}
+
+.percentage-sign {
+    position: absolute;
+    right: 10px;                    /* Adjust this value for spacing */
+    top: 50%;                       /* Center vertically */
+    transform: translateY(-50%);    /* Adjust for vertical centering */
+    pointer-events: none;           /* Prevent clicking on the span */
 }
 
 /* Close button styling */
@@ -446,46 +544,6 @@ th, td {
 .info-container p {
     font-size: 1.2rem;
     line-height: 1.5;
-}
-
-/* Table Layout - display info */
-.info-table {
-    width: 100%;                        /* Full width of the card */
-    border-collapse: collapse;          /* Collapse borders for a cleaner look */
-}
-
-.info-table th {
-    padding: 0px;                      /* Cell padding */
-    text-align: left;                   /* Left alignment */
-    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
-    /*text-transform: none;               /* Preserve original capitalization */
-    white-space: nowrap;                /* Prevent text wrapping */
-    font-size: 1.7rem;                  /* Set font size for the table */
-}
-
-.info-table td {
-    padding: 0px;                      /* Cell padding */
-    text-align: left;                   /* Left alignment */
-    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
-    /*text-transform: none;               /* Preserve original capitalization */
-    white-space: nowrap;                /* Prevent text wrapping */
-    font-size: 1.2rem;                  /* Set font size for the table */
-}
-
-/* Set fixed widths for each column */
-.info-table th:nth-child(1),
-.info-table td:nth-child(1) {
-    width: 30%;                        /* First column width */
-}
-
-.info-table th:nth-child(2),
-.info-table td:nth-child(2) {
-    width: 10%;                        /* Second column width */
-}
-
-.info-table th:nth-child(3),
-.info-table td:nth-child(3) {
-    width: 60%;                        /* Third column width */
 }
 
 /* ---------------------------------- */
