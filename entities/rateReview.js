@@ -14,7 +14,6 @@ class rateReview {
         this.#reviewer_id = rateReviewData.reviewer_id || null;
         this.#rating = rateReviewData.rating || 0;
         this.#review = rateReviewData.review || '';
-
     }
 
      // Getters
@@ -34,20 +33,45 @@ class rateReview {
         return this.#review;
     }
 
-    async createRatingReview(agent_id, rating, review, reviewer_id) {
+    async createRatingReview(agent_id, reviewer_email, rating, review, ) {
 
-        // create empty instance of user
         const user = new User();
+
+        try {
+        
+            // verify that the agent_id is valid
+            const userQuery = 'SELECT * FROM User WHERE user_id = ?';
+            const [agentResult] = await db.promise().query(userQuery, [agent_id]);
+            if (agentResult.length == 0) {
+                throw new Error(`Agent with ID ${agent_id} does not exist.`);
+            }
+
+            const reviewer =  await user.findByEmail(reviewer_email);
+
+            if (reviewer == null) {
+                return false;
+            }
+
+            // insert the review into the table
+            const insertQuery = `INSERT INTO RateReview (agent_id, reviewer_id, rating, review) VALUES (?,?,?,?)`;
+
+            await db.promise().query(insertQuery, [agent_id, reviewer.user_id, rating, review]);
+
+            return true;
+            }
+
+
+        catch(error) {
+            console.error("Error creating viewL: ", error.message);
+            return false;
+        }
+        
 	
 	
 
     }
 
     async getRatingReview(agent_id) {
-
-        // const query = 'SELECT * FROM RateReview WHERE agent_id = ?';
-        // const [rows] = await db.promise().query(query, [agent_id]);
-        // return rows;
 
         const query = `
             SELECT rr.*, u.username

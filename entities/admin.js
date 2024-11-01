@@ -45,7 +45,7 @@ class Admin extends User{
 
         await db.promise().query(query, values);
 
-        return { success: true, message: "Account created successfully."};
+        return true;
 
     }
 

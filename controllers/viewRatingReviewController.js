@@ -6,9 +6,7 @@ class viewRatingReviewController {
     async viewRatingReview(req, res) {
 
         const agent_id = req.params.agent_id;
-        
-        console.log(`Attempting to view rating & reviews with ID: ${agent_id}`); 
-
+    
         try {
 
             const rateReviewInstance = new rateReview();
