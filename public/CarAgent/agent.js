@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Retrieve input values
       const carModel = document.getElementById("carModel").value;
       const regDate = document.getElementById("regDate").value;
-      const price = parseInt(document.getElementById("price").value);
+      const price = parseFloat(document.getElementById("price").value);
       const sellerEmail = document.getElementById("sellerEmail").value; 
 
       /*Checking input value */
@@ -337,6 +337,27 @@ async function deleteRow(car_id) {
         cell.style.pointerEvents = 'none'; // Prevent any interaction with the cells
     });
     */
+}
+
+/* Search bar -- search by car model */
+async function performCarListingSearch() {
+  const searchInput = document.getElementById('searchCar').value.trim();
+  const agentEmail = sessionStorage.getItem('email');
+
+  try {
+      const response = await fetch(`/searchCarlistingRoute/searchCarlisting?carModel=${encodeURIComponent(searchInput)}&agentEmail=${encodeURIComponent(agentEmail)}`);
+      const carlistings = await response.json();
+
+      if (carlistings.length === 0) {
+          alert('No car listings found with this car model name.');
+          populateCarListingTable(allCarListings); // Display all if no matches
+      } else {
+          populateCarListingTable(carlistings); // Display filtered car listings
+      }
+  } catch (error) {
+      console.error('Failed to perform car listing search:', error);
+      alert('An error occurred during the search.');
+  }
 }
 
 

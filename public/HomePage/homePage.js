@@ -271,9 +271,6 @@ async function fetchAllAgents(shouldPopulateTable = true) {
     }
     allAgents = await response.json();
 
-      // Log the fetched agents to see what is being returned
-      console.log('Fetched agents:', allAgents);
-
     if (shouldPopulateTable) {
       populateAgentTable(allAgents);
     }
@@ -314,8 +311,6 @@ function populateAgentTable(agents) {
 
 // call the fetchAllAgents function when the page loads
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM fully loaded and parsed'); // Add this line
-
   const agentTable = document.getElementById('agentInfoTable');
   if (agentTable) {
     fetchAllAgents();
@@ -429,7 +424,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* createRatingReview JS */
 function createRatingReviewBtn() {
-  window.location.href = "../Buyer/createRatingReviewPage.html"; // Redirect to the specified page
+
+  // extract agent_id from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const agentId = urlParams.get('agent_id');
+
+  if (!agentId) {
+    alert('Agent ID not found. Cannot submit a review.');
+    return; 
+  }
+ 
+  // redirect to create rating & review page
+  window.location.href = `../Buyer/createRatingReviewPage.html?agent_id=${agentId}`; // Redirect to the specified page
 }
 
 /* ---------------------------------- */
