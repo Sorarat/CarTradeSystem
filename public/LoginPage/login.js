@@ -28,7 +28,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             {
                 window.location.href = '/UserAdmin/adminDashboard.html';
             } else if (role === 'agent') {
-                dashboardLink.href = '../CarAgent/agentDashboard.html';
+                window.location.href = '../CarAgent/agentDashboard.html';
             } else {
                 window.location.href = '/HomePage/homePage.html';
             }

@@ -91,6 +91,14 @@ class User {
         return true; // All checks passed, valid user
 
     }
+
+    async getAgentAccounts() {
+        
+        const query = 'SELECT * FROM User WHERE profile_id = ?';
+        const [rows] = await db.promise().query(query, [2]);
+        return rows;
+
+    }
 }
 
 module.exports = User;
