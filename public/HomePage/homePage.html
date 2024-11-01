@@ -21,7 +21,7 @@
                 <div id="menu-dropdown" class="menu-content">
                     <a href="../HomePage/homePage.html">Home</a>
                     <a href="../Buyer/buyerDashboardPage.html">Dashboard</a>
-                    <div id="agents-link-container"></div>            <!-- Container for the Agents link (For buyer/seller) -->
+                    <a href="../HomePage/viewAgentsPage.html">Agents</a>
                 </div>
                 <span>|</span>
                 <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
@@ -150,8 +150,8 @@
                 <div class="shortlist"> 
                     <!-- input id has to be diff for each car-card for it to work individually -->
                     <!-- label for has to be the same as id -->
-                    <input type="checkbox" id="shortlist1" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
-                    <label for="shortlist1"></label>
+                    <input type="checkbox" id="shortlist3" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist3"></label>
                 </div>
             </div>
             <!-- Car price & loan calculator button-->
@@ -169,8 +169,8 @@
                 <div class="shortlist"> 
                     <!-- input id has to be diff for each car-card for it to work individually -->
                     <!-- label for has to be the same as id -->
-                    <input type="checkbox" id="shortlist1" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
-                    <label for="shortlist1"></label>
+                    <input type="checkbox" id="shortlist4" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist4"></label>
                 </div>
             </div>
             <!-- Car price & loan calculator button-->
@@ -185,6 +185,7 @@
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-box">
             <h1>Car Information</h1>
+            <br>
             <p>Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p>
             <div class="info-line">
                 <p>Reg Date:</p>
@@ -197,6 +198,8 @@
             <br>
 
             <h1>Car Loan</h1>
+            <br>
+
 
             <button class="close-btn" onclick="closePopup()">Close</button>
         </div>

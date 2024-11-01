@@ -24,18 +24,19 @@ function logoutBtn(event){
   document.location.href = "../logoutPage/logoutPage.html"; // Use relative path (one directory level up)
 }
 
-/* Function to set the Dashboard link & create "Agents" dropdown option */
+/* For viewAgentsPage & viewRatingReviewPage */
+/* Function to set the Dashboard link & create "Home" dropdown option */
 function setDashboardLink() {
   const dashboardLink = document.getElementById('dashboardLink');
-  const agentsLinkContainer = document.getElementById('agents-link-container');
+  const homeLinkContainer = document.getElementById('home-link-container');
   const userRole = sessionStorage.getItem('role'); // Retrieve the user role from sessionStorage
 
-  // Create a dropdown menu option "Agents" for buyer & seller only
-  if (userRole === 'buyer' || userRole === 'seller') {
-    const agentsLink = document.createElement('a');
-    agentsLink.href = '../HomePage/viewAgentsPage.html';
-    agentsLink.textContent = 'Agents';
-    agentsLinkContainer.appendChild(agentsLink);
+  // Create a dropdown menu option "Home" for Buyer only
+  if (userRole === 'buyer') {
+    const homeLink = document.createElement('a');
+    homeLink.href = '../HomePage/homePage.html';
+    homeLink.textContent = 'Home';
+    homeLinkContainer.appendChild(homeLink);
   }
 
   // Update Dashboard link according to user role upon login

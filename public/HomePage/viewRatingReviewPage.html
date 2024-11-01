@@ -18,9 +18,9 @@
             <div class="menu">
                 <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
                 <div id="menu-dropdown" class="menu-content">
-                    <a href="../Buyer/buyerDashboardPage.html">Dashboard</a>      <!-- Placeholder for the dashboard link -->
-                    <a href="../HomePage/homePage.html">Home</a>
-                    <a href="../HomePage/viewAgentsPage.html">Agents</a>
+                    <div id="home-link-container"></div>                        <!-- Container for the Home link (Buyer Only) -->
+                    <a id="dashboardLink" href="#">Dashboard</a>                <!-- For Buyer & Seller (update dashboard link) -->
+                    <a href="../HomePage/viewAgentsPage.html">Agents</a>        <!-- For Buyer & Seller -->
                 </div>
                 <span>|</span>
                 <a href="#" onclick="logoutBtn(event)">Logout</a>
