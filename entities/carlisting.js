@@ -71,8 +71,7 @@ class Carlisting {
 
         if (seller == null) {
             return false;
-        }
-        
+        }   
         // check if it is a seller email
         const sellerRole = await user.getRole(seller.profile_id);
         if (sellerRole !== 'seller') {
@@ -115,7 +114,29 @@ class Carlisting {
         );
 
         return listingsWithSellerEmail;
+    }
 
+    // update car listing
+    async updateCarListing(car_id, car_model, reg_date, price, sellerEmail) {
+        // create empty instance of user
+        const user = new User();
+        // get seller id
+        const seller = await user.findByEmail(sellerEmail);
+
+        if (seller == null) {
+            return false;
+        }   
+        // check if it is a seller email
+        const sellerRole = await user.getRole(seller.profile_id);
+        if (sellerRole !== 'seller') {
+            return false;
+        }
+
+        // update listing
+        const query = 'UPDATE Carlisting SET car_model = ?, reg_date = ?, price = ?, seller_id = ? WHERE car_id = ?';
+        const [result] = await db.promise().query(query, [car_model, reg_date, price, seller.user_id, car_id]);
+
+        return result.affectedRows > 0;
     }
 }
 

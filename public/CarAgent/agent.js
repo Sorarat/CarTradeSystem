@@ -47,6 +47,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
+      // Email validation regex pattern
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Validate email format
+      if (!emailPattern.test(sellerEmail)) {
+        event.preventDefault();
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      // validate price
+      if (price <= 0) {
+        alert("Please enter a valid, positive price.");
+        return;
+      }
+
       // Check if the form is valid
       if (form.checkValidity()) {
         event.preventDefault(); // Prevent default only if the form is valid
@@ -90,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /*---------------------------------------------------------*/
-/* View Agent's Car Listing*/
+/* View Agent's Car Listing*/         // NEED TO ADD IN STATUS ************************************
 let allCarListings = [];
 
 async function fetchAgentCarListing() {
@@ -116,25 +132,24 @@ function populateCarListingTable(carlistings) {
   tableBody.innerHTML = ''; // Clear previous content
 
   carlistings.forEach(carlisting => {
-      const row = document.createElement('tr');
-      row.setAttribute('data-car-id', carlisting.car_id); // Add the data attribute
-      row.setAttribute('id', 'car-data');
+    const row = document.createElement('tr');
+    row.setAttribute('data-car-id', carlisting.car_id);
+    row.setAttribute('id', `car-data-${carlisting.car_id}`); // Unique ID for each row
+    // Populate table rows with car listing data
+    row.innerHTML = `
+      <td data-field="car_model">${carlisting.car_model}</td>   
+      <td data-field="price">${carlisting.price.toLocaleString()}</td> 
+      <td data-field="reg_date">${carlisting.reg_date}</td>
+      <td data-field="seller_email">${carlisting.seller_email}</td>
+      <td>
+          <div class="button-container1">
+              <button class="update-button" id="update-button-${carlisting.car_id}" type="button" onclick="updateRow(${carlisting.car_id})">Update</button>
+              <button class="delete-button" type="button" onclick="deleteRow(${carlisting.car_id})">Delete</button>
+          </div>
+      </td>
+    `;
 
-      // Populate table rows with car listing data
-      row.innerHTML = `
-        <td>${carlisting.car_model}</td>   
-        <td>$${carlisting.price.toLocaleString()}</td> 
-        <td>${carlisting.reg_date}</td>
-        <td>${carlisting.seller_email}</td>
-        <td>
-            <div class="button-container1">
-                <button class="update-button" type="button" onclick="updateRow(${carlisting.car_id})">Update</button>
-                <button class="delete-button" type="button" onclick="deleteRow(${carlisting.car_id})">Delete</button>
-            </div>
-        </td>
-      `;
-
-      tableBody.appendChild(row); // Append the populated row to the table body
+    tableBody.appendChild(row); // Append the populated row to the table body
   });
 }
 
@@ -148,72 +163,125 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /*---------------------*/
-/*View Agent's Car Listing - update button & delete button */
-  function updateRow(car_id) {
-    const row = document.getElementById('car-data');
+/*View Agent's Car Listing - update button & delete button */     // NEED TO ADD IN STATUS ************************************
+function updateRow(car_id) {
+  const row = document.getElementById(`car-data-${car_id}`);
 
-    // Loop through each cell in the row
-    for (let i = 0; i < row.cells.length - 1; i++) {
-        const cell = row.cells[i];
-        const cellValue = cell.textContent;
-        // Create an input element
-        const input = document.createElement('input');
-        if(i == 2){
-          const dateString = cellValue.trim();
-          const [year, month, day] = dateString.split("-");
-          const formattedDate = `${year}-${month}-${day}`
+  // Loop through each cell in the row
+  for (let i = 0; i < row.cells.length - 1; i++) {
+      const cell = row.cells[i];
+      const cellValue = cell.textContent;
+      // Create an input element
+      const input = document.createElement('input');
+      if(i == 2){
+        const dateString = cellValue.trim();
+        const [year, month, day] = dateString.split("-");
+        const formattedDate = `${year}-${month}-${day}`
 
-          input.type = "date"; 
-          input.value = formattedDate;
-        }else{
-          input.type = 'text'; // Set input type
-        }
-        input.value = cellValue; // Set current cell value
+        input.type = "date"; 
+        input.value = formattedDate;
+      }else{
+        input.type = 'text'; // Set input type
+      }
+      input.value = cellValue; // Set current cell value
 
-        // Clear the cell and append the input
-        cell.innerHTML = ''; // Clear existing content
-        cell.appendChild(input); // Add the input to the cell
-    }
-
-    // Change the button to save changes
-    const button = document.getElementById('update-button');
-    button.textContent = 'Save';
-    button.setAttribute('onclick', `save(${car_id})`); // Change the button action
+      // Clear the cell and append the input
+      cell.innerHTML = ''; // Clear existing content
+      cell.appendChild(input); // Add the input to the cell
   }
 
-  function save(car_id) {
-    const row = document.getElementById('car-data');
-    let allFilled = true; //track if all the input field in filled up
+  // Change the button to save changes
+  const button = document.getElementById(`update-button-${car_id}`);
+  button.textContent = 'Save';
+  button.setAttribute('onclick', `save(${car_id})`); // Change the button action
+  }
 
-    // Loop through each cell and get the value from the input
-    for (let i = 0; i < row.cells.length; i++) {
-        const cell = row.cells[i];
-        const input = cell.querySelector('input'); // Get the input from the cell
+async function save(car_id) {
+  const row = document.getElementById(`car-data-${car_id}`);
+  let allFilled = true; //track if all the input field in filled up
 
-        if(input){
-          if (input.value.trim() == '') {
-            // cell.textContent = input.value; // Set the cell's text to the input's value
-            allFilled = false;
-            break;
+  const updatedData = {}; // collect updated data 
+
+  // Email validation regex pattern
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Loop through each cell and get the value from the input
+  for (let i = 0; i < row.cells.length; i++) {
+      const cell = row.cells[i];
+      const input = cell.querySelector('input'); // Get the input from the cell
+
+      if(input) {
+        if (input.value.trim() == '') {
+          // cell.textContent = input.value; // Set the cell's text to the input's value
+          allFilled = false;
+          break;
+        }
+
+        // for seller email
+        if (i == 3) {
+          // Validate email format
+          if (!emailPattern.test(input.value)) {
+            alert('Please enter a valid email address.');
+            location.reload();
+            return;
           }
-        cell.textContent = input.type === 'date' ? input.value : input.value;
-
+          
         }
-        
-    }
-    if(!allFilled){
-      alert("Please fill in all the fields before saving.")
-      return;
-    }
 
-    // Change the button back to update
-    const button = document.querySelector('.update-button');
-    button.textContent = 'Update';
-    button.setAttribute('onclick', `updateRow(${car_id})`); // Reset the button action
+        // Special handling for price column (assuming it's at index 1)
+        if (i === 1) {
+          // validate price
+          if (input.value <= 0) {
+            alert("Please enter a valid, positive price.");
+            location.reload();
+            return;
+          }
 
-    alert("Update Successful!");
+          // Remove dollar sign and commas
+          updatedData[cell.dataset.field] = parseFloat(input.value.replace(/[$,]/g, '')); // Convert to float
+        } else {
+          // Store updated data based on cell data attributes
+          updatedData[cell.dataset.field] = input.value;
+        }
+
+        cell.textContent = input.value;
+      }
+      
+  }
+
+  if(!allFilled) {
+    alert("Please fill in all the fields before saving.")
+    return;
+  }
+
+  try {
+    const response = await fetch(`/updateCarlistingRoute/updateCarlisting/${car_id}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedData)
+    });
+
+    if (response.ok) {
+        alert("Update Successful!");
+    } else {
+        alert("Failed to update car listing. Please check your input.");
+        location.reload();
+    }
 
   }
+  catch (error) {
+    console.error("Error updating car listing:", error);
+    alert("An error occurred while updating the car listing.");
+    location.reload();
+  }
+
+  // Change the button back to update
+  const button = document.getElementById(`update-button-${car_id}`);
+  button.textContent = 'Update';
+  button.setAttribute('onclick', `updateRow(${car_id})`); // Reset the button action
+}
 
 /* Delete Button*/ 
   function deleteRow(car_id) {

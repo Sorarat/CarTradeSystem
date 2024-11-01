@@ -466,6 +466,16 @@ async function updateAccountBtn(event) {
     return; // Exit the function
   }
 
+  // Email validation regex pattern
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  // Validate email format
+  if (!emailPattern.test(email)) {
+    event.preventDefault();
+    alert('Please enter a valid email address.');
+    return;
+  }
+
   // Check if the form is valid
   if (form.checkValidity()) {
     event.preventDefault(); // Prevent default only if the form is valid
