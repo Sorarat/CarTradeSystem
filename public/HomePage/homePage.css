@@ -257,7 +257,7 @@ th, td {
     display: grid;
     grid-template-columns: 
         repeat(auto-fit,
-               minmax(380px, 1fr));     /* each column at least 320px*/
+               minmax(500px, 1fr));     /* each column at least 320px*/
     gap: 10px;
     justify-items: start;               /* Align items to left */
     /*border: 1px solid black;          /* Cell borders - FOR CHECKING */
@@ -273,7 +273,7 @@ th, td {
     padding: 10px 30px;
     /*width: 400px;                       /* Fixed width */
     width: 100%;                        /* Set width to 100% to fill the grid cell */
-    max-width: 380px;                   /* Optional: Max width to limit size on larger screens */
+    max-width: 500px;                   /* Optional: Max width to limit size on larger screens */
     height: 120px;                      /* Fixed height */
     /*overflow: hidden;                   /* Prevent content overflowing */
     display: flex;                      /* Use flexbox for internal layout */
@@ -294,6 +294,11 @@ th, td {
     /*margin-bottom: auto;                /* Push car-info to the bottom of the car-card */
 }
 
+.car-detail {
+    font-size: 1.2rem;                  /* Font size for the car details */
+    /*font-weight: bold;                  /* Bold text for emphasis */
+}
+
 .price-button {
     display: flex;                      /* Use flexbox for alignment */
     justify-content: space-between;     /* Space between price and button */
@@ -306,9 +311,9 @@ th, td {
     color: green;                     /* Color for price */
 }
 
-/* View Details button - adapt from Create & Cancel button */
+/* Calculate loan button - adapt from Create & Cancel button */
 .create-button {
-    width: 100px;
+    width: 120px;
     height: 34px;
     border: none;
     outline: none;

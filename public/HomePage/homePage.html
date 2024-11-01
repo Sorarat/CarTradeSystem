@@ -21,7 +21,7 @@
                 <div id="menu-dropdown" class="menu-content">
                   <a id="dashboardLink" href="#">Dashboard</a>      <!-- Placeholder for the dashboard link -->
                   <a href="../HomePage/homePage.html">Home</a>
-                  <div id="agents-link-container"></div>            <!-- Container for the Agents link (For buyer/seller ONLY) -->
+                  <div id="agents-link-container"></div>            <!-- Container for the Agents link (For buyer/seller) -->
                 </div>
                 <span>|</span>
                 <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
@@ -107,7 +107,9 @@
         <!-- Sample for a Car listing-->
         <div class="car-card">
             <div class="car-header">
-                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div> <!-- Fetch Car name -->
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
                 <div class="shortlist"> 
                     <!-- input id has to be diff for each car-card for it to work individually -->
                     <!-- label for has to be the same as id -->
@@ -115,9 +117,13 @@
                     <label for="shortlist1"></label>
                 </div>
             </div>
+            <!-- Car details -->
+            <p class="car-detail">Reg Date: <span id="regDate">27 April 2024</span></p>
+            <p class="car-detail">Agent's Email: <span id="agentEmail">JohnDoeAnderson@hotmail.com</span></p>
+            <!-- Car price & loan calculator button-->
             <div class="price-button">
                 <span class="price">$85,000</span>  <!-- Fetch Car price -->
-                <button class="create-button" onclick="viewCarDetails()">View Details</button>
+                <button class="create-button" onclick="viewCarDetails()">Calculate Loan</button>
             </div>
         </div>
         
@@ -138,47 +144,6 @@
         </div>
 
         <!-- Dummy to visualise -->
-        <div class="car-card">
-            <div class="car-header">
-                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
-                <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist3" name="shortlist" value="1">
-                    <label for="shortlist3"></label>
-                </div>
-            </div>
-            <div class="price-button">
-                <span class="price">$85,000</span>
-                <button class="create-button" onclick="viewCarDetails()">View Details</button>
-            </div>
-        </div>
-
-        <div class="car-card">
-            <div class="car-header">
-                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
-                <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist4" name="shortlist" value="1">
-                    <label for="shortlist4"></label>
-                </div>
-            </div>
-            <div class="price-button">
-                <span class="price">$85,000</span>
-                <button class="create-button" onclick="viewCarDetails()">View Details</button>
-            </div>
-        </div>
-
-        <div class="car-card">
-            <div class="car-header">
-                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div>
-                <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist5" name="shortlist" value="1">
-                    <label for="shortlist5"></label>
-                </div>
-            </div>
-            <div class="price-button">
-                <span class="price">$85,000</span>
-                <button class="create-button" onclick="viewCarDetails()">View Details</button>
-            </div>
-        </div>
         
         
     </div>
