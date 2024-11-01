@@ -145,6 +145,32 @@ class Carlisting {
         const [result] = await db.promise().query(query, [car_id]);
         return result.affectedRows > 0;
     }
+
+    // search for car listing by model name
+    async searchCarlistingByModel(carModel, agentEmail) {
+        // get agent id
+        const user = new User();
+        const agent = await user.findByEmail(agentEmail);
+
+        const query = 'SELECT car_id, car_model, DATE_FORMAT(reg_date, "%Y-%m-%d") as reg_date, price, seller_id, status FROM Carlisting WHERE agent_id = ? AND car_model LIKE ?';
+        const [listings] = await db.promise().query(query, [agent.user_id, `%${carModel}%`]);
+
+        // For each listing, retrieve the seller's email
+        const listingsWithSellerEmail = await Promise.all(
+            listings.map(async (listing) => {
+                const sellerQuery = 'SELECT email FROM User WHERE user_id = ?';
+                const [sellerResult] = await db.promise().query(sellerQuery, [listing.seller_id]);
+
+                const sellerEmail = sellerResult[0]?.email || 'Email not found';
+                return {
+                    ...listing,
+                    seller_email: sellerEmail,
+                };
+            })
+        );
+
+        return listingsWithSellerEmail;
+    }
 }
 
 module.exports = Carlisting;

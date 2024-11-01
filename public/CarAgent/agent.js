@@ -339,6 +339,27 @@ async function deleteRow(car_id) {
     */
 }
 
+/* Search bar -- search by car model */
+async function performCarListingSearch() {
+  const searchInput = document.getElementById('searchCar').value.trim();
+  const agentEmail = sessionStorage.getItem('email');
+
+  try {
+      const response = await fetch(`/searchCarlistingRoute/searchCarlisting?carModel=${encodeURIComponent(searchInput)}&agentEmail=${encodeURIComponent(agentEmail)}`);
+      const carlistings = await response.json();
+
+      if (carlistings.length === 0) {
+          alert('No car listings found with this car model name.');
+          populateCarListingTable(allCarListings); // Display all if no matches
+      } else {
+          populateCarListingTable(carlistings); // Display filtered car listings
+      }
+  } catch (error) {
+      console.error('Failed to perform car listing search:', error);
+      alert('An error occurred during the search.');
+  }
+}
+
 
 
 
