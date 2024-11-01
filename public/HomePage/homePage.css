@@ -257,7 +257,7 @@ th, td {
     display: grid;
     grid-template-columns: 
         repeat(auto-fit,
-               minmax(500px, 1fr));     /* each column at least 320px*/
+               minmax(380px, 1fr));     /* each column at least 320px*/
     gap: 10px;
     justify-items: start;               /* Align items to left */
     /*border: 1px solid black;          /* Cell borders - FOR CHECKING */
@@ -273,8 +273,8 @@ th, td {
     padding: 10px 30px;
     /*width: 400px;                       /* Fixed width */
     width: 100%;                        /* Set width to 100% to fill the grid cell */
-    max-width: 500px;                   /* Optional: Max width to limit size on larger screens */
-    height: 120px;                      /* Fixed height */
+    max-width: 380px;                   /* Optional: Max width to limit size on larger screens */
+    height: 100px;                      /* Fixed height */
     /*overflow: hidden;                   /* Prevent content overflowing */
     display: flex;                      /* Use flexbox for internal layout */
     flex-direction: column;             /* Stack items vertically */
@@ -311,9 +311,10 @@ th, td {
     color: green;                     /* Color for price */
 }
 
-/* Calculate loan button - adapt from Create & Cancel button */
+/* View Details button - adapt from Create & Cancel button */
+/* to populate no. of views */
 .create-button {
-    width: 120px;
+    width: 100px;
     height: 34px;
     border: none;
     outline: none;
@@ -334,7 +335,7 @@ th, td {
 .disabled {
     pointer-events: none;                   /* Disable all mouse events */
     opacity: 0.5;                           /* Make the card look greyed out */
-    background-color: var(--light-gray2);     /* Optional: Change background color */
+    background-color: #FFB6C1;            /* Light pink background */
 }
 
 .sold-label {
@@ -343,28 +344,92 @@ th, td {
     font-weight: bold;
 }
 
-/* ---------------------------------- */
-/* carDetailsPage CSS */
 /* Shortlisting - heart-icon*/
-.shortlist input {
-    display: none;          /* hide the checkbox */
+.shortlist{
+    pointer-events: auto;
+    opacity: 1;
 }
 
-.shortlist label {          /* default heart */
+.shortlist input {
+    display: none;          /* Hide the checkbox */
+}
+
+.shortlist label {          /* Default heart */
     float: right;
     cursor: pointer;
     color: var(--medium-gray);
 }
 
-.shortlist label:before {   /* display stars before the label of each rating option */
-    content: '\2764';       /* unicode for a solid heart */
+.shortlist label:before {   /* Display stars before the label of each rating option */
+    content: '\2764';       /* Unicode for a solid heart */
     font-size: 3rem;
 }
 
-.shortlist input:checked~label {    /* change heart color when checked */
+.shortlist input:checked~label {    /* Change heart color when checked */
     color: red;
 }
 
+/* ---------------------------------- */
+/* POP UP WINDOW - Car Reg Date, Agent's Email & Loan Calculator */
+/* Overlay background styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.info-line {
+    display: flex;                 /* Use flexbox */
+    justify-content: center;       /* Center align items horizontally */
+    align-items: center;           /* Align items vertically centered */
+    margin: 5px 0;               /* Add vertical spacing */
+}
+
+.info-line p, .popup-overlay p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;                    /* Remove default margin */
+    margin-right: 8px;            /* Space between elements */
+}
+
+.info-line span {
+    font-size: 1.2rem;
+}
+
+/* Popup box styling */
+.popup-box {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    width: 600px;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+/* Close button styling */
+.close-btn {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background: #f44336;
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* ---------------------------------- */
+/* carDetailsPage - NOT USED */
 /* Individual info container */
 .info-container {
     margin-bottom: 15px;                        /* Space between container */
@@ -428,19 +493,19 @@ th, td {
 /* ---------------------------------- */
 /* viewRatingReviewPage CSS */
 /* Agent details */
-.rating-card {
+.agent-card {
     background-color: var(--white);
     border-radius: 18px;
     box-shadow: var(--box-shadow);
     height: auto;
     margin: 20px auto;                  /* Center the card with auto margins */
     padding: 20px 50px 20px 50px;
-    width: 40%;                         /* Adjust this value as needed */
+    width: 80%;                         /* Adjust this value as needed */
     max-width: 600px;                   /* Set a maximum width */
     overflow: hidden;                   /* Prevent content overflowing */
 }
 
-.overall-rating-container {
+.agent-card-container {
     display: flex;
     align-items: center;
     justify-content: space-center; /* Center-aligns the container content */
@@ -450,13 +515,6 @@ th, td {
     max-width: 620px;
     margin-top: 20px;
 }
-
-#overall-rating {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
 
 .create-rating-review-btn {
     width: 200px;

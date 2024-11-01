@@ -117,13 +117,10 @@
                     <label for="shortlist1"></label>
                 </div>
             </div>
-            <!-- Car details -->
-            <p class="car-detail">Reg Date: <span id="regDate">27 April 2024</span></p>
-            <p class="car-detail">Agent's Email: <span id="agentEmail">JohnDoeAnderson@hotmail.com</span></p>
             <!-- Car price & loan calculator button-->
             <div class="price-button">
                 <span class="price">$85,000</span>  <!-- Fetch Car price -->
-                <button class="create-button" onclick="viewCarDetails()">Calculate Loan</button>
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
             </div>
         </div>
         
@@ -136,16 +133,73 @@
                     <label for="shortlist2"></label>
                 </div>
             </div>
-            <span class="sold-label">SOLD</span>    <!-- Indicate SOLD -->
+            <span class="sold-label">SOLD</span>
+            <!-- Car price & Calculate Loan button-->
             <div class="price-button">
                 <span class="price">$85,000</span>  <!-- Fetch Car price -->
-                <button class="create-button" onclick="viewCarDetails()">View Details</button>
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
             </div>
         </div>
 
         <!-- Dummy to visualise -->
-        
-        
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist1" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist1"></label>
+                </div>
+            </div>
+            <!-- Car price & loan calculator button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist1" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist1"></label>
+                </div>
+            </div>
+            <!-- Car price & loan calculator button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup overlay -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box">
+            <h1>Car Information</h1>
+            <p>Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p>
+            <div class="info-line">
+                <p>Reg Date:</p>
+                <span>12 April 2024</span>  <!-- Fetch Car Reg Date -->
+            </div>
+            <div class="info-line">
+                <p>Agent's Email:</p>
+                <span>JohnDoeAnderson@hotmail.com</span> <!-- Fetch Agent's Email -->
+            </div>
+            <br>
+
+            <h1>Car Loan</h1>
+
+            <button class="close-btn" onclick="closePopup()">Close</button>
+        </div>
     </div>
 
 </body>

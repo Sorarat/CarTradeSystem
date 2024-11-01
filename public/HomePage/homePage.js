@@ -137,7 +137,12 @@ function viewCarDetails() {
   viewCount += 1; // Increment onclick
   console.log('Current Count:', viewCount); // Log the count to the console - FOR CHECKING
 
-  window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
+  document.getElementById('popupOverlay').style.display = 'flex';
+  //window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
+}
+
+function closePopup() {
+  document.getElementById('popupOverlay').style.display = 'none';
 }
 
 /* ---------------------------------- */
