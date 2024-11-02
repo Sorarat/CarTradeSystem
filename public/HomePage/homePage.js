@@ -152,16 +152,32 @@ function viewCarDetails(button) {
 
   // Set default Interest Rate (2.5%)
   const defaultInterestRate = 2.5; // Set a default value
-  const interest = carPrice * (defaultInterestRate/100);
-  document.getElementById('interest').value = formatPrice(interest);
+  document.getElementById('interestRate').value = defaultInterestRate;
 
+  // Set default Loan Term (1yr)
+  const defaultLoanTerm = document.getElementById('loanTerm').value;
+
+  // Compute Total Interest Paid
+  const totalInterestPaid = carPrice * (defaultInterestRate/100) * (defaultLoanTerm/12);
+  document.getElementById('interest').innerText = formatSGD(totalInterestPaid);
+
+  // Compute Loan Amount
+  const loanAmount = carPrice - DownPayment;
+  document.getElementById('loanAmount').innerText = formatSGD(loanAmount);
+
+  // Compute Total Paid Amount
+  const totalPaidAmount = totalInterestPaid + loanAmount;
+  document.getElementById('totalPaidAmount').innerText = formatSGD(totalPaidAmount);
+
+  // Compute Monthly Instalment
+  const monthlyInstalment = Math.ceil(totalPaidAmount/defaultLoanTerm);
+  const monthlyInstalmentStr = formatSGD(monthlyInstalment) + " /mth";
+  document.getElementById('monthlyInstalment').innerText = monthlyInstalmentStr;
+  
 
   // Set up event listeners for buttons
   setDownPaymentListeners();
-  
-  //window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
 }
-
 
 /* Compute Loan */
 // Function to set event listeners for down payment buttons
@@ -418,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Call fetchAllRatingReviews with the agent_id if it exists
     fetchAllRatingReviews(agent_id);
    } else {
-     onsole.error('No agent_id found in the URL');
+     console.error('No agent_id found in the URL');
    }
   
 });

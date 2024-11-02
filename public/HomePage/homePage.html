@@ -198,23 +198,24 @@
             <br>
 
             <h1>Car Loan</h1>
+            <span>Get your loan at 2.75% with CarTakers</span>
             <br>
             <table class="info-table">
                 <tbody>
                     <tr>
-                        <th>Car Price</th>
+                        <th>Car Price</th>  <!-- Fetch Car Price -->
                         <td class="dollar-sign">$</td>
                         <td><input type="text" class="form-control1" id="price" name="price" placeholder="Input your car price"></td>
                     </tr>
                     <tr>
                         <th>Down Payment</th>
                         <td class="dollar-sign">$</td>
-                        <td><input type="text" class="form-control1" id="downPayment" name="downPayment"></td>
+                        <td><input type="text" class="form-control1" id="downPayment" name="downPayment"></td>  <!-- Compute -->
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
-                        <td><button class="down-payment-button" data-rate="30" id="button30">30%</button>
+                        <td><button class="down-payment-button" data-rate="30" id="button30">30%</button> 
                             <button class="down-payment-button" data-rate="40">40%</button>
                             <button class="down-payment-button" data-rate="50">50%</button>
                         </td>
@@ -231,17 +232,17 @@
                     <tr>
                         <th colspan="2">Loan Term</th>
                         <td>
-                            <select id="role" name="role" class="form-control1" required> <!-- options fetch from database -->
-                                <option value="120">120 months</option>
-                                <option value="108">108 months</option>
-                                <option value="96">96 months</option>
-                                <option value="84">84 months</option>
-                                <option value="72">72 months</option>
-                                <option value="60">60 months</option>
-                                <option value="48">48 months</option>
-                                <option value="36">36 months</option>
+                            <select id="loanTerm" name="loanTerm" class="form-control1" required>
+                                <option value="12" selected>12 months</option>
                                 <option value="24">24 months</option>
-                                <option value="12">12 months</option>
+                                <option value="36">36 months</option>
+                                <option value="48">48 months</option>
+                                <option value="60">60 months</option>
+                                <option value="72">72 months</option>
+                                <option value="84">84 months</option>
+                                <option value="96">96 months</option>
+                                <option value="108">108 months</option>
+                                <option value="120">120 months</option>
                             </select>
                         </td>
                     </tr>
@@ -250,28 +251,28 @@
                             <div class="summary-container">
                                 <div class="summary-item">
                                     <p>Total Interest Paid</p>
-                                    <span>$0</span>
+                                    <span id="interest"></span> <!-- Compute -->
                                 </div>
                                 <div class="summary-item">
                                     <p>Total Paid Amount</p>
-                                    <span>$0</span>
+                                    <span id="totalPaidAmount"></span>  <!-- Compute -->
                                 </div>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="3">Car Loan Payment Breakdown</th>
+                        <th colspan="3" style="text-align: center;">Car Loan Payment Breakdown</th>
                     </tr>
                     <tr>
                         <td colspan="3">
                             <div class="summary-container">
                                 <div class="summary-item">
                                     <p>Loan Amount</p>
-                                    <span>$0</span>
+                                    <span id="loanAmount"></span>   <!-- Compute -->
                                 </div>
                                 <div class="summary-item">
                                     <p>Monthly Instalment</p>
-                                    <span>$0 /month</span>
+                                    <span id="monthlyInstalment"></span>    <!-- Compute -->
                                 </div>
                             </div>
                         </td>
