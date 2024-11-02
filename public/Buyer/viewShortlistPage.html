@@ -30,7 +30,192 @@
 
     <!-- View My Shortlist -->
     <h1><a href="./buyerDashboardPage.html" class="previous round">&#8249;</a>View My Shortlist</h1>
+    <br><br>
     
+    <!-- Car Listings Section -->
+    <div class="grid-container">
+        <!-- Fetch all car listings -->
+
+        <!-- Sample for a Car listing-->
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist1" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist1"></label>
+                </div>
+            </div>
+            <!-- Car price & loan calculator button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails(this)">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+        
+        <!-- Sample for a SOLD CAR -->
+        <div class="car-card disabled">
+            <div class="car-header">
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div> <!-- Fetch Car name -->
+                <div class="shortlist"> 
+                    <input type="checkbox" id="shortlist2" name="shortlist" value="1"> <!-- Fetch checked or uncheck? -->
+                    <label for="shortlist2"></label>
+                </div>
+            </div>
+            <span class="sold-label">SOLD</span>
+            <!-- Car price & Calculate Loan button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+
+        <!-- Dummy to visualise -->
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist3" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist3"></label>
+                </div>
+            </div>
+            <!-- Car price & loan calculator button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist4" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist4"></label>
+                </div>
+            </div>
+            <!-- Car price & loan calculator button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup overlay -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box">
+            <h1>Car Information</h1>
+            <br>
+            <p>Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p>
+            <div class="info-line">
+                <p>Reg Date:</p>
+                <span>12 April 2024</span>  <!-- Fetch Car Reg Date -->
+            </div>
+            <div class="info-line">
+                <p>Agent's Email:</p>
+                <span>JohnDoeAnderson@hotmail.com</span> <!-- Fetch Agent's Email -->
+            </div>
+            <br><br>
+
+            <h1>Car Loan</h1>
+            <span>Get your loan at 2.75% with CarTakers</span>
+            <br><br>
+            <table class="info-table">
+                <tbody>
+                    <tr>
+                        <th>Car Price</th>  <!-- Fetch Car Price -->
+                        <td class="dollar-sign">$</td>
+                        <td><input type="text" class="form-control1" id="price" name="price"></td>
+                    </tr>
+                    <tr>
+                        <th>Down Payment</th>
+                        <td class="dollar-sign">$</td>
+                        <td><input type="text" class="form-control1" id="downPayment" name="downPayment"></td>  <!-- Compute -->
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><button class="down-payment-button" data-rate="30" id="button30">30%</button> 
+                            <button class="down-payment-button" data-rate="40">40%</button>
+                            <button class="down-payment-button" data-rate="50">50%</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Interest Rate</th>
+                        <td>
+                            <div class="interest-rate-container">
+                                <input type="text" class="form-control1" id="interestRate" name="interestRate">
+                            <span class="percentage-sign">%</span>
+                            </div>    
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Loan Term</th>
+                        <td>
+                            <select id="loanTerm" name="loanTerm" class="form-control1" required>
+                                <option value="12" selected>12 months</option>
+                                <option value="24">24 months</option>
+                                <option value="36">36 months</option>
+                                <option value="48">48 months</option>
+                                <option value="60">60 months</option>
+                                <option value="72">72 months</option>
+                                <option value="84">84 months</option>
+                                <option value="96">96 months</option>
+                                <option value="108">108 months</option>
+                                <option value="120">120 months</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="light-grey-border">
+                        <td colspan="3">
+                            <div class="summary-container">
+                                <div class="summary-item">
+                                    <p>Total Interest Paid</p>
+                                    <span id="interest"></span> <!-- Compute -->
+                                </div>
+                                <div class="summary-item">
+                                    <p>Total Paid Amount</p>
+                                    <span id="totalPaidAmount"></span>  <!-- Compute -->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="3" style="text-align: center;">Car Loan Payment Breakdown</th>
+                    </tr>
+                    <tr class="light-grey-border">
+                        <td colspan="3">
+                            <div class="summary-container">
+                                <div class="summary-item">
+                                    <p>Loan Amount</p>
+                                    <span id="loanAmount"></span>   <!-- Compute -->
+                                </div>
+                                <div class="summary-item">
+                                    <p>Monthly Instalment</p>
+                                    <span id="monthlyInstalment"></span>    <!-- Compute -->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <button class="close-btn" onclick="closePopup()">Close</button>
+        </div>
+    </div>
     
 </body>
 </html>

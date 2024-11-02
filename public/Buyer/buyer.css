@@ -432,4 +432,340 @@ th, td {
 }
 /* ---------------------------------- */
 /* ViewShortlistPage CSS */
-/* To do... */
+/* Car listings */
+/* Responsive grid - layout */
+.grid-container{
+    display: grid;
+    grid-template-columns: 
+        repeat(auto-fit,
+               minmax(380px, 1fr));     /* each column at least 320px*/
+    gap: 10px;
+    justify-items: start;               /* Align items to left */
+    /*border: 1px solid black;          /* Cell borders - FOR CHECKING */
+}
+
+/* Individual car listing */
+.car-card {
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 10px auto;                  /* Left align, change 20px to auto to center align */
+    padding: 10px 30px;
+    /*width: 400px;                       /* Fixed width */
+    width: 100%;                        /* Set width to 100% to fill the grid cell */
+    max-width: 380px;                   /* Optional: Max width to limit size on larger screens */
+    height: 120px;                      /* Fixed height */
+    /*overflow: hidden;                   /* Prevent content overflowing */
+    display: flex;                      /* Use flexbox for internal layout */
+    flex-direction: column;             /* Stack items vertically */
+}
+
+/* Alignment for car-name & shortlist(heart-icon) */
+.car-header {
+    display: flex;                  /* Use flexbox for alignment */
+    justify-content: space-between; /* Space between element */
+    align-items: center;            /* Center align items vertically */
+    margin-bottom: auto;            /* Push car-info to the bottom of the car-card */
+}
+
+.car-name {
+    font-size: 1.5rem;                  /* Font size for the car name */
+    font-weight: bold;                  /* Bold text for emphasis */
+    /*margin-bottom: auto;                /* Push car-info to the bottom of the car-card */
+}
+
+.price-button {
+    display: flex;                      /* Use flexbox for alignment */
+    justify-content: space-between;     /* Space between price and button */
+    align-items: center;                /* Center vertically */
+}
+
+.price {
+    font-size: 1.7rem;                  /* Font size for the price */
+    font-weight: bold;                  /* Bold text for emphasis */
+    color: green;                     /* Color for price */
+}
+
+/* View Details button - adapt from Create & Cancel button */
+/* to populate no. of views */
+.create-button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.create-button:hover{
+    opacity: .6;
+}
+
+/* Sold Cars - adapt from suspend button */
+.disabled {
+    pointer-events: none;                   /* Disable all mouse events */
+    background-color: var(--light-pink);    /* Light pink background */
+}
+
+.disabled button{
+    opacity: 0.5;       /* Lighten the button (not clickable) */
+}
+
+.sold-label {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Shortlisting - heart-icon*/
+.shortlist{
+    pointer-events: auto;   /* Allow interaction with the shortlist */
+    opacity: 1;             /* Ensure full opacity */
+}
+
+/* Keep checkbox and label functional */
+.shortlist input {
+    display: none;          /* Hide the checkbox */
+    pointer-events: auto;   /* Ensure the checkbox is interactive */
+}
+
+.shortlist label {          /* Default heart */
+    float: right;
+    cursor: pointer;
+    color: var(--medium-gray);
+}
+
+.shortlist label:before {   /* Display stars before the label of each rating option */
+    content: '\2764';       /* Unicode for a solid heart */
+    font-size: 3rem;
+}
+
+.shortlist input:checked~label {    /* Change heart color when checked */
+    color: red;
+}
+
+/* ---------------------------------- */
+/* POP UP WINDOW - Car Reg Date, Agent's Email & Loan Calculator */
+/* Overlay background styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Popup box styling */
+.popup-box {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    width: 600px;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+/* Align <p> and <span> */
+.info-line {
+    display: flex;                 /* Use flexbox */
+    justify-content: center;       /* Center align items horizontally */
+    align-items: center;           /* Align items vertically centered */
+    margin: 5px 0;                 /* Add vertical spacing */
+}
+
+/* styling for <p> */
+.info-line p, .popup-overlay p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;                    /* Remove default margin */
+    margin-right: 8px;            /* Space between elements */
+}
+
+/* Styling for <span> */
+.info-line span {
+    font-size: 1.2rem;
+}
+
+/* Calculate Loan - table layout */
+.info-table {
+    width: 75%;                         /* Full width of the card */
+    border-collapse: separate;          /* Collapse borders for a cleaner look */
+    margin: 0 auto;                     /* Center the table horizontally */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    overflow: hidden; /* Clip corners */
+
+}
+
+.info-table th {
+    padding: 5px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+    font-size: 1.3rem;                  /* Set font size for the table */
+}
+
+.info-table td {
+    padding: 5px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+    font-size: 1.2rem;                  /* Set font size for the table */
+}
+
+.light-grey-border {
+    border: 1px solid #ddd;           /* Cell borders */
+    padding: 10px;                      /* Add padding for better spacing */
+    background-color: #f8f8f8;        /* Optional: Background color for the row */
+}
+
+/* Set fixed widths for each column */
+.info-table th:nth-child(1),
+.info-table td:nth-child(1) {
+    width: 30%;                        /* First column width */
+}
+
+.info-table th:nth-child(2),
+.info-table td:nth-child(2) {
+    width: 10%;                        /* Second column width */
+}
+
+.info-table th:nth-child(3),
+.info-table td:nth-child(3) {
+    width: 60%;                        /* Third column width */
+}
+
+/* Dollar sign styling */
+.info-table td.dollar-sign {
+    text-align: right;
+    font-weight: bold;
+}
+
+/* 3 percentage buttons for Down Payment*/
+.down-payment-button {
+    width: 85px;
+    height: 34px;
+    border: var(--border);
+    outline: none;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--black);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.selected {
+    outline: none; /* Remove the default outline */
+    border: 1px solid green; /* Set a green border */
+    box-shadow: 0 0 5px green; /* Optional: Add a subtle glow effect */
+    color: green;
+}
+
+/* User input Car Price, Down Payment & Interest Rate - modified */
+.form-control1{
+    width: 100%;
+    height: 30px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid silver;
+    margin: 0;
+    padding: 0 10px;
+    padding-right: 30px; /* Add padding to the right to prevent text overlap */
+}
+
+/* Fixed percentage sign for interest rate input */
+.interest-rate-container {
+    width: 100%;
+    position: relative;             /* Position relative for absolute positioning of child elements */
+    display: inline-block;          /* Inline-block for proper alignment */
+}
+
+.percentage-sign {
+    position: absolute;
+    right: 10px;                    /* Adjust this value for spacing */
+    top: 50%;                       /* Center vertically */
+    transform: translateY(-50%);    /* Adjust for vertical centering */
+    pointer-events: none;           /* Prevent clicking on the span */
+}
+
+/* Loan Term - dropdown styling */
+.form-control2{
+    width: 100%;
+    height: 30;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid silver;
+    /*margin: 10px 0 18px 0;*/
+    padding: 10px;                      /* Padding to textarea */
+    resize: none;                       /* Prevent resizing */
+    box-sizing: border-box;             /* Include padding and border in height */
+}
+
+/* Display - Total Interest Paid, Total Paid Amount, Loan Amount, Monthly Instalment */
+.summary-container {
+    display: flex;                         /* Use flexbox for layout */
+    justify-content: space-between;        /* Space between the items */
+    align-items: center;                   /* Center align items vertically */
+    text-align: center;                    /* Center align text in each item */
+    padding: 0 70px;                        /* Optional: Add padding for spacing */
+}
+
+.summary-item {
+    display: flex;                         /* Use flexbox for inner layout */
+    flex-direction: column;                /* Stack items vertically */
+    align-items: center;                   /* Center align items */
+}
+
+.summary-item p {
+    font-size: 1rem;
+    color: var(--medium-gray);
+}
+
+.summary-item span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: green;
+}
+
+.summary-item #totalInterestPaid {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--black);
+}
+
+.summary-item #totalPaidAmount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: red;
+}
+
+/* Close button styling */
+.close-btn {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    margin-top: 16px;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    background-color: red;
+    color: var(--white);
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    opacity: 0.6;
+}

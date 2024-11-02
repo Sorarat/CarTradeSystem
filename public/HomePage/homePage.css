@@ -591,28 +591,6 @@ th, td {
 }
 
 /* ---------------------------------- */
-/* carDetailsPage - NOT USED */
-/* Individual info container */
-.info-container {
-    margin-bottom: 15px;                        /* Space between container */
-    padding: 10px;                              /* Padding inside each container */
-    border: 1px solid var(--light-gray);                /* Border for each container*/
-    border-radius: 5px;                         /* Rounded corners for container */
-    background-color: var(--light-gray1);        /* Background color - FOR CHECKING */
-}
-
-.info-container .price {
-    font-size: 1.8rem;                  /* Font size for the price */
-    font-weight: bold;                  /* Bold text for emphasis */
-    color: green;                     /* Color for price */
-}
-
-.info-container p {
-    font-size: 1.2rem;
-    line-height: 1.5;
-}
-
-/* ---------------------------------- */
 /* viewRatingReviewPage CSS */
 .rating-card {
     background-color: var(--white);
