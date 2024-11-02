@@ -271,18 +271,21 @@ ratings.forEach(rating => {
 // Ensure the DOM is fully loaded before accessing elements
 document.addEventListener('DOMContentLoaded', function() {
 
-  document.getElementById('createRatingReview').addEventListener('click', createRatingReviewBtn);
+  if (window.location.pathname.includes('createRatingReviewPage.html')) {
+    
+    document.getElementById('createRatingReview').addEventListener('click', createRatingReviewBtn);
 
-  // Get the agent_id from the URL parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const agent_id = urlParams.get('agent_id');
-  
-  // update the back button to include the agent id in the url
-  if (agent_id) {
-    const backButton = document.getElementById('backButton');
-    backButton.href = `../HomePage/viewRatingReviewPage.html?agent_id=${agent_id}`;
+    // Get the agent_id from the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const agent_id = urlParams.get('agent_id');
+    
+    // update the back button to include the agent id in the url
+    if (agent_id) {
+      const backButton = document.getElementById('backButton');
+      backButton.href = `../HomePage/viewRatingReviewPage.html?agent_id=${agent_id}`;
+    }
   }
-
+  
 
 });
 

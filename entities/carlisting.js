@@ -171,6 +171,44 @@ class Carlisting {
 
         return listingsWithSellerEmail;
     }
+
+    // view all car listings
+    async viewAllCarListings() {
+        const query = 
+            `SELECT 
+                Carlisting.*, 
+                User.email AS agent_email
+            FROM
+                Carlisting
+            LEFT JOIN
+                User ON Carlisting.agent_id = User.user_id
+            `;
+        const [listings] = await db.promise().query(query);
+        return listings;
+    }
+
+    // buyer search for a car listing 
+    async searchForCarListing(carModel, minPrice, maxPrice) {
+
+        // Construct the base query
+        let query = `
+        SELECT * FROM Carlisting 
+        WHERE price >= ? AND price <= ?
+        `;
+         // Prepare the parameters for the query
+        const params = [minPrice, maxPrice];
+
+        // If carModel is provided, add the condition and parameter
+        if (carModel) {
+            query += ` AND car_model LIKE ?`;
+            params.push(`%${carModel}%`);
+        }
+
+        // Execute the query with the constructed parameters
+        const [listings] = await db.promise().query(query, params);
+
+        return listings;
+    }
 }
 
 module.exports = Carlisting;

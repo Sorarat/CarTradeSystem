@@ -816,4 +816,18 @@ th, td {
     margin-left: 5px;
 }
 
+.no-car-listings-container {
+    display: flex;          /* Use Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center;     /* Center vertically */
+    width: 100%;            /* Full width of the grid */
+    margin: 20px 0;        /* Optional: Add margin for spacing */
+}
+
+.no-car-listings-message {
+    text-align: center; /* Center text */
+    font-size: medium;
+}
+
+
 /* ---------------------------------- */

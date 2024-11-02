@@ -100,9 +100,140 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 /* Search button */
-function performCarSearch() {
-  // To do...
+async function performCarSearch() {
+  
+  const carModel = document.getElementById('searchCar').value.trim();
+  const minPrice = document.getElementById('min').value;
+  const maxPrice = document.getElementById('max').value;
+
+ 
+  // Check if the user has selected minPrice and maxPrice
+  if (!minPrice || minPrice === "Min Price") {
+    alert('Please select a minimum price.');
+    return;
 }
+
+  if (!maxPrice || maxPrice === "Max Price") {
+      alert('Please select a maximum price.');
+      return;
+  }
+
+  // Validate that minPrice is less than maxPrice
+  if (parseInt(minPrice) >= parseInt(maxPrice)) {
+    alert('Min Price must be less than Max Price.');
+    return;
+  }
+
+
+  try {
+    const response = await fetch(`/searchBuyerCarlistingRoute/searchBuyerCarlisting?carModel=${encodeURIComponent(carModel)}&minPrice=${minPrice}&maxPrice=${maxPrice}`); 
+    const carlistings = await response.json();
+
+    
+    populateCarListings(carlistings); 
+    
+    
+  }
+
+  catch(error) {
+    console.error('Failed to search for car listings: ', error);
+    alert('Failed to search for car listings. Please try again.');
+  }
+
+}
+
+function populateCarListings(carListings) {
+  const gridContainer = document.querySelector('.grid-container');
+  gridContainer.innerHTML = ''; // Clear existing listings
+
+  if (carListings.length === 0) {
+    const noResultsContainer = document.createElement('div'); // Create a wrapper
+    noResultsContainer.classList.add('no-car-listings-container'); // Add a class for styling
+
+    const noResultsMessage = document.createElement('p');
+    noResultsMessage.textContent = 'No car listings found.';
+    noResultsMessage.classList.add('no-car-listings-message'); // Keep your existing message class
+
+    noResultsContainer.appendChild(noResultsMessage);
+    gridContainer.appendChild(noResultsContainer); // Append wrapper to grid container
+    return;
+}
+
+
+
+
+  carListings.forEach(car => {
+    const carCard = document.createElement('div');
+    carCard.className = 'car-card';
+
+    const carHeader = document.createElement('div');
+    carHeader.className = 'car-header';
+
+    const carNameContainer = document.createElement('div');
+    carNameContainer.className = 'car-name-container';
+
+    const carName = document.createElement('p');
+    carName.className = 'car-name';
+    carName.textContent = car.car_model; 
+    carNameContainer.appendChild(carName);
+    
+    // Check the status of the car
+    if (!car.status) {
+      // Add SOLD label
+      const soldLabel = document.createElement('span');
+      soldLabel.className = 'sold-label';
+      soldLabel.textContent = 'SOLD';
+      carNameContainer.appendChild(soldLabel);
+
+      // Mark card as disabled if car is sold
+      carCard.classList.add('disabled');
+    }
+    carHeader.appendChild(carNameContainer);
+
+    const shortlist = document.createElement('div');
+    shortlist.className = 'shortlist';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = `shortlist${car.car_id}`; 
+    checkbox.name = 'shortlist';
+    checkbox.value = car.car_id;
+
+    const label = document.createElement('label');
+    label.htmlFor = `shortlist${car.car_id}`;
+
+    shortlist.appendChild(checkbox);
+    shortlist.appendChild(label);
+    carHeader.appendChild(shortlist);
+
+    const priceButton = document.createElement('div');
+    priceButton.className = 'price-button';
+
+    const price = document.createElement('span');
+    price.className = 'price';
+    price.textContent = `$${car.price}`; 
+
+    const viewDetailsButton = document.createElement('button');
+    viewDetailsButton.className = 'create-button';
+    viewDetailsButton.textContent = 'View Details';
+    viewDetailsButton.onclick = () => viewCarDetails(car); // Add an onclick handler
+
+    priceButton.appendChild(price);
+    priceButton.appendChild(viewDetailsButton);
+    carCard.appendChild(carHeader);
+    carCard.appendChild(priceButton);
+
+    gridContainer.appendChild(carCard);
+  });
+}
+
+
+document.getElementById('searchCarForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the form from submitting normally
+  performCarSearch();
+});
+
+
 
 /* Shortlist checkbox - heart-icon */
 document.addEventListener('DOMContentLoaded', function() {
@@ -130,6 +261,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  // Format the date as 'DD Month YYYY', e.g., '14 May 2022'
+  return date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+  });
+}
 
 /* View Details button - opens a popup */
 let lastSelectedButton = null; // Variable to keep track of the last selected button
@@ -163,7 +303,7 @@ function viewCarDetails(button) {
 
   // Compute Total Interest Paid
   const totalInterestPaid = carPrice * (defaultInterestRate/100) * (defaultLoanTerm/12);
-  document.getElementById('interest').innerText = formatSGD(totalInterestPaid);
+  document.getElementById('interestRate').innerText = formatSGD(totalInterestPaid);
 
   // Compute Loan Amount
   const loanAmount = carPrice - DownPayment;
@@ -203,6 +343,14 @@ function viewCarDetails(button) {
 
   // Set up event listeners for buttons
   setDownPaymentListeners();
+
+  // Set the dynamic content of the popup
+  document.getElementById('carModel').textContent = car.car_model; // Car Model
+  document.getElementById('carRegDate').textContent = formatDate(car.reg_date); // Car Reg Date
+  document.getElementById('agentEmail').textContent = car.agent_email; // Agent's Email
+  document.getElementById('price').value = car.price; // Car Price
+
+  //window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
 
   // Set up event listeners for input fields
   const priceInput = document.getElementById('price');
@@ -412,7 +560,6 @@ function populateAgentTable(agents) {
   
   agents.forEach(agent => {
     const row = document.createElement('tr');
-    // row.setAttribute('data-user-id', agent.u);
     
     // populate table rows with agent data
     row.innerHTML = `
@@ -523,16 +670,20 @@ function displayOverallRating(reviews) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Extract agent_id from the URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const agent_id = urlParams.get('agent_id');
-   
-  if (agent_id) {
-    // Call fetchAllRatingReviews with the agent_id if it exists
-    fetchAllRatingReviews(agent_id);
-   } else {
-    console.error('No agent_id found in the URL');
-   }
+
+  if (window.location.pathname.includes('viewRatingReviewPage.html')){
+    // Extract agent_id from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const agent_id = urlParams.get('agent_id');
+    
+    if (agent_id) {
+      // Call fetchAllRatingReviews with the agent_id if it exists
+      fetchAllRatingReviews(agent_id);
+    } else {
+      console.error('No agent_id found in the URL');
+    }
+  }
+  
   
 });
 
@@ -557,3 +708,99 @@ function createRatingReviewBtn() {
 }
 
 /* ---------------------------------- */
+
+/* fetch all car listings JS */
+
+async function fetchCarListings() {
+
+  try {
+    const response = await fetch('/viewBuyerCarlistingRoute/view-buyer-carlisting');
+    const carListings = await response.json();
+
+    const gridContainer = document.querySelector('.grid-container');
+    gridContainer.innerHTML = ''; // clear existing listings
+
+    carListings.forEach(car => {
+      const carCard = document.createElement('div');
+      carCard.className = 'car-card';
+
+      const carHeader = document.createElement('div');
+      carHeader.className = 'car-header';
+
+      const carNameContainer = document.createElement('div');
+      carNameContainer.className = 'car-name-container';
+
+      const carName = document.createElement('p');
+      carName.className = 'car-name';
+      carName.textContent = car.car_model; 
+      carNameContainer.appendChild(carName);
+      
+      if (!car.status) {
+       
+       // add SOLD label
+        const soldLabel = document.createElement('span');
+        soldLabel.className = 'sold-label';
+        soldLabel.textContent = 'SOLD';
+        carNameContainer.appendChild(soldLabel);
+
+        // mark card as disabled if car is sold
+        carCard.classList.add('disabled');
+
+      }
+      carHeader.appendChild(carNameContainer);
+
+      const shortlist = document.createElement('div');
+      shortlist.className = 'shortlist';
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = `shortlist${car.car_id}`; 
+      checkbox.name = 'shortlist';
+      checkbox.value = car.id;
+
+      const label = document.createElement('label');
+      label.htmlFor = `shortlist${car.car_id}`;
+
+      shortlist.appendChild(checkbox);
+      shortlist.appendChild(label);
+      carHeader.appendChild(shortlist);
+
+      const priceButton = document.createElement('div');
+      priceButton.className = 'price-button';
+
+      const price = document.createElement('span');
+      price.className = 'price';
+      price.textContent = `$${car.price}`; 
+
+      const viewDetailsButton = document.createElement('button');
+      viewDetailsButton.className = 'create-button';
+      viewDetailsButton.textContent = 'View Details';
+      viewDetailsButton.onclick = () => viewCarDetails(car); 
+
+      priceButton.appendChild(price);
+      priceButton.appendChild(viewDetailsButton);
+      carCard.appendChild(carHeader);
+      carCard.appendChild(priceButton);
+
+      gridContainer.appendChild(carCard);
+      
+    })
+
+
+  }
+
+  catch(error) {
+    console.error('Error fetching car listings: ', error);
+
+  }
+
+}
+// call the function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.location.pathname.includes('homePage.html')) {
+    fetchCarListings();
+  }
+});
+
+/* ---------------------------------- */
+
