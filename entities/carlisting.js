@@ -117,7 +117,7 @@ class Carlisting {
     }
 
     // update car listing
-    async updateCarListing(car_id, car_model, reg_date, price, sellerEmail) {
+    async updateCarListing(car_id, car_model, reg_date, price, sellerEmail, status) {
         // create empty instance of user
         const user = new User();
         // get seller id
@@ -133,8 +133,8 @@ class Carlisting {
         }
 
         // update listing
-        const query = 'UPDATE Carlisting SET car_model = ?, reg_date = ?, price = ?, seller_id = ? WHERE car_id = ?';
-        const [result] = await db.promise().query(query, [car_model, reg_date, price, seller.user_id, car_id]);
+        const query = 'UPDATE Carlisting SET car_model = ?, reg_date = ?, price = ?, seller_id = ?, status = ? WHERE car_id = ?';
+        const [result] = await db.promise().query(query, [car_model, reg_date, price, seller.user_id, status, car_id]);
 
         return result.affectedRows > 0;
     }
