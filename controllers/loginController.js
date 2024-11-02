@@ -1,4 +1,4 @@
-const User = require('../entities/User');
+const User = require('../entities/user');
 
 class loginController {
     async login(req, res) {

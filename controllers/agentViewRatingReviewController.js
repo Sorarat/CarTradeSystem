@@ -1,16 +1,15 @@
 const rateReview = require('../entities/rateReview');
 
-class viewRatingReviewController {
+class agentViewRatingReviewController {
 
-    // view all ratings & reviews
-    async viewRatingReview(req, res) {
+    // view all rating & reviews
+    async agentViewRatingReview(req, res) {
 
-        const agent_id = req.params.agent_id;
-    
+        const agent_email = req.params.agent_email;
+
         try {
-
             const rateReviewInstance = new rateReview();
-            const ratingReviews = await rateReviewInstance.getRatingReview(agent_id);
+            const ratingReviews = await rateReviewInstance.getAgentRatingReview(agent_email);
             res.json(ratingReviews);
         }
 
@@ -19,6 +18,7 @@ class viewRatingReviewController {
             console.error("Error fetching ratings and reviews: ", error);
         }
     }
+
 }
 
-module.exports = viewRatingReviewController;
+module.exports = agentViewRatingReviewController;

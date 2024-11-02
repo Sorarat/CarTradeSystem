@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /*---------------------------------------------------------*/
-/* View Agent's Car Listing*/         // NEED TO ADD IN STATUS ************************************
+/* View Agent's Car Listing*/         
 let allCarListings = [];
 
 async function fetchAgentCarListing() {
@@ -141,6 +141,13 @@ function populateCarListingTable(carlistings) {
       <td data-field="price">${carlisting.price.toLocaleString()}</td> 
       <td data-field="reg_date">${carlisting.reg_date}</td>
       <td data-field="seller_email">${carlisting.seller_email}</td>
+      <td data-field="status">
+          <span id="status-text">${carlisting.status ? "Available" : "Sold"}</span>
+          <select data-field="status" id="status-select" style="display: none;" onchange="selectStatus(this, ${carlisting.car_id})">
+              <option value="Available" ${carlisting.status ? "selected" : ""}>Available</option>
+              <option value="Sold" ${!carlisting.status ? "selected" : ""}>Sold</option>
+          </select>
+      </td>
       <td>
           <div class="button-container1">
               <button class="update-button" id="update-button-${carlisting.car_id}" type="button" onclick="updateRow(${carlisting.car_id})">Update</button>
@@ -148,6 +155,9 @@ function populateCarListingTable(carlistings) {
           </div>
       </td>
     `;
+    if (!carlisting.status) {
+      applySoldStyling(row);
+    }
 
     tableBody.appendChild(row); // Append the populated row to the table body
   });
@@ -162,8 +172,24 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+function applySoldStyling(row) {
+  const buttons = row.querySelectorAll('button');
+
+  buttons.forEach(button => {
+    button.disabled = true; // Disable the button
+    button.style.opacity = 0.5; // Make button appear disabled
+  });
+
+  // Change row style to indicate it is sold
+  row.style.backgroundColor = '#f8d7da'; // Light red background
+  row.style.color = '#721c24'; // Dark red text
+  row.querySelectorAll('td').forEach(cell => {
+    cell.style.pointerEvents = 'none'; // Prevent any interaction with the cells
+  });
+}
+
 /*---------------------*/
-/*View Agent's Car Listing - update button & delete button */     // NEED TO ADD IN STATUS ************************************
+/*View Agent's Car Listing - update button & delete button */     
 function updateRow(car_id) {
   const row = document.getElementById(`car-data-${car_id}`);
 
@@ -171,23 +197,30 @@ function updateRow(car_id) {
   for (let i = 0; i < row.cells.length - 1; i++) {
       const cell = row.cells[i];
       const cellValue = cell.textContent;
-      // Create an input element
-      const input = document.createElement('input');
-      if(i == 2){
-        const dateString = cellValue.trim();
-        const [year, month, day] = dateString.split("-");
-        const formattedDate = `${year}-${month}-${day}`
-
-        input.type = "date"; 
-        input.value = formattedDate;
-      }else{
-        input.type = 'text'; // Set input type
+      
+      if (cell.dataset.field === 'status') {
+        cell.querySelector('span').style.display = 'none';
+        cell.querySelector('select').style.display = 'block';
       }
-      input.value = cellValue; // Set current cell value
+      else {
+        // Create an input element
+        const input = document.createElement('input');
+        if(i == 2){
+          const dateString = cellValue.trim();
+          const [year, month, day] = dateString.split("-");
+          const formattedDate = `${year}-${month}-${day}`
 
-      // Clear the cell and append the input
-      cell.innerHTML = ''; // Clear existing content
-      cell.appendChild(input); // Add the input to the cell
+          input.type = "date"; 
+          input.value = formattedDate;
+        }else{
+          input.type = 'text'; // Set input type
+        }
+        input.value = cellValue; // Set current cell value
+
+        // Clear the cell and append the input
+        cell.innerHTML = ''; // Clear existing content
+        cell.appendChild(input); // Add the input to the cell
+      }
   }
 
   // Change the button to save changes
@@ -208,7 +241,8 @@ async function save(car_id) {
   // Loop through each cell and get the value from the input
   for (let i = 0; i < row.cells.length; i++) {
       const cell = row.cells[i];
-      const input = cell.querySelector('input'); // Get the input from the cell
+      const input = cell.querySelector('input');
+      const select = cell.querySelector('select');
 
       if(input) {
         if (input.value.trim() == '') {
@@ -218,7 +252,7 @@ async function save(car_id) {
         }
 
         // for seller email
-        if (i == 3) {
+        if (cell.dataset.field === 'seller_email') {
           // Validate email format
           if (!emailPattern.test(input.value)) {
             alert('Please enter a valid email address.');
@@ -229,7 +263,7 @@ async function save(car_id) {
         }
 
         // Special handling for price column (assuming it's at index 1)
-        if (i === 1) {
+        if (cell.dataset.field === 'price') {
           // validate price
           const priceNumber = parseFloat(input.value); // Convert to float
 
@@ -242,12 +276,31 @@ async function save(car_id) {
 
           updatedData[cell.dataset.field] = priceNumber; // Store as number
         
-        } else {
+        }
+        else {
           // Store updated data based on cell data attributes
           updatedData[cell.dataset.field] = input.value;
         }
 
         cell.textContent = input.value;
+      }
+
+      // Check and update status
+      if (select) {
+        const statusValue = select.value;
+        updatedData.status = statusValue === "Available" ? 1: 0; // Convert to boolean for database
+
+        if (statusValue === "Sold") {
+          applySoldStyling(row); // Apply "sold" styling
+        }
+
+        // Update the display to show status as text instead of select box
+        const statusText = row.querySelector('#status-text');
+        const statusSelect = row.querySelector('#status-select');
+
+        statusText.textContent = statusValue; // Update the status text to the current status
+        statusText.style.display = ''; // Show the status text
+        statusSelect.style.display = 'none'; // Hide the select box
       }
       
   }
@@ -329,14 +382,6 @@ async function deleteRow(car_id) {
             button.style.opacity = 1;
         });
     }
-
-    /* Change row style to indicate sold
-    row.style.backgroundColor = '#f8d7da'; // Light red background
-    row.style.color = '#721c24'; // Dark red text
-    row.cells.forEach(cell => {
-        cell.style.pointerEvents = 'none'; // Prevent any interaction with the cells
-    });
-    */
 }
 
 /* Search bar -- search by car model */
@@ -361,5 +406,88 @@ async function performCarListingSearch() {
 }
 
 
+/* ---------------------------------- */
+/* view rating & reviews js */
+
+let allRatingAndReviews = [];
+
+async function fetchAgentRatingReviews() {
+
+  // get agent email from session storage
+  const agent_email = sessionStorage.getItem('email');
+
+  try {
+    const response = await fetch(`/agentViewRatingReviewRoute/agent-view-ratings-reviews/${agent_email}`);
+    data = await response.json();
+
+    displayReviews(data);    
+    displayOverallRating(data);
+  }
+
+  catch (err){
+    console.error('Failed to retrieve ratings & reviews: ', err);
+    alert('Failed to retrieve rating and reviews. Please try again.');
+  }
+
+}
+
+function displayReviews(reviews) {
+  const container = document.getElementById("review-container");
+  container.innerHTML = ""; // clear any existing review
+
+  reviews.forEach(review => {
+    const reviewCard = document.createElement("div");
+    reviewCard.className = "review-card";
+    reviewCard.innerHTML = `
+      <div class="review-header">
+        <p class="review-username">${review.username}</p>
+        <div class="star">
+          <input type="radio" id="star" name="star" value="star" checked>
+          <label for="star"></label>
+          <p class="rating-text">${review.rating}</p>
+        </div>
+      </div>
+      <p class="review">${review.review}</p>
+      `;
+
+      container.appendChild(reviewCard);
+  });
+
+}
+
+// calculate and display the overall rating
+function displayOverallRating(reviews) {
+  const container = document.getElementById("overall-rating");
+  
+  if (reviews.length === 0) {
+    container.textContent = "No ratings available";
+    return;
+  }
+
+  // sum all ratings
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  
+  // Calculate average rating
+  const averageRating = (totalRating / reviews.length).toFixed(1); // Round to 1 decimal
+  
+  // Display the average rating
+  container.innerHTML = `
+    <div class="overall-rating-content">
+      <div class="star">
+        <input type="radio" id="star-overall" name="star" value="star" checked>
+        <label for="star-overall"></label>
+      </div>
+    </div>
+    <span class="average-rating-text">${averageRating} / 5</span>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const reviewContainer = document.getElementById('review-container');
+  if (reviewContainer) {
+    fetchAgentRatingReviews();
+  }
+  
+});
 
 

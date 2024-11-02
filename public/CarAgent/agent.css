@@ -12,6 +12,7 @@
     --light-gray2: #ccc;    /* separator line */ 
     --medium-gray: #999;    /* button background */
     --dark-gray: #666;      /* suspended background */
+    --yellow: #ffd300;      /* star rating */
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
     --outline: .1rem solid rgba(0, 0, 0, .1);
@@ -420,6 +421,36 @@ th, td {
 
 /* ---------------------------------- */
 /* viewRatingReviewPage CSS */
+.rating-card {
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 20px auto;                  /* Center the card with auto margins */
+    padding: 20px 50px 20px 50px;
+    width: 40%;                         /* Adjust this value as needed */
+    max-width: 600px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
+}
+
+.overall-rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-center; /* Center-aligns the container content */
+    gap: 0px; /* Adds space between agent card and button */
+    margin-top: 20px;
+    margin: 0 auto;
+    max-width: 620px;
+    margin-top: 20px;
+}
+
+#overall-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
 /* Individual Rating & Review - layout */
 .review-card {
     background-color: var(--white);
@@ -432,16 +463,62 @@ th, td {
     max-width: 950px;                   /* Set a maximum width */
     overflow: hidden;                   /* Prevent content overflowing */
 }
+
+
+/* Star-icon */
+.star {
+    display: flex;          /* Use flexbox for alignment */
+    align-items: center;    /* Center align items vertically */
+    pointer-events: none;                   /* Disable all mouse events */
+}
+
+.star input {
+    display: none;     /* hide the radio buttons */
+}
+
+.star label {         /* yellow star */
+    float: right;
+    cursor: pointer;
+    color: var(--yellow);
+}
+
+.star label:before {        /* display stars before the label of each rating option */
+    content: '\2605';       /* unicode for a solid star */
+    font-size: 2rem;
+}
+
+/* Display no. of star rating */
+.rating-text {
+    font-size: 1.75rem;
+    color: var(--black);
+    line-height: 1.5;
+    margin-left: 5px;
+}
+
+/* Align reviewer's Username & the star-icon */
+.review-header {
+    display: flex;                  /* Use flexbox for alignment */
+    justify-content: space-between; /* Space between username and star rating */
+    align-items: center;            /* Center align items vertically */
+}
+
+.review-username {
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 2;
+}
+
+.review {
+    font-size: 1.5rem;
+    color: var(--black);
+    line-height: 1.5;
+}
+
+
 .review-star {
     display: flex; /* Use flexbox for alignment */
     align-items: center; /* Center the items vertically */
     margin-left: 20px; /* Space between username and rating */
-}
-
-.star {
-    color: #FFD300; /* Gold color for the star */
-    font-size: 24px; /* Adjust the size as needed */
-    margin-right: 4px; /* Space between star and number */
 }
 
 .rating-number {
@@ -466,3 +543,36 @@ th, td {
     color: var(--black);
     line-height: 1.5;
 }
+
+
+/* Star-icon - overall rating */
+.overall-star {
+    display: flex;          /* Use flexbox for alignment */
+    align-items: center;    /* Center align items vertically */
+    pointer-events: none;                   /* Disable all mouse events */
+}
+
+.overall-star input {
+    display: none;     /* hide the radio buttons */
+}
+
+.overall-star label {         /* yellow star */
+    float: right;
+    cursor: pointer;
+    color: var(--yellow);
+}
+
+.overall-star label:before {        /* display stars before the label of each rating option */
+    content: '\2605';       /* unicode for a solid star */
+    font-size: 1.7rem;
+}
+
+/* Display no. of star rating */
+.overall-rating-text {
+    font-size: 1.5rem;
+    color: var(--black);
+    line-height: 1.5;
+    margin-left: 5px;
+}
+
+/* ---------------------------------- */
