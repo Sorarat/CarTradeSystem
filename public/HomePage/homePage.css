@@ -576,7 +576,6 @@ th, td {
 
 /* ---------------------------------- */
 /* viewRatingReviewPage CSS */
-/* Agent details */
 .rating-card {
     background-color: var(--white);
     border-radius: 18px;
@@ -604,7 +603,7 @@ th, td {
     display: flex;
     align-items: center;
     gap: 8px;
-  }
+}
 
 .create-rating-review-btn {
     width: 200px;

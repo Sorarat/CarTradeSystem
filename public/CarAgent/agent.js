@@ -361,5 +361,86 @@ async function performCarListingSearch() {
 }
 
 
+/* ---------------------------------- */
+/* view rating & reviews js */
 
+let allRatingAndReviews = [];
 
+async function fetchAgentRatingReviews() {
+
+  // get agent email from session storage
+  const agent_email = sessionStorage.getItem('email');
+
+  try {
+    const response = await fetch(`/agentViewRatingReviewRoute/agent-view-ratings-reviews/${agent_email}`);
+    data = await response.json();
+
+    displayReviews(data);    
+    displayOverallRating(data);
+  }
+
+  catch (err){
+    console.error('Failed to retrieve ratings & reviews: ', err);
+    alert('Failed to retrieve rating and reviews. Please try again.');
+  }
+
+}
+
+function displayReviews(reviews) {
+  const container = document.getElementById("review-container");
+  container.innerHTML = ""; // clear any existing review
+
+  reviews.forEach(review => {
+    const reviewCard = document.createElement("div");
+    reviewCard.className = "review-card";
+    reviewCard.innerHTML = `
+      <div class="review-header">
+        <p class="review-username">${review.username}</p>
+        <div class="star">
+          <input type="radio" id="star" name="star" value="star" checked>
+          <label for="star"></label>
+          <p class="rating-text">${review.rating}</p>
+        </div>
+      </div>
+      <p class="review">${review.review}</p>
+      `;
+
+      container.appendChild(reviewCard);
+  });
+
+}
+
+// calculate and display the overall rating
+function displayOverallRating(reviews) {
+  const container = document.getElementById("overall-rating");
+  
+  if (reviews.length === 0) {
+    container.textContent = "No ratings available";
+    return;
+  }
+
+  // sum all ratings
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  
+  // Calculate average rating
+  const averageRating = (totalRating / reviews.length).toFixed(1); // Round to 1 decimal
+  
+  // Display the average rating
+  container.innerHTML = `
+    <div class="overall-rating-content">
+      <div class="star">
+        <input type="radio" id="star-overall" name="star" value="star" checked>
+        <label for="star-overall"></label>
+      </div>
+    </div>
+    <span class="average-rating-text">${averageRating} / 5</span>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const reviewContainer = document.getElementById('review-container');
+  if (reviewContainer) {
+    fetchAgentRatingReviews();
+  }
+  
+});

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rating & Review</title>
-    <link rel="stylesheet" href="homePage.css">    <!-- CSS -->
-    <script src="homePage.js" defer></script>      <!-- Javascript -->
+    <link rel="stylesheet" href="agent.css">    <!-- CSS -->
+    <script src="agent.js" defer></script>      <!-- Javascript -->
 </head>
 <body>
     <!-- Header Section -->
@@ -18,9 +18,7 @@
             <div class="menu">
                 <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
                 <div id="menu-dropdown" class="menu-content">
-                    <div id="home-link-container"></div>                        <!-- Container for the Home link (Buyer Only) -->
-                    <a id="dashboardLink" href="#">Dashboard</a>                <!-- For Buyer & Seller (update dashboard link) -->
-                    <a href="../HomePage/viewAgentsPage.html">Agents</a>        <!-- For Buyer & Seller -->
+                    <a href="./agentDashboard.html">Dashboard</a>
                 </div>
                 <span>|</span>
                 <a href="#" onclick="logoutBtn(event)">Logout</a>
@@ -29,7 +27,7 @@
     </header>
 
     <!-- View Rating & Reviews -->
-    <h1><a href="./viewAgentsPage.html" class="previous round">&#8249;</a>View Rating & Reviews</h1>
+    <h1><a href="./agentDashboard.html" class="previous">&#8249;</a>View All Rating and Reviews</h1>
 
     <div class="overall-rating-container">
         <div class="rating-card">
@@ -45,13 +43,12 @@
                     </tr>
                 </tbody>
             </table>
-    </div>
-        <button class="create-rating-review-btn" onclick="createRatingReviewBtn()">Create Rating & Review</button>
+        </div>
     </div>
 
     <div id="review-container">
         <!-- Reviews will be populated here dynamically -->
     </div>
-    
+
 </body>
 </html>

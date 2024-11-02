@@ -84,6 +84,30 @@ class rateReview {
 
     }
 
+    async getAgentRatingReview(agent_email) {
+
+        const user = new User();
+        
+        const agent = await user.findByEmail(agent_email);
+        const agentId = agent.user_id;
+
+        if (agent == null) {
+            return false;
+        }
+
+
+        // fetch all rating & reviews 
+        const query = `
+            SELECT rr.*, u.username
+            FROM RateReview rr
+            JOIN User u ON rr.reviewer_id = u.user_id
+            WHERE rr.agent_id = ? `;
+
+        const [rows] = await db.promise().query(query, [agentId]);
+        return rows;
+
+    }
+
 
 }
 

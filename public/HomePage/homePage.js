@@ -405,8 +405,6 @@ function displayOverallRating(reviews) {
     </div>
     <span class="average-rating-text">${averageRating} / 5</span>
   `;
-
-
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -418,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Call fetchAllRatingReviews with the agent_id if it exists
     fetchAllRatingReviews(agent_id);
    } else {
-     onsole.error('No agent_id found in the URL');
+    console.error('No agent_id found in the URL');
    }
   
 });
