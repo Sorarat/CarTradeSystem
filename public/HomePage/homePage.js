@@ -228,10 +228,18 @@ function populateCarListings(carListings) {
 }
 
 
-document.getElementById('searchCarForm').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the form from submitting normally
-  performCarSearch();
+document.addEventListener('DOMContentLoaded', function() {
+  const searchForm = document.getElementById('searchCarForm');
+  if (searchForm) {
+      searchForm.addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent the form from submitting normally
+          performCarSearch();
+      });
+  } else {
+      console.warn('searchCarForm element not found in the DOM');
+  }
 });
+
 
 
 
@@ -538,7 +546,7 @@ async function fetchAllAgents(shouldPopulateTable = true) {
       throw new Error('Network response was not ok');
     }
     allAgents = await response.json();
-
+    
     if (shouldPopulateTable) {
       populateAgentTable(allAgents);
     }
@@ -578,13 +586,18 @@ function populateAgentTable(agents) {
 
 // call the fetchAllAgents function when the page loads
 document.addEventListener('DOMContentLoaded', function() {
-  const agentTable = document.getElementById('agentInfoTable');
-  if (agentTable) {
-    fetchAllAgents();
+
+  if (window.location.pathname.includes('viewAgentsPage.html')) {
+    const agentTable = document.getElementById('agentInfoTable');
+   
+    if (agentTable) {
+      fetchAllAgents(true);
+    } else {
+      console.warn('Agent table not found. Ensure the correct ID is set in the HTML.');
+    }
   }
+  
 });
-
-
 
 
 
@@ -606,8 +619,9 @@ async function fetchAllRatingReviews(agent_id) {
     const response = await fetch(`/viewRatingReviewRoute/view-rating-reviews/${agent_id}`);
     if (!response.ok) 
       throw new Error('Failed to fetch rating and review');
-
+   
     const data = await response.json();
+    
     displayReviews(data);
     displayOverallRating(data);
 
@@ -683,8 +697,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error('No agent_id found in the URL');
     }
   }
-  
-  
+
 });
 
 

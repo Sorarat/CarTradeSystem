@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
       backButton.href = `../HomePage/viewRatingReviewPage.html?agent_id=${agent_id}`;
     }
   }
-  
+
 
 });
 
