@@ -13,6 +13,7 @@
     --medium-gray: #999;    /* button background */
     --dark-gray: #666;      /* suspended background */
     --yellow: #ffd300;      /* star rating */
+    --light-pink: #FFB6C1;  /* sold background*/
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
     --outline: .1rem solid rgba(0, 0, 0, .1);
@@ -328,11 +329,11 @@ th, td {
 /* Sold Cars - adapt from suspend button */
 .disabled {
     pointer-events: none;                   /* Disable all mouse events */
-    background-color: #FFB6C1;            /* Light pink background */
+    background-color: var(--light-pink);    /* Light pink background */
 }
 
 .disabled button{
-    opacity: 0.5;                           /* Lighten the button (not clickable) */
+    opacity: 0.5;       /* Lighten the button (not clickable) */
 }
 
 .sold-label {
@@ -416,15 +417,19 @@ th, td {
 
 /* Calculate Loan - table layout */
 .info-table {
-    width: 80%;                         /* Full width of the card */
-    border-collapse: collapse;          /* Collapse borders for a cleaner look */
+    width: 75%;                         /* Full width of the card */
+    border-collapse: separate;          /* Collapse borders for a cleaner look */
     margin: 0 auto;                     /* Center the table horizontally */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    overflow: hidden; /* Clip corners */
+
 }
 
 .info-table th {
     padding: 5px;                      /* Cell padding */
     text-align: left;                   /* Left alignment */
-    border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
     /*text-transform: none;               /* Preserve original capitalization */
     white-space: nowrap;                /* Prevent text wrapping */
     font-size: 1.3rem;                  /* Set font size for the table */
@@ -433,10 +438,16 @@ th, td {
 .info-table td {
     padding: 5px;                      /* Cell padding */
     text-align: left;                   /* Left alignment */
-    border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
     /*text-transform: none;               /* Preserve original capitalization */
     white-space: nowrap;                /* Prevent text wrapping */
     font-size: 1.2rem;                  /* Set font size for the table */
+}
+
+.light-grey-border {
+    border: 1px solid #ddd;           /* Cell borders */
+    padding: 10px;                      /* Add padding for better spacing */
+    background-color: #f8f8f8;        /* Optional: Background color for the row */
 }
 
 /* Set fixed widths for each column */
@@ -475,7 +486,7 @@ th, td {
     transition: .3s;
 }
 
-.down-payment-button:focus {
+.selected {
     outline: none; /* Remove the default outline */
     border: 1px solid green; /* Set a green border */
     box-shadow: 0 0 5px green; /* Optional: Add a subtle glow effect */
@@ -537,19 +548,46 @@ th, td {
     align-items: center;                   /* Center align items */
 }
 
+.summary-item p {
+    font-size: 1rem;
+    color: var(--medium-gray);
+}
+
+.summary-item span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: green;
+}
+
+.summary-item #totalInterestPaid {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--black);
+}
+
+.summary-item #totalPaidAmount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: red;
+}
+
 /* Close button styling */
 .close-btn {
-    margin-top: 15px;
-    padding: 8px 16px;
-    background: #f44336;
-    color: var(--white);
+    width: 100px;
+    height: 34px;
     border: none;
-    border-radius: 5px;
+    outline: none;
+    padding: 10px 15px;
+    margin-top: 16px;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    background-color: red;
+    color: var(--white);
     cursor: pointer;
 }
 
 .close-btn:hover {
-    background-color: #d32f2f;
+    opacity: 0.6;
 }
 
 /* ---------------------------------- */

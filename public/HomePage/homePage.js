@@ -132,6 +132,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 /* View Details button - opens a popup */
+let lastSelectedButton = null; // Variable to keep track of the last selected button
+
 function viewCarDetails(button) { 
   // Update database accordingly - for seller to see
   let viewCount = 0;
@@ -139,15 +141,17 @@ function viewCarDetails(button) {
   console.log('Current Count:', viewCount); // Log the count to the console - FOR CHECKING
 
   document.getElementById('popupOverlay').style.display = 'flex';
-  document.getElementById('button30').focus(); // Default Down Payment: Set focus to button30 when popup open
 
   // Fetch Car Price
   const carPrice = Number("85000");
   document.getElementById('price').value = formatPrice(carPrice);
 
   // Set default Down Payment value (30%)
-  const defaultDownPaymentRate = 30; // Set a default value
-  const DownPayment = carPrice * (defaultDownPaymentRate/100);
+  const button30 = document.getElementById('button30');
+  button30.classList.add('selected'); // Add 'selected' class to the default button
+  lastSelectedButton = button30;
+  const selectedRate = lastSelectedButton.getAttribute('data-rate'); // Get the value of the selected button
+  const DownPayment = carPrice * (selectedRate/100);
   document.getElementById('downPayment').value = formatPrice(DownPayment);
 
   // Set default Interest Rate (2.5%)
@@ -170,17 +174,50 @@ function viewCarDetails(button) {
   document.getElementById('totalPaidAmount').innerText = formatSGD(totalPaidAmount);
 
   // Compute Monthly Instalment
-  const monthlyInstalment = Math.ceil(totalPaidAmount/defaultLoanTerm);
+  const monthlyInstalment = Math.round(totalPaidAmount/defaultLoanTerm);
   const monthlyInstalmentStr = formatSGD(monthlyInstalment) + " /mth";
   document.getElementById('monthlyInstalment').innerText = monthlyInstalmentStr;
-  
+
+  // Add event listener to the popup overlay to keep the selected state
+  const popupOverlay = document.getElementById('popupOverlay');
+  popupOverlay.addEventListener('click', (event) => {
+    // Check if the click was on any down payment button
+    if (event.target.classList.contains('down-payment-button')) {
+      // Remove selected class from all buttons
+      const buttons = document.querySelectorAll('.down-payment-button');
+      buttons.forEach(btn => btn.classList.remove('selected'));
+
+      // Add selected class to the clicked button
+      event.target.classList.add('selected');
+
+      // Update lastSelectedButton to the newly clicked button
+      lastSelectedButton = event.target;
+    } else {
+      // Keep the last selected button highlighted
+      if (lastSelectedButton) {
+        lastSelectedButton.classList.add('selected');
+      }
+    }
+
+  });
 
   // Set up event listeners for buttons
   setDownPaymentListeners();
+
+  // Set up event listeners for input fields
+  const priceInput = document.getElementById('price');
+  const downPaymentInput = document.getElementById('downPayment');
+  const interestRateInput = document.getElementById('interestRate');
+  const loanTermSelect = document.getElementById('loanTerm');
+
+  priceInput.addEventListener('input', updateValues);
+  downPaymentInput.addEventListener('input', updateValues);
+  interestRateInput.addEventListener('input', updateValues);
+  loanTermSelect.addEventListener('change', updateValues);
 }
 
-/* Compute Loan */
-// Function to set event listeners for down payment buttons
+/* Compute Downpayment */
+// Function to set event listeners for Down Payment buttons
 function setDownPaymentListeners() {
   const buttons = document.querySelectorAll('.down-payment-button');
 
@@ -197,19 +234,103 @@ function setDownPaymentListeners() {
       const downPayment = price * (dataRate / 100);
       downPaymentInput.value = formatPrice(downPayment); // Update down payment input with formatted value
 
+      // Remove selected class from all buttons and add to the clicked one
+      const buttons = document.querySelectorAll('.down-payment-button');
+      buttons.forEach(btn => btn.classList.remove('selected'));
+      button.classList.add('selected');
+
       console.log('Button clicked:', this.getAttribute('data-rate')); // FOR CHECKING
+      updateValues(); // Update values after button click
     });
   });
+}
+
+// Function to update values dynamically
+function updateValues() {
+  // Convert str to int/Number
+  const price = parsePrice(document.getElementById('price').value);
+  const downPayment = parsePrice(document.getElementById('downPayment').value);
+  const interestRate = parsePrice(document.getElementById('interestRate').value);
+  const loanTerm = document.getElementById('loanTerm').value;
+
+  // Get input values
+  const priceInput = document.getElementById('price');
+  const downPaymentInput = document.getElementById('downPayment');
+  // Enforce numeric input for Price and Down Payment
+  priceInput.value = priceInput.value.replace(/[^0-9]/g, '');             // Remove non-numeric characters
+  downPaymentInput.value = downPaymentInput.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+
+  // Format user input (price & downpayment)
+  document.getElementById('price').value = formatPrice(price);
+  document.getElementById('downPayment').value = formatPrice(downPayment);
+
+  // Compute Total Interest Paid
+  const totalInterestPaid = (price - downPayment) * (interestRate/100) * (loanTerm/12);
+  document.getElementById('interest').innerText = formatSGD(totalInterestPaid);
+
+  // Compute Loan Amount
+  const loanAmount = price - downPayment;
+  document.getElementById('loanAmount').innerText = formatSGD(loanAmount);
+  
+  // Check if Down Payment exceeds Car Price
+  if (downPayment > price) {
+    document.getElementById('interest').innerText = '$NaN';
+    document.getElementById('totalPaidAmount').innerText = '$NaN';
+    document.getElementById('loanAmount').innerText = '$0';
+    document.getElementById('monthlyInstalment').innerText = '$0 /mth';
+    
+    alert("Down payment value should not more than car price.")
+    document.getElementById('downPayment').value = formatPrice(0);  // Reset value
+    return; // Exit the function early
+  }
+
+  // Compute Total Paid Amount
+  const totalPaidAmount = totalInterestPaid + loanAmount;
+  document.getElementById('totalPaidAmount').innerText = formatSGD(totalPaidAmount);
+
+  // Compute Monthly Instalment
+  const monthlyInstalment = Math.round(totalPaidAmount/loanTerm);
+  const monthlyInstalmentStr = formatSGD(monthlyInstalment) + " /mth";
+  document.getElementById('monthlyInstalment').innerText = monthlyInstalmentStr;
+
+  // Check if (downPayment / price) * 100 equals any data-rate
+  const calculatedRate = (downPayment / price) * 100;
+  const buttons = document.querySelectorAll('.down-payment-button');
+  let isValidRate = false;
+
+  buttons.forEach(button => {
+    const dataRate = parseFloat(button.getAttribute('data-rate'));
+    if (calculatedRate === dataRate) {
+      isValidRate = true; // Found a matching rate
+      button.classList.add('selected'); // Keep the button selected
+    } else {
+      button.classList.remove('selected'); // Remove selected class if it doesn't match
+    }
+  });
+
+  // If no matching rate was found, clear the selection
+  if (!isValidRate) {
+    buttons.forEach(button => button.classList.remove('selected'));
+    lastSelectedButton = null; // Reset last selected button
+  }
 }
 
 
 /* Close the popup */
 function closePopup() {
   document.getElementById('popupOverlay').style.display = 'none';
+
+  // Clear last selected button
+  if (lastSelectedButton) {
+    lastSelectedButton.classList.remove('selected'); // Remove 'selected' class
+    lastSelectedButton = null; // Reset lastSelectedButton
+  }
 }
 
 /* ---------------------------------- */
 /* HELPER JS */
+
+
 /* Format Price (10000 --> 10,000) */
 function formatPrice(price) {
   // Convert price to a number
@@ -236,9 +357,7 @@ function parsePrice(formattedPrice) {
   return Number(formattedPrice.replace(/,/g, ''));
 }
 
-
-/* Loan Breakdown - display format */
-/* Format Price (10000 --> $10,000) */
+/* Format Price (10000 --> $10,000) - Loan Breakdown */
 function formatSGD(price) {
   // Create a formatter for Singapore Dollars
   const sgdFormatter = new Intl.NumberFormat('en-US', {
@@ -255,27 +374,7 @@ function parseSGD(formattedPrice) {
   // Remove commas, then convert to a number
   return Number(formattedPrice.replace(/$,/g, ''));
 }
-/* ---------------------------------- */
-/* carDetailsPage JS */
 
-
-
-/* Loan Calculator - TO DO... */
-// JS code to convert string/int fetched from db to SGD format
-// Define the price you want to format
-const price = 79000;
-
-// Create a formatter for Singapore Dollars
-const sgdFormatter = new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 0, // No decimal places
-  maximumFractionDigits: 0, // No decimal places
-});
-
-// Format the price
-const formattedPrice = `$${sgdFormatter.format(price)}`;
-
-// Output the formatted price
-console.log(formattedPrice); // Output: $79,000
 
 /* ---------------------------------- */
 /* viewAgentPage JS */
