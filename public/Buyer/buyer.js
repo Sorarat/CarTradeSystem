@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-async function createRatingReviewBtn(event) {
+async function createRatingReviewBtn() {
 
   const form = document.getElementById('createRatingReviewForm');
 
@@ -306,7 +306,6 @@ async function createRatingReviewBtn(event) {
   const ratingInput = document.querySelector('input[name="rating"]:checked');
 
   if (!ratingInput) {
-    event.preventDefault(); // Prevent form submission
     alert('Please select a rating before submitting.'); // Custom alert
   }
 
@@ -315,8 +314,6 @@ async function createRatingReviewBtn(event) {
 
   // check if the form is valid
   if (form.checkValidity()) {
-
-    event.preventDefault(); // Prevent default only if the form is valid  
 
     // retrieve buyer email from session storage
     const reviewer_email = sessionStorage.getItem('email');

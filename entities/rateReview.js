@@ -33,7 +33,7 @@ class rateReview {
         return this.#review;
     }
 
-    async createRatingReview(agent_id, reviewer_email, rating, review, ) {
+    async createRatingReview(agent_id, reviewer_email, rating, review) {
 
         const user = new User();
 
