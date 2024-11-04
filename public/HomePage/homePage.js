@@ -107,32 +107,25 @@ async function performCarSearch() {
   const maxPrice = document.getElementById('max').value;
 
  
-  // Check if the user has selected minPrice and maxPrice
-  if (!minPrice || minPrice === "Min Price") {
-    alert('Please select a minimum price.');
-    return;
-}
-
-  if (!maxPrice || maxPrice === "Max Price") {
-      alert('Please select a maximum price.');
-      return;
-  }
-
-  // Validate that minPrice is less than maxPrice
-  if (parseInt(minPrice) >= parseInt(maxPrice)) {
+  // Validate that minPrice is less than maxPrice if both are specified
+  if (minPrice && maxPrice && parseInt(minPrice) >= parseInt(maxPrice)) {
     alert('Min Price must be less than Max Price.');
     return;
   }
 
+  // construct the URL parameters dynamically
+  let url = `/searchBuyerCarlistingRoute/searchBuyerCarlisting?carModel=${encodeURIComponent(carModel)}`;
+  
+  if (minPrice)
+    url += `&minPrice=${minPrice}`;
+
+  if (maxPrice)
+    url += `&maxPrice=${maxPrice}`;
 
   try {
-    const response = await fetch(`/searchBuyerCarlistingRoute/searchBuyerCarlisting?carModel=${encodeURIComponent(carModel)}&minPrice=${minPrice}&maxPrice=${maxPrice}`); 
+    const response = await fetch(url); 
     const carlistings = await response.json();
-
-    
-    populateCarListings(carlistings); 
-    
-    
+    populateCarListings(carlistings);     
   }
 
   catch(error) {

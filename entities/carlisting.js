@@ -193,10 +193,21 @@ class Carlisting {
         // Construct the base query
         let query = `
         SELECT * FROM Carlisting 
-        WHERE price >= ? AND price <= ?
+        WHERE 1=1 
         `;
-         // Prepare the parameters for the query
-        const params = [minPrice, maxPrice];
+        // Prepare the parameters for the query
+        const params = [];
+
+        // add price range conditions only if provided
+        if (minPrice) {
+            query += `AND price >= ?`;
+            params.push(minPrice);
+        }
+
+        if (maxPrice) {
+            query += `AND price <= ?`;
+            params.push(maxPrice);
+        }
 
         // If carModel is provided, add the condition and parameter
         if (carModel) {
