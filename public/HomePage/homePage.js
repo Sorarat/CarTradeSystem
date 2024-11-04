@@ -282,7 +282,7 @@ function formatDate(dateString) {
 /* View Details button - opens a popup */
 let lastSelectedButton = null; // Variable to keep track of the last selected button
 
-function viewCarDetails(button) { 
+function viewCarDetails(car) { 
   // Update database accordingly - for seller to see
   let viewCount = 0;
   viewCount += 1; // Increment onclick
