@@ -15,29 +15,23 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         });
 
         const data = await response.json();
+        
 
         if (data.success) {
             console.log('Login successful!');
 
+            // Store the user role in sessionStorage (works only for same tab)
+            sessionStorage.setItem('role', role);
+            sessionStorage.setItem('email', email);
+
             if (role === 'admin')
             {
-                window.location.href = '/UserAdmin/AdminDashboard.html';
+                window.location.href = '/UserAdmin/adminDashboard.html';
+            } else if (role === 'agent') {
+                window.location.href = '../CarAgent/agentDashboard.html';
+            } else {
+                window.location.href = '/HomePage/homePage.html';
             }
-            else {
-                window.location.href = '/HomePage/HomePage.html';
-            }
-            /*
-            // Redirect user based on role
-            if (data.user.role === 'user-admin') {
-                window.location.href = '/admin/dashboard';
-            } else if (data.user.role === 'used-car-agent') {
-                window.location.href = '/agent/dashboard';
-            } else if (data.user.role === 'buyer') {
-                window.location.href = '/buyer/home';
-            } else if (data.user.role === 'seller') {
-                window.location.href = '/seller/home';
-            }
-            */
 
         } else {
             alert('Login failed. Please check your credentials.'); // Generic error message

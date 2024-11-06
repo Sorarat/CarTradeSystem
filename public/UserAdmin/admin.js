@@ -391,11 +391,6 @@ function updateProPageBtn(profileId){
   document.location.href=`./UpdateProfile.html?profileId=${profileId}`; // Use relative path
 }
 
-/*
-const urlParams = new URLSearchParams(window.location.search);
-const profileId = urlParams.get('profileId');
-*/
-
 
 /* ---------------------------------- */
 /* UpdateAccount JS */
@@ -469,6 +464,16 @@ async function updateAccountBtn(event) {
     event.preventDefault(); // Prevent form submission
     alert('All fields are required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
+  }
+
+  // Email validation regex pattern
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  // Validate email format
+  if (!emailPattern.test(email)) {
+    event.preventDefault();
+    alert('Please enter a valid email address.');
+    return;
   }
 
   // Check if the form is valid

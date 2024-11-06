@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Details</title>
+    <link rel="stylesheet" href="homePage.css">    <!-- CSS -->
+    <script src="homePage.js" defer></script>      <!-- Javascript -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
+                <div id="menu-dropdown" class="menu-content">
+                    <a id="dashboardLink" href="#">Dashboard</a>      <!-- Placeholder for the dashboard link -->
+                    <a href="../HomePage/homePage.html">Home</a>
+                    <a href="../HomePage/viewAgentsPage.html">Agents</a>
+                </div>
+                <span>|</span>
+                <a href="#" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- View Car Details -->
+    <h1><a href="./homePage.html" class="previous round">&#8249;</a>View Car Details</h1>
+    <div class="card">
+        <div class="account-info">
+
+            <!-- Car Details -->
+            <div class="car-header">
+                <h2>Bentley Continental Flying Spur 6.0A (COE till 04/2031)</h2>    <!-- Fetch Car name -->
+                <div class="shortlist"> 
+                    <input type="checkbox" id="shortlist" name="shortlist" value="1"> <!-- Fetch check or uncheck -->
+                    <label for="shortlist"></label>
+                </div>
+            </div>
+            <div class="info-container">
+                <p class="price">$79,000</p>    <!-- Fetch Car price -->
+                <table class="info-table">
+                    <tbody>
+                        <tr>
+                            <td>Reg Date</td>
+                            <td>:</td>
+                            <td>DD/MM/YYY</td>  <!-- Fetch Car register date -->
+                        </tr>
+                        <tr>
+                            <td>Remaining COE(months)</td>
+                            <td>:</td>
+                            <td>57</td> <!-- Fetch Car remaining COE (no. of months) -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Agent Details -->
+            <div class="info-container">
+                <table class="info-table">
+                    <tbody>
+                        <tr>
+                            <th colspan="3">Agent</th>
+                        </tr>
+                        <tr>
+                            <td>Username</td>
+                            <td>:</td>
+                            <td>John Doe Anderson</td>  <!-- Fetch Agent username -->
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>:</td>
+                            <td>John@hotmail.com</td>   <!-- Fetch Agent email -->
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td>:</td>
+                            <td>12345678</td>   <!-- Fetch Agent phone number -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Loan Calculator Section -->
+            <div class="info-container">
+                <table class="info-table">
+                    <tbody>
+                        <tr>
+                            <th colspan="3">Loan Calculator</th>
+                        </tr>
+                        <tr>
+                            <td>dummy</td>
+                            <td>dummy</td>
+                            <td>dummy</td>
+                        </tr>
+                        <tr>
+                            <td>dummy</td>
+                            <td>dummy</td>
+                            <td>dummy</td>
+                        </tr>
+                        <tr>
+                            <td>dummy</td>
+                            <td>dummy</td>
+                            <td>dummy</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,578 @@
+/* General CSS */
+/* Declare color scheme: TO BE CONFIRMED*/
+:root{
+    --header-height: 10rem;
+    --orange: #ff7800;      /* hover text */
+    --silver: #c0c0c0;      /* hover background */
+    --gray: #ddd;           /* hover background - previous page icon */
+    --black: #130f40;       /* text */
+    --white: #fff;          /* header background */
+    --light-gray: #eee;     /* body background */
+    --light-gray1: #f1f1f1; /* menu-dropdown background */
+    --light-gray2: #ccc;    /* separator line */ 
+    --medium-gray: #999;    /* button background */
+    --dark-gray: #666;      /* suspended background */
+    --yellow: #ffd300;      /* star rating */
+    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    --border: .2rem solid rgba(0, 0, 0, .1);
+    --outline: .1rem solid rgba(0, 0, 0, .1);
+    --outline-hover: .2rem solid var(--black);
+}
+
+*{
+    font-family: Arial, sans-serif;
+    margin: 0; 
+    padding: 0;
+    box-sizing: border-box;
+    outline: none; 
+    border: none;
+    text-decoration: none;
+    /* text-transform: capitalize; */
+    transition: all .2s linear;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+}
+
+body {
+    padding: var(--header-height); /* To match the height of the header*/
+    background: var(--light-gray);
+}
+
+/* ---------------------------------- */
+/* Header CSS - STANDARD */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 9%;
+    background: var(--white);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+.header .logo{
+    font-size: 2.5rem;
+    color:var(--black);
+}
+
+.header a{
+    font-size: 1.7rem;
+    margin: 1rem;
+    color: var(--black);
+}
+
+.header a:hover{
+    color: var(--orange);
+}
+
+.header .navbar span{
+    font-size: 1.7rem;
+    margin: 1rem;
+    color: var(--black)
+}
+
+/* drop-down icon */
+.arrow{
+    border: solid var(--black);
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    vertical-align: middle;     /* Align it with the text */
+    margin-left: 1rem;          /* Add space between the button and the arrow */
+    position: relative;         /* Allow positioning adjustments */
+    top: -2px;                  /* Move the arrow up;*/
+    cursor: pointer;
+}
+
+.down{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: var(--white);
+    font-size: 1.7rem;
+    margin: 1rem;
+    color: var(--black);
+    /*color: white;*/
+    /*padding: 16px;*/
+    /*font-size: 16px;*/
+    border: none;
+    cursor: pointer;
+}
+  
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    /*background-color: var(--orange);*/
+    color: var(--orange);
+}
+  
+/* The container <div> - needed to position the dropdown content */
+.menu {
+    position: relative;
+    display: inline-block;
+}
+  
+/* Dropdown Content (Hidden by Default) */
+.menu-content {
+    display: none;
+    position: absolute;
+    background-color: var(--light-gray1);
+    min-width: 160px;
+    box-shadow: var(--box-shadow);
+    z-index: 1;
+}
+  
+/* Links inside the dropdown */
+.menu-content a {
+    color: var(--black);
+    padding: 6px 12px;
+    text-decoration: none;
+    display: block;
+}
+  
+/* Change color of dropdown links on hover */
+.menu-content a:hover {
+    background-color: var(--silver);
+    border: var(--border);
+    outline: var(--outline-hover);
+}
+  
+/* Show the dropdown menu 
+(use JS to add this class to the .menu-content container 
+when the user clicks on the dropdown button) */
+.show {
+    display:block;
+}
+
+
+
+/* ---------------------------------- */
+/* AgentDashboard CSS */
+/* User Information Card - STANDARD */
+.card{
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 20px auto;                  /* Center the card with auto margins */
+    padding: 20px 50px 20px 50px;
+    width: 80%;                         /* Adjust this value as needed */
+    max-width: 600px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
+}
+
+.account-info {
+    overflow-x: auto;                   /* Horizontal scroll if the table is too wide */
+}
+
+table {
+    width: 100%;                        /* Full width of the card */
+    border-collapse: collapse;          /* Collapse borders for a cleaner look */
+    font-size: 1.5rem;                  /* Set font size for the table */
+}
+
+th, td {
+    padding: 10px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+}
+
+.center{
+    text-align: center;
+}
+
+.round-image{
+    width: 60px;                        /* Image width */
+    height: 60px;                       /* Image height */
+    border-radius: 60%;                 /* Makes the image round */
+    display: inline-block;              /* Keep image inline */
+    object-fit: cover;                  /* Cover the area without distortion */
+    border: 3px solid var(--light-gray2);
+    vertical-align: middle;
+}
+
+.profile-rating{
+    display: inline-block;
+    margin : 0 auto;
+    text-align: center;                 /*center the content*/
+    vertical-align: middle;             /* align the rating with image */
+}
+
+.star-rating {
+    display: inline-block;
+    margin-left: 30px;                /* space between image and star */
+    color: #FFD300;                 /* Gold color for star */
+    font-size: 24px;
+    vertical-align: middle;
+    margin-top: -5px;                 /* move the star up */
+}
+
+.star-rating .rating-number {
+    display: inline-block;
+    color: #333; 
+    font-size: 20px;
+    margin-left: 4px;               /* Space between star and number */
+    vertical-align: middle;         /* Align star with image */
+}
+
+/* Agent Functions */
+.agent-functions {
+    text-align: center;                 /* Center align the link */
+    margin-top: 20px;                   /* Optional: Add some space above */
+    font-size: 1.5rem;                  /* Set font size for the table */
+}
+
+.link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 30px;
+    color: var(--black);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.link:hover {
+    background-color: var(--silver);    /* Darker shade on hover */
+    color: var(--orange);
+    border: var(--border);
+    outline: var(--outline-hover);
+}
+
+.separator {
+    border: none;                           /* Remove default border */
+    height: 1px;                            /* Set height for the line */
+    background-color: var(--light-gray2);   /* Line color */
+    margin: 10px auto;                      /* Space above and below the line */
+    width: 40%;
+}
+
+
+/* -- Create Car Listing -- */
+/* Previous page icon - return to previous page */
+.previous {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    color: var(--black);
+    border-radius: 50%;
+}
+.previous:hover {
+    background-color: var(--gray);
+}
+/*Car Listing form CSS */
+.card .account-info .form1{
+    width: 100%;
+    height: 40px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid silver;
+    padding: 0 10px;
+}
+
+
+/*Create Listing button */
+.button1{
+    display: flex;               /* Enable flexbox */
+    justify-content: right;      /* Right alignment */
+    gap: 10px;                   /* Space between buttons */
+    margin-top: 20px;            /* Top margin */
+}
+
+.create-button{
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);    
+    border-radius: 4px;
+    transition: .3s;
+}
+.account-info button:hover{
+    opacity : .6;
+}
+
+
+/*--View All Car Listing --*/
+.search-car {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--light-gray2);
+    border-radius: 4px;
+    width: 300px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.search-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--orange);
+    color: white;
+    cursor: pointer;
+    margin-left: 5px;
+}
+  
+.search-button:hover {
+    opacity: .6;
+}
+
+.car-info {
+    margin-top: 30px;
+    width: 100%;
+    background: white;
+    border-radius: 5px; 
+    border: 1px solid silver;
+    overflow: hidden; 
+}
+
+.car-info table {
+    width: 100%;
+    border-collapse: separate; /* Use "separate" to allow rounded corners */
+    border-spacing: 0; 
+    border-radius: 20px; 
+}
+
+.car-info th, .car-info td{
+    width:20%;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd; /* Add right border to create column lines */
+
+}
+
+.car-info input{
+    font-size: 15px;
+    width: 100%;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd; /* Add right border to create column lines */
+
+}
+
+.car-info th {
+    background-color: #f7f7f7;
+    font-weight: bold;
+    color: #333;
+}
+
+/*update & delete button */
+.button-container1 {
+    display: flex;               /* Enable flexbox */
+    gap: 30px;                   /* Space between buttons */
+}
+
+.update-button {
+    width: 80px;
+    height: 30px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.delete-button {
+    width: 80px;
+    height: 30px;
+    border: none;
+    outline: none;
+    background: var(--light-gray2);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.car-info button:hover{
+    opacity: .6;
+}
+
+
+/* ---------------------------------- */
+/* viewRatingReviewPage CSS */
+.rating-card {
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 20px auto;                  /* Center the card with auto margins */
+    padding: 20px 50px 20px 50px;
+    width: 40%;                         /* Adjust this value as needed */
+    max-width: 600px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
+}
+
+.overall-rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-center; /* Center-aligns the container content */
+    gap: 0px; /* Adds space between agent card and button */
+    margin-top: 20px;
+    margin: 0 auto;
+    max-width: 620px;
+    margin-top: 20px;
+}
+
+#overall-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* Individual Rating & Review - layout */
+.review-card {
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 20px auto;                  /* Center the card with auto margins */
+    padding: 20px 50px 20px 50px;
+    /*width: 80%;                         /* Adjust this value as needed */
+    max-width: 950px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
+}
+
+
+/* Star-icon */
+.star {
+    display: flex;          /* Use flexbox for alignment */
+    align-items: center;    /* Center align items vertically */
+    pointer-events: none;                   /* Disable all mouse events */
+}
+
+.star input {
+    display: none;     /* hide the radio buttons */
+}
+
+.star label {         /* yellow star */
+    float: right;
+    cursor: pointer;
+    color: var(--yellow);
+}
+
+.star label:before {        /* display stars before the label of each rating option */
+    content: '\2605';       /* unicode for a solid star */
+    font-size: 2rem;
+}
+
+/* Display no. of star rating */
+.rating-text {
+    font-size: 1.75rem;
+    color: var(--black);
+    line-height: 1.5;
+    margin-left: 5px;
+}
+
+/* Align reviewer's Username & the star-icon */
+.review-header {
+    display: flex;                  /* Use flexbox for alignment */
+    justify-content: space-between; /* Space between username and star rating */
+    align-items: center;            /* Center align items vertically */
+}
+
+.review-username {
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 2;
+}
+
+.review {
+    font-size: 1.5rem;
+    color: var(--black);
+    line-height: 1.5;
+}
+
+
+.review-star {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center the items vertically */
+    margin-left: 20px; /* Space between username and rating */
+}
+
+.rating-number {
+    font-size: 20px; /* Font size for the rating number */
+    color: #333; /* Color for the rating text */
+}
+
+.review-header {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Space between username and star rating */
+    align-items: center; /* Center align items vertically */
+}
+
+.review-username {
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 2;
+}
+
+.review {
+    font-size: 1.5rem;
+    color: var(--black);
+    line-height: 1.5;
+}
+
+
+/* Star-icon - overall rating */
+.overall-star {
+    display: flex;          /* Use flexbox for alignment */
+    align-items: center;    /* Center align items vertically */
+    pointer-events: none;                   /* Disable all mouse events */
+}
+
+.overall-star input {
+    display: none;     /* hide the radio buttons */
+}
+
+.overall-star label {         /* yellow star */
+    float: right;
+    cursor: pointer;
+    color: var(--yellow);
+}
+
+.overall-star label:before {        /* display stars before the label of each rating option */
+    content: '\2605';       /* unicode for a solid star */
+    font-size: 1.7rem;
+}
+
+/* Display no. of star rating */
+.overall-rating-text {
+    font-size: 1.5rem;
+    color: var(--black);
+    line-height: 1.5;
+    margin-left: 5px;
+}
+
+/* ---------------------------------- */

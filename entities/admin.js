@@ -1,6 +1,6 @@
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
-const User = require('../entities/User');
+const User = require('../entities/user');
 
 class Admin extends User{
 
@@ -45,7 +45,7 @@ class Admin extends User{
 
         await db.promise().query(query, values);
 
-        return { success: true, message: "Account created successfully."};
+        return true;
 
     }
 

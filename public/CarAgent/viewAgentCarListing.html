@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View My Car Listing</title>
+    <link rel="stylesheet" href="agent.css">    <!-- CSS -->
+    <script src="agent.js" defer></script>      <!-- Javascript -->
+
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <!-- logo -->
+        <h1 class="logo">CarTakers</h1>
+
+        <!-- navigation links -->
+        <nav class="navbar">
+            <!-- <a href="#Home">Home</a> -->
+            <!-- <a href="#Username">Username</a> -->
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
+                <div id="menu-dropdown" class="menu-content">
+                    <a href="./agentDashboard.html">Dashboard</a>
+                </div>
+                <span>|</span>
+                <a href="#" onclick="logoutBtn(event)">Logout</a>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- View All Car Listing -->
+    <h1><a href="./agentDashboard.html" class="previous">&#8249;</a>View My Car Listing</h1>
+
+    <!-- Search by car make / model -->
+    <div class="search-container">
+        <input type="text" id="searchCar" class="search-car" placeholder="Search by car make / car model..." onchange="performCarListingSearch()" />
+        <button class="search-button">Search</button>
+    </div>
+
+    <!-- Car Listing Information -->
+    <div class = "view-car-listing">
+        <div class = "car-info">
+            <table id = "car-info-table">
+                <thead>
+                    <tr id = "car-row">
+                        <th>Car Make / Model</th>
+                        <th>Price ($)</th>
+                        <th>Reg Date</th>
+                        <th>Seller's Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="carlistingTable">
+                    <!--dynamically populate car listings-->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Agent Dashboard</title>
+    <link rel="stylesheet" href="agent.css">    <!-- CSS -->
+    <script src="agent.js" defer></script>      <!-- Javascript -->
+
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header">
+         <!-- Logo -->
+        <h1 class="logo">CarTakers</h1>
+    
+     <!-- Navigation links -->
+        <nav class="navbar">
+            <div class="menu">
+                <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
+                <div id="menu-dropdown" class="menu-content">
+                    <a href="./agentDashboard.html">Dashboard</a>
+                </div>
+                <span>|</span>
+                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+            </div>
+         </nav>
+    </header>
+
+    <!-- Agent Dashboard -->
+    <h1>Car Agent Dashboard</h1>
+
+    <!-- Agent Information-->
+    <div class="card">
+        <div class="account-info">
+            <table>
+                <tbody>
+                    <tr>
+                        <td colspan="3" class="center">
+                            <div class = "profile-rating"> 
+                                <img src="./profile-icon.png" alt="profile icon" class="round-image">
+                                <div class = "star-rating">
+                                    <span>&#9733;</span> <!-- Star icon -->
+                                    <span class="rating-number">4</span> <!-- Rating number -Compute Average Rating in database -->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td>:</td>
+                        <td>John Doe Anderson</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>:</td>
+                        <td>John@hotmail.com</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>:</td>
+                        <td>12345678</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Agent Functions -->
+    <div class = "agent-functions">
+        <a href="./createCarlisting.html" class="link">Create Car Listing</a>
+        <hr class="separator">
+        <a href="./viewAgentCarListing.html" class="link">View My Car Listing</a>
+        <hr class="separator">
+        <a href="./agentViewRatingsandReviews.html" class="link">View All Ratings and Reviews</a>
+        <hr class="separator">
+
+    </div>
+</body>
+</html>

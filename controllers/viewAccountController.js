@@ -1,4 +1,5 @@
 const Admin = require('../entities/admin');
+const User = require('../entities/user');
 
 class ViewAccountController {
     // view all accounts
@@ -31,6 +32,21 @@ class ViewAccountController {
         catch(error) {
             res.status(500).send({ message: error.message });
             console.error("Error fetching account:", error);
+        }
+    }
+
+    // view agents 
+    async viewAllAgents(req, res) {
+        const user = new User();
+
+        try {
+            const agentAccounts = await user.getAgentAccounts();
+            res.json(agentAccounts);
+        }
+
+        catch(error) {
+            res.status(500).send({ message: error.message });
+            console.error("Error fetching agents:", error); 
         }
     }
 

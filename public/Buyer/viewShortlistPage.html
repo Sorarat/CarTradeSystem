@@ -1,110 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--Document CSS-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
-    <link rel="stylesheet" href="homePage.css">    <!-- CSS -->
-    <script src="homePage.js" defer></script>           <!-- Javascript -->
+    <title>View My Shortlist</title>
+    <link rel="stylesheet" href="buyer.css">    <!-- CSS -->
+    <script src="buyer.js" defer></script>      <!-- Javascript -->
 </head>
 <body>
     <!-- Header Section -->
     <header class="header">
-        <!-- Logo -->
+        <!-- logo -->
         <h1 class="logo">CarTakers</h1>
 
-        <!-- Navigation links -->
+        <!-- navigation links -->
         <nav class="navbar">
             <div class="menu">
                 <button onclick="menuBtn()" class="dropbtn">Username<i onclick="menuBtn()" class="arrow down"></i></button>
                 <div id="menu-dropdown" class="menu-content">
-                    <a href="../HomePage/homePage.html">Home</a>
-                    <a href="../Buyer/buyerDashboardPage.html">Dashboard</a>
+                    <a href="../homePage/homePage.html">Home</a>
+                    <a href="./buyerDashboardPage.html">Dashboard</a>
                     <a href="../HomePage/viewAgentsPage.html">Agents</a>
                 </div>
                 <span>|</span>
-                <a href="#Logout" onclick="logoutBtn(event)">Logout</a>
+                <a href="#" onclick="logoutBtn(event)">Logout</a>
             </div>
         </nav>
     </header>
 
-    <!-- Image Section -->
-    <div>
-        <img src="car.jpg" alt="Car Image" class="car-image">
-    </div>
-
-    <!-- Search Bar Section -->
-    <form id="searchCarForm">
-        <div class="card">
-            <div class="account-info">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td><input type="text" id="searchCar" class="search-car" placeholder="Car Make/Model"/></td>
-                            <td>
-                                <select id="min" name="min" class="search-price">
-                                    <option disabled selected value>Min Price</option>
-                                    <option value="70000">$70,000</option>
-                                    <option value="80000">$80,000</option>
-                                    <option value="90000">$90,000</option>
-                                    <option value="100000">$100,000</option>
-                                    <option value="110000">$110,000</option>
-                                    <option value="120000">$120,000</option>
-                                    <option value="130000">$130,000</option>
-                                    <option value="140000">$140,000</option>
-                                    <option value="150000">$150,000</option>
-                                    <option value="200000">$200,000</option>
-                                    <option value="210000">$210,000</option>
-                                    <option value="220000">$220,000</option>
-                                    <option value="230000">$230,000</option>
-                                    <option value="240000">$240,000</option>
-                                    <option value="250000">$250,000</option>
-                                    <option value="300000">$300,000</option>
-                                    <option value="350000">$350,000</option>
-                                    <option value="400000">$400,000</option>
-                                    <option value="500000">$500,000</option>
-                                    <option value="600000">$600,000</option>
-                                    <option value="700000">$700,000</option>
-                                </select>
-                                <select id="max" name="max" class="search-price">
-                                    <option disabled selected value>Max Price</option>
-                                    <option value="700000">$700,000</option>
-                                    <option value="600000">$600,000</option>
-                                    <option value="500000">$500,000</option>
-                                    <option value="400000">$400,000</option>
-                                    <option value="350000">$350,000</option>
-                                    <option value="300000">$300,000</option>
-                                    <option value="250000">$250,000</option>
-                                    <option value="240000">$240,000</option>
-                                    <option value="230000">$230,000</option>
-                                    <option value="220000">$220,000</option>
-                                    <option value="210000">$210,000</option>
-                                    <option value="200000">$200,000</option>
-                                    <option value="150000">$150,000</option>
-                                    <option value="140000">$140,000</option>
-                                    <option value="130000">$130,000</option>
-                                    <option value="120000">$120,000</option>
-                                    <option value="110000">$110,000</option>
-                                    <option value="100000">$100,000</option>
-                                    <option value="90000">$90,000</option>
-                                    <option value="80000">$80,000</option>
-                                    <option value="70000">$70,000</option>
-                                </select>
-                            </td>
-                            <td><button type="submit" class="search-button" >Search</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </form>
-
+    <!-- View My Shortlist -->
+    <h1><a href="./buyerDashboardPage.html" class="previous round">&#8249;</a>View My Shortlist</h1>
+    <br><br>
+    
     <!-- Car Listings Section -->
     <div class="grid-container">
         <!-- Fetch all car listings -->
 
-       
+        <!-- Sample for a Car listing-->
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist1" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist1"></label>
+                </div>
+            </div>
+            <!-- Car price & loan calculator button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails(this)">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+        
+        <!-- Sample for a SOLD CAR -->
+        <div class="car-card disabled">
+            <div class="car-header">
+                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div> <!-- Fetch Car name -->
+                <div class="shortlist"> 
+                    <input type="checkbox" id="shortlist2" name="shortlist" value="1"> <!-- Fetch checked or uncheck? -->
+                    <label for="shortlist2"></label>
+                </div>
+            </div>
+            <span class="sold-label">SOLD</span>
+            <!-- Car price & Calculate Loan button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+
+        <!-- Dummy to visualise -->
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist3" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist3"></label>
+                </div>
+            </div>
+            <!-- Car price & loan calculator button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
+
+        <div class="car-card">
+            <div class="car-header">
+                <div class="car-name-container">
+                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
+                </div>
+                <div class="shortlist"> 
+                    <!-- input id has to be diff for each car-card for it to work individually -->
+                    <!-- label for has to be the same as id -->
+                    <input type="checkbox" id="shortlist4" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
+                    <label for="shortlist4"></label>
+                </div>
+            </div>
+            <!-- Car price & loan calculator button-->
+            <div class="price-button">
+                <span class="price">$85,000</span>  <!-- Fetch Car price -->
+                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
+            </div>
+        </div>
     </div>
 
     <!-- Popup overlay -->
@@ -112,14 +118,14 @@
         <div class="popup-box">
             <h1>Car Information</h1>
             <br>
-            <p id="carModel"></p>
+            <p>Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p>
             <div class="info-line">
                 <p>Reg Date:</p>
-                <span id="carRegDate"></span>  <!-- Fetch Car Reg Date -->
+                <span>12 April 2024</span>  <!-- Fetch Car Reg Date -->
             </div>
             <div class="info-line">
                 <p>Agent's Email:</p>
-                <span id="agentEmail"></span> <!-- Fetch Agent's Email -->
+                <span>JohnDoeAnderson@hotmail.com</span> <!-- Fetch Agent's Email -->
             </div>
             <br><br>
 
@@ -210,6 +216,6 @@
             <button class="close-btn" onclick="closePopup()">Close</button>
         </div>
     </div>
-
+    
 </body>
 </html>

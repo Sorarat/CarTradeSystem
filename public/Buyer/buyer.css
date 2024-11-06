@@ -1,6 +1,6 @@
 /* General CSS */
 /* Declare color scheme: TO BE CONFIRMED*/
-:root{
+:root {
     --header-height: 10rem;
     --orange: #ff7800;      /* hover text */
     --silver: #c0c0c0;      /* hover background */
@@ -9,19 +9,17 @@
     --white: #fff;          /* header background */
     --light-gray: #eee;     /* body background */
     --light-gray1: #f1f1f1; /* menu-dropdown background */
-    --light-gray2: #ccc;    /* separator line & SOLD background*/ 
+    --light-gray2: #ccc;    /* separator line */ 
     --medium-gray: #999;    /* button background */
     --dark-gray: #666;      /* suspended background */
     --yellow: #ffd300;      /* star rating */
-    --light-pink: #FFB6C1;  /* sold background*/
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
     --outline: .1rem solid rgba(0, 0, 0, .1);
     --outline-hover: .2rem solid var(--black);
 }
 
-/* General style */
-*{
+* {
     font-family: Arial, sans-serif;
     margin: 0; 
     padding: 0;
@@ -41,8 +39,8 @@ html{
 }
 
 body {
-    padding: var(--header-height); /* To match the height of the header*/
-    background: #eee;
+    padding: var(--header-height); /* To match the height of the header */
+    background: var(--light-gray);
 }
 
 /* ---------------------------------- */
@@ -62,22 +60,22 @@ body {
     text-align: center;
 }
 
-.header .logo{
+.header .logo {
     font-size: 2.5rem;
     color:var(--black);
 }
 
-.header a{
+.header a {
     font-size: 1.7rem;
     margin: 1rem;
     color: var(--black);
 }
 
-.header a:hover{
+.header a:hover {
     color: var(--orange);
 }
 
-.header .navbar span{
+.header .navbar span {
     font-size: 1.7rem;
     margin: 1rem;
     color: var(--black)
@@ -175,15 +173,8 @@ when the user clicks on the dropdown button) */
 }
 
 /* ---------------------------------- */
-/* homePage CSS */
-/* Image below the header */
-.car-image {
-    width: 100%;        /* Cover the full width of the viewport */
-    height: 200px;      /* Set the height to 200 pixels */
-    object-fit: cover;  /* Ensures the image covers the area without distortion */
-}
-
-/* General Layout */
+/* AdminDashboard CSS */
+/* User Information Card - STANDARD */
 .card {
     background-color: var(--white);
     border-radius: 18px;
@@ -191,8 +182,8 @@ when the user clicks on the dropdown button) */
     height: auto;
     margin: 20px auto;                  /* Center the card with auto margins */
     padding: 20px 50px 20px 50px;
-    /*width: 80%;                         /* Adjust this value as needed */
-    max-width: 950px;                   /* Set a maximum width */
+    width: 80%;                         /* Adjust this value as needed */
+    max-width: 600px;                   /* Set a maximum width */
     overflow: hidden;                   /* Prevent content overflowing */
 }
 
@@ -209,32 +200,162 @@ table {
 th, td {
     padding: 10px;                      /* Cell padding */
     text-align: left;                   /* Left alignment */
-   /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
     /*text-transform: none;               /* Preserve original capitalization */
     white-space: nowrap;                /* Prevent text wrapping */
 }
 
+/* Profile-icon */
+.center {                               /* Center alignment */
+    text-align: center;
+}
+
+.round-image {
+    width: 60px;                        /* Image width */
+    height: 60px;                       /* Image height */
+    border-radius: 60%;                 /* Makes the image round */
+    object-fit: cover;                  /* Cover the area without distortion */
+    border: 3px solid var(--light-gray2);
+}
+
+/* Buyer Functions - adapt from Admin Functions */
+.admin-functions {
+    text-align: center;                 /* Center align the link */
+    margin-top: 20px;                   /* Optional: Add some space above */
+    font-size: 1.5rem;                  /* Set font size for the table */
+}
+
+.link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 30px;
+    color: var(--black);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.link:hover {
+    background-color: var(--silver);    /* Darker shade on hover */
+    color: var(--orange);
+    border: var(--border);
+    outline: var(--outline-hover);
+}
+
+.separator {
+    border: none;                           /* Remove default border */
+    height: 1px;                            /* Set height for the line */
+    background-color: var(--light-gray2);   /* Line color */
+    margin: 10px auto;                      /* Space above and below the line */
+    width: 40%;
+}
+
+/* ---------------------------------- */
+/* Create Rating & Review - adapt from CreateProfile & CreateAccount CSS */
+
+.card .account-info .form-control2 {
+    width: 100%;
+    height: auto;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid silver;
+    /*margin: 10px 0 18px 0;*/
+    padding: 10px;                      /* Padding to textarea */
+    resize: none;                       /* Prevent resizing */
+    box-sizing: border-box;             /* Include padding and border in height */
+}
+
+.card .account-info .align-textarea {
+    padding: 20px 10px 10px 10px;       /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    vertical-align: top;                /* Top alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    /*text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+}
+
+/* 5 Star rating */
+.rating {
+    display: inline-block;  /* horizontal layout - elements side by side */
+}
+
+.rating input {
+    display: none;      /* hide the radio buttons */
+}
+
+.rating label {         /* default star */
+    float: right;
+    cursor: pointer;
+    color: var(--medium-gray);
+}
+
+.rating label:before {  /* display stars before the label of each rating option */
+    content: '\2605';   /* unicode for a solid star */
+    font-size: 3rem;
+}
+
+.rating input:checked~label {    /* change star color when checked */
+    color: var(--yellow);
+}
+
+/* Submit button - adapt from Create & Cancel button */
+.button-container1 {
+    display: flex;               /* Enable flexbox */
+    justify-content: right;      /* Right alignment */
+    gap: 10px;                   /* Space between buttons */
+    margin-top: 20px;            /* Top margin */
+}
+
+.card .account-info .create-button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.card .account-info button:hover{
+    opacity: .6;
+}
+
+/* ---------------------------------- */
+/* ViewAccount & ViewProfile CSS */
+/* Standard card size */
+.view-account-card {
+    max-width: 1000px;
+}
+
+.view-profile-card {
+    max-width: 1000px;
+}
+
 /* Basic styling for the search bar */
-.search-container { /* not used */
+.search-container {
     display: flex;
     justify-content: center;
     margin-top: 50px;
 }
   
-.search-car {
+.search-email {
     padding: 10px;
     font-size: 16px;
     border: 1px solid var(--light-gray2);
-    border-radius: 20px;
-    width: 400px;
+    border-radius: 4px;
+    width: 300px;
 }
 
-.search-price {
+.search-role {
     padding: 10px;
     font-size: 16px;
     border: 1px solid var(--light-gray2);
-    border-radius: 20px;
-    width: 150px;
+    border-radius: 4px;
+    width: 300px; 
 }
   
 .search-button {
@@ -252,6 +373,65 @@ th, td {
     opacity: .6;
 }
 
+/* Update & Suspend button */
+.button-container2 {
+    display: flex;               /* Enable flexbox */
+    flex-direction: column;      /* Stack buttons vertically */
+    align-items: flex-end;       /* Align buttons to the right */
+    justify-content: center;     /* Align buttons vertically */
+    gap: 10px;                   /* Space between buttons */
+    /*margin-top: 20px;            /* Top margin */
+    height: 100px;               /* To center vertically */
+    width: 150px;
+}
+
+.card .account-info .update-button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--orange);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.card .account-info .suspend-button {
+    width: 100px;
+    height: 34px;
+    border: none;
+    outline: none;
+    background: var(--medium-gray);
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--white);
+    border-radius: 4px;
+    transition: .3s;
+}
+
+.card .account-info button:hover{
+    opacity: .6;
+}
+
+/* Effect of the suspend button */
+.disabled {
+    pointer-events: none;                   /* Disable all mouse events */
+    opacity: 0.5;                           /* Make the card look greyed out */
+    background-color: var(--dark-gray);     /* Optional: Change background color */
+}
+
+.suspended input {
+    opacity: 0.5;
+}
+
+.suspended-label {
+    color: red;
+    font-size: 20px;
+}
+/* ---------------------------------- */
+/* ViewShortlistPage CSS */
 /* Car listings */
 /* Responsive grid - layout */
 .grid-container{
@@ -589,245 +769,3 @@ th, td {
 .close-btn:hover {
     opacity: 0.6;
 }
-
-/* ---------------------------------- */
-/* viewRatingReviewPage CSS */
-.rating-card {
-    background-color: var(--white);
-    border-radius: 18px;
-    box-shadow: var(--box-shadow);
-    height: auto;
-    margin: 20px auto;                  /* Center the card with auto margins */
-    padding: 20px 50px 20px 50px;
-    width: 40%;                         /* Adjust this value as needed */
-    max-width: 600px;                   /* Set a maximum width */
-    overflow: hidden;                   /* Prevent content overflowing */
-}
-
-.overall-rating-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-center; /* Center-aligns the container content */
-    gap: 0px; /* Adds space between agent card and button */
-    margin-top: 20px;
-    margin: 0 auto;
-    max-width: 620px;
-    margin-top: 20px;
-}
-
-#overall-rating {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.create-rating-review-btn {
-    width: 200px;
-    height: 40px;
-    border: none;
-    outline: none;
-    background: var(--orange);
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: var(--white);
-    border-radius: 4px;
-    transition: .3s;
-    margin-left: 60px;      
-    display: block;        
-}
-
-.create-rating-review-btn:hover {
-    opacity: .6;
-}
-
-
-
-/* Profile-icon */
-.center {                               /* Center alignment */
-    text-align: center;
-}
-
-.round-image {
-    width: 70px;                        /* Image width */
-    height: 70px;                       /* Image height */
-    border-radius: 60%;                 /* Makes the image round */
-    object-fit: cover;                  /* Cover the area without distortion */
-    border: 3px solid var(--light-gray2);
-}
-
-/* Add specific right border style to the last column */
-.right-border {
-    border-right: 2px solid var(--silver); /* Change color and width as needed */
-}
-
-
-/* Individual Rating & Review - layout */
-.review-card {
-    background-color: var(--white);
-    border-radius: 18px;
-    box-shadow: var(--box-shadow);
-    height: auto;
-    margin: 20px auto;                  /* Center the card with auto margins */
-    padding: 20px 50px 20px 50px;
-    /*width: 80%;                         /* Adjust this value as needed */
-    max-width: 950px;                   /* Set a maximum width */
-    overflow: hidden;                   /* Prevent content overflowing */
-}
-
-/* Star-icon */
-.star {
-    display: flex;          /* Use flexbox for alignment */
-    align-items: center;    /* Center align items vertically */
-    pointer-events: none;                   /* Disable all mouse events */
-}
-
-.star input {
-    display: none;     /* hide the radio buttons */
-}
-
-.star label {         /* yellow star */
-    float: right;
-    cursor: pointer;
-    color: var(--yellow);
-}
-
-.star label:before {        /* display stars before the label of each rating option */
-    content: '\2605';       /* unicode for a solid star */
-    font-size: 2rem;
-}
-
-/* Display no. of star rating */
-.rating-text {
-    font-size: 1.75rem;
-    color: var(--black);
-    line-height: 1.5;
-    margin-left: 5px;
-}
-
-/* Align reviewer's Username & the star-icon */
-.review-header {
-    display: flex;                  /* Use flexbox for alignment */
-    justify-content: space-between; /* Space between username and star rating */
-    align-items: center;            /* Center align items vertically */
-}
-
-.review-username {
-    font-weight: bold;
-    font-size: 2rem;
-    line-height: 2;
-}
-
-.review {
-    font-size: 1.5rem;
-    color: var(--black);
-    line-height: 1.5;
-}
-
-/* ---------------------------------- */
-/* viewAgentPage CSS */
-.view-profile-card {
-    max-width: 1000px;
-}
-
-/* Search bar */
-.search-email {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid var(--light-gray2);
-    border-radius: 4px;
-    width: 300px;
-}
-
-/* Agent info readonly fields */
-.card .account-info .form-control1{
-    width: 100%;
-    height: 40px;
-    /*background: white;*/
-    /*border-radius: 4px;*/
-    /*border: 1px solid silver;
-    /*margin: 10px 0 18px 0;*/
-    /*padding: 0 10px;*/
-}
-
-/* view rating & review button - adapt from create-button*/
-.rating-review-button {
-    width: 160px;
-    height: 34px;
-    border: none;
-    outline: none;
-    background: var(--orange);
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: var(--white);
-    border-radius: 4px;
-    transition: .3s;
-    margin-left: auto;      /* Pushes the button to the right */
-    display: block;         /* Makes the button a block element */
-}
-
-.rating-review-button:hover{
-    opacity: .6;
-}
-
-/* Add bottom border to separate each row of Agent info */
-#agentInfoTable .border-row {
-    position: relative; /* Required for positioning the pseudo-element */
-}
-
-#agentInfoTable .border-row td::after {
-    content: '';
-    display: block;
-    height: 1px;                    /* Thickness of the border */
-    background: #ccc;             /* Color of the border */
-    position: absolute;
-    left: 50%;                      /* Center the border */
-    transform: translateX(-50%);    /* Adjust to center */
-    width: 90%;                     /* Adjust the width of the border */
-    bottom: 0;                      /* Position it at the bottom of the cell */
-}
-
-/* Star-icon - overall rating */
-.overall-star {
-    display: flex;          /* Use flexbox for alignment */
-    align-items: center;    /* Center align items vertically */
-    pointer-events: none;                   /* Disable all mouse events */
-}
-
-.overall-star input {
-    display: none;     /* hide the radio buttons */
-}
-
-.overall-star label {         /* yellow star */
-    float: right;
-    cursor: pointer;
-    color: var(--yellow);
-}
-
-.overall-star label:before {        /* display stars before the label of each rating option */
-    content: '\2605';       /* unicode for a solid star */
-    font-size: 1.7rem;
-}
-
-/* Display no. of star rating */
-.overall-rating-text {
-    font-size: 1.5rem;
-    color: var(--black);
-    line-height: 1.5;
-    margin-left: 5px;
-}
-
-.no-car-listings-container {
-    display: flex;          /* Use Flexbox for centering */
-    justify-content: center; /* Center horizontally */
-    align-items: center;     /* Center vertically */
-    width: 100%;            /* Full width of the grid */
-    margin: 20px 0;        /* Optional: Add margin for spacing */
-}
-
-.no-car-listings-message {
-    text-align: center; /* Center text */
-    font-size: medium;
-}
-
-
-/* ---------------------------------- */

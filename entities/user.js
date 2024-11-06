@@ -52,9 +52,7 @@ class User {
         const [results] = await db.promise().query(query, [lowercasedEmail]);
     
         return results.length > 0 ? results[0] : null;
-  
     }
-    
 
     async verifyPassword(password) {
         return await bcrypt.compare(password, this.#password_hash);
@@ -91,6 +89,14 @@ class User {
         }
 
         return true; // All checks passed, valid user
+
+    }
+
+    async getAgentAccounts() {
+        
+        const query = 'SELECT * FROM User WHERE profile_id = ?';
+        const [rows] = await db.promise().query(query, [2]);
+        return rows;
 
     }
 }
