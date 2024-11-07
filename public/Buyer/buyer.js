@@ -278,6 +278,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get the agent_id from the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const agent_id = urlParams.get('agent_id');
+
+    console.log('Agent ID:', agent_id);
+
     
     // update the back button to include the agent id in the url
     if (agent_id) {
@@ -291,6 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function createRatingReviewBtn() {
 
+  event.preventDefault();
+  
   const form = document.getElementById('createRatingReviewForm');
 
   const urlParams = new URLSearchParams(window.location.search);

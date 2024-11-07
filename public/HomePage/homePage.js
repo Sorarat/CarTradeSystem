@@ -220,19 +220,20 @@ function populateCarListings(carListings) {
   });
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
-  const searchForm = document.getElementById('searchCarForm');
-  if (searchForm) {
-      searchForm.addEventListener('submit', function(event) {
-          event.preventDefault(); // Prevent the form from submitting normally
-          performCarSearch();
-      });
-  } else {
-      console.warn('searchCarForm element not found in the DOM');
+  if (window.location.pathname.includes('homePage.html')) {
+    fetchCarListings();
+    const searchForm = document.getElementById('searchCarForm');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            performCarSearch();
+        });
+    } else {
+        console.warn('searchCarForm element not found in the DOM');
+    }
   }
 });
-
 
 
 
