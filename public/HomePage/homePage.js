@@ -296,8 +296,8 @@ function viewCarDetails(car) {
   const DownPayment = carPrice * (selectedRate/100);
   document.getElementById('downPayment').value = formatPrice(DownPayment);
 
-  // Set default Interest Rate (2.5%)
-  const defaultInterestRate = 2.5; // Set a default value
+  // Set default Interest Rate (2.75%)
+  const defaultInterestRate = 2.75; // Set a default value
   document.getElementById('interestRate').value = defaultInterestRate;
 
   // Set default Loan Term (1yr)
