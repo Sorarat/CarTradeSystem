@@ -152,9 +152,6 @@ function populateCarListings(carListings) {
     return;
 }
 
-
-
-
   carListings.forEach(car => {
     const carCard = document.createElement('div');
     carCard.className = 'car-card';
@@ -190,7 +187,6 @@ function populateCarListings(carListings) {
     checkbox.type = 'checkbox';
     checkbox.id = `shortlist${car.car_id}`; 
     checkbox.name = 'shortlist';
-    checkbox.value = car.car_id;
 
     const label = document.createElement('label');
     label.htmlFor = `shortlist${car.car_id}`;
@@ -240,6 +236,8 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Shortlist checkbox - heart-icon */
 document.addEventListener('DOMContentLoaded', function() {
   let count = 0; // Initialize counter
+  // get buyer email
+  const buyerEmail = sessionStorage.getItem('email');
 
   function updateCounter(checkbox) {
     // Update the count based on the checkbox state
@@ -259,9 +257,76 @@ document.addEventListener('DOMContentLoaded', function() {
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', function() {
         updateCounter(checkbox); // Call the function to update the counter
+        console.log('Checkbox state changed')
+        // save/delete from shortlist
+        const carId = checkbox.value;
+        const isChecked = checkbox.checked;
+        if (isChecked) {
+          // if checkbox is checked (red heart), add to shortlist
+          saveToShortlist(carId, buyerEmail);
+        }
+        else {
+          // if checkbox is unchecked (grey heart), delete from shortlist
+          removeFromShortlist(carId, buyerEmail);
+        }
+
     });
   });
 });
+
+async function saveToShortlist(carId, buyerEmail) {
+  try {
+    const response = await fetch('/saveListingRoute/saveListing', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ carId, buyerEmail })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        /*Success message*/
+      alert("Car Listing successfully saved into shortlist");
+    }
+    else {
+      alert('Carlisting cannot be saved.');
+    }
+
+  }
+  catch (error) {
+    console.error('Failed to add into shortlist:', error);
+    alert('An error occurred during the saving.');
+  }
+}
+
+async function removeFromShortlist(carId, buyerEmail) {
+  try {
+    const response = await fetch('/removeListingRoute/removeListing', {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ carId, buyerEmail })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        /*Success message*/
+      alert("Car Listing successfully removed from shortlist!");
+    }
+    else {
+      alert('Carlisting cannot be removed.');
+    }
+
+  }
+  catch (error) {
+    console.error('Failed to remove from shortlist:', error);
+    alert('An error occurred during the removal.');
+  }
+}
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -789,6 +854,21 @@ async function fetchCarListings() {
       carCard.appendChild(priceButton);
 
       gridContainer.appendChild(carCard);
+
+      // Add event listener for the checkbox (heart icon)
+      checkbox.addEventListener('change', function () {
+        const buyerEmail = sessionStorage.getItem('email');
+        console.log('Checkbox state changed!');  // Debugging message
+        
+        const isChecked = checkbox.checked;
+        const carId = checkbox.value;
+
+        if (isChecked) {
+          saveToShortlist(carId, buyerEmail);
+        } else {
+          removeFromShortlist(carId, buyerEmail);
+        }
+      });
       
     })
 

@@ -116,6 +116,17 @@ class Carlisting {
         return listingsWithSellerEmail;
     }
 
+    async viewSellerCarListings(sellerEmail) {
+        // get seller id
+        const user = new User();
+        const seller = await user.findByEmail(sellerEmail);
+
+        const query = 'SELECT car_model, DATE_FORMAT(reg_date, "%Y-%m-%d") as reg_date, price, seller_id, num_views, num_shortlist from Carlisting WHERE seller_id = ?';
+        const [listings] = await db.promise().query(query, [seller.user_id]);
+
+        return listings;
+    }
+
     // update car listing
     async updateCarListing(car_id, car_model, reg_date, price, sellerEmail, status) {
         // create empty instance of user
