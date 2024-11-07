@@ -220,19 +220,20 @@ function populateCarListings(carListings) {
   });
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
-  const searchForm = document.getElementById('searchCarForm');
-  if (searchForm) {
-      searchForm.addEventListener('submit', function(event) {
-          event.preventDefault(); // Prevent the form from submitting normally
-          performCarSearch();
-      });
-  } else {
-      console.warn('searchCarForm element not found in the DOM');
+  if (window.location.pathname.includes('homePage.html')) {
+    fetchCarListings();
+    const searchForm = document.getElementById('searchCarForm');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            performCarSearch();
+        });
+    } else {
+        console.warn('searchCarForm element not found in the DOM');
+    }
   }
 });
-
 
 
 
@@ -295,8 +296,8 @@ function viewCarDetails(car) {
   const DownPayment = carPrice * (selectedRate/100);
   document.getElementById('downPayment').value = formatPrice(DownPayment);
 
-  // Set default Interest Rate (2.5%)
-  const defaultInterestRate = 2.5; // Set a default value
+  // Set default Interest Rate (2.75%)
+  const defaultInterestRate = 2.75; // Set a default value
   document.getElementById('interestRate').value = defaultInterestRate;
 
   // Set default Loan Term (1yr)
