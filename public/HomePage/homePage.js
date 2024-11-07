@@ -43,7 +43,7 @@ function setDashboardLink() {
   if (userRole === 'buyer') {
     dashboardLink.href = '../Buyer/buyerDashboardPage.html';
   } else if (userRole === 'seller') {
-    dashboardLink.href = '../Seller/sellerDashboardPage.html';
+    dashboardLink.href = '../Seller/sellerDashboard.html';
   } else {
     dashboardLink.href = '#'; // Default or error page
   }
@@ -352,7 +352,6 @@ function viewCarDetails(car) {
   document.getElementById('agentEmail').textContent = car.agent_email; // Agent's Email
   document.getElementById('price').value = car.price; // Car Price
 
-  //window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
 
   // Set up event listeners for input fields
   const priceInput = document.getElementById('price');

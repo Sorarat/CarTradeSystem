@@ -29,7 +29,10 @@ document.getElementById('loginForm').addEventListener('submit', async function (
                 window.location.href = '/UserAdmin/adminDashboard.html';
             } else if (role === 'agent') {
                 window.location.href = '../CarAgent/agentDashboard.html';
-            } else {
+            } else if (role == 'seller') {
+                window.location.href = '../Seller/sellerDashboard.html';
+            }
+            else {
                 window.location.href = '/HomePage/homePage.html';
             }
 
