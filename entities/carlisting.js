@@ -184,17 +184,23 @@ class Carlisting {
     }
 
     // view all car listings
-    async viewAllCarListings() {
-        const query = 
-            `SELECT 
+    async viewAllCarListings(buyerEmail) {
+        // get buyer id
+        const user = new User();
+        const buyer = await user.findByEmail(buyerEmail);
+        const query = `
+            SELECT 
                 Carlisting.*, 
-                User.email AS agent_email
+                User.email AS agent_email,
+                CASE WHEN Shortlist.car_id IS NOT NULL THEN TRUE ELSE FALSE END AS is_shortlisted
             FROM
                 Carlisting
             LEFT JOIN
                 User ON Carlisting.agent_id = User.user_id
-            `;
-        const [listings] = await db.promise().query(query);
+            LEFT JOIN
+                Shortlist ON Carlisting.car_id = Shortlist.car_id AND Shortlist.buyer_id = ?
+        `;
+        const [listings] = await db.promise().query(query, [buyer.user_id]);
         return listings;
     }
 
@@ -229,6 +235,29 @@ class Carlisting {
         // Execute the query with the constructed parameters
         const [listings] = await db.promise().query(query, params);
 
+        return listings;
+    }
+
+    // view buyer's shortlisted car listings
+    async viewBuyerShortlistedCars(buyerEmail) {
+        // get buyer id
+        const user = new User();
+        const buyer = await user.findByEmail(buyerEmail);
+        const query = `
+            SELECT 
+                Carlisting.*, 
+                User.email AS agent_email,
+                TRUE AS is_shortlisted
+            FROM
+                Shortlist
+            INNER JOIN
+                Carlisting ON Shortlist.car_id = Carlisting.car_id
+            LEFT JOIN
+                User ON Carlisting.agent_id = User.user_id
+            WHERE
+                Shortlist.buyer_id = ?
+        `;
+        const [listings] = await db.promise().query(query, [buyer.user_id]);
         return listings;
     }
 }

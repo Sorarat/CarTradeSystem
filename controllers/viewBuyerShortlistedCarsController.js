@@ -1,14 +1,14 @@
 const Carlisting = require('../entities/carlisting');
 
-class viewBuyerCarlistingController {
-    async viewBuyerCarlistings(req, res) {
+class viewBuyerShortlistedCarsController {
+    async viewBuyerShortlistedCars(req, res) {
         const buyerEmail = req.params.buyerEmail;
 
         try {
             const carlisting =  new Carlisting();
-            const buyerCarlisting = await carlisting.viewAllCarListings(buyerEmail);
+            const buyerShortlistedCars = await carlisting.viewBuyerShortlistedCars(buyerEmail);
 
-            return res.status(200).json(buyerCarlisting);
+            return res.status(200).json(buyerShortlistedCars);
         }
 
         catch(error) {
@@ -18,4 +18,4 @@ class viewBuyerCarlistingController {
     }
 }
 
-module.exports = viewBuyerCarlistingController;
+module.exports = viewBuyerShortlistedCarsController;

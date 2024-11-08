@@ -187,6 +187,11 @@ function populateCarListings(carListings) {
     checkbox.type = 'checkbox';
     checkbox.id = `shortlist${car.car_id}`; 
     checkbox.name = 'shortlist';
+    checkbox.onchange = () => shortlistCar(car.car_id);
+
+    if (car.is_shortlisted) {
+      checkbox.checked = true;
+    }
 
     const label = document.createElement('label');
     label.htmlFor = `shortlist${car.car_id}`;
@@ -232,48 +237,20 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-
-
 /* Shortlist checkbox - heart-icon */
-document.addEventListener('DOMContentLoaded', function() {
-  let count = 0; // Initialize counter
-  // get buyer email
+function shortlistCar(carId) {
   const buyerEmail = sessionStorage.getItem('email');
+  const checkbox = document.getElementById(`shortlist${carId}`);
 
-  function updateCounter(checkbox) {
-    // Update the count based on the checkbox state
-    if (checkbox.checked) {
-      count += 1; // Increment if checked
-    } else {
-      count -= 1; // Decrement if unchecked
-    }
-
-    console.log('Current Count:', count); // Log the count to the console
+  if (checkbox.checked) {
+    // save to shortlist
+    saveToShortlist(carId, buyerEmail);
   }
-
-  // Get all checkboxes with the name "shortlist"
-  const checkboxes = document.querySelectorAll('input[name="shortlist"]');
-
-  // Add event listeners to each checkbox
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        updateCounter(checkbox); // Call the function to update the counter
-        console.log('Checkbox state changed')
-        // save/delete from shortlist
-        const carId = checkbox.value;
-        const isChecked = checkbox.checked;
-        if (isChecked) {
-          // if checkbox is checked (red heart), add to shortlist
-          saveToShortlist(carId, buyerEmail);
-        }
-        else {
-          // if checkbox is unchecked (grey heart), delete from shortlist
-          removeFromShortlist(carId, buyerEmail);
-        }
-
-    });
-  });
-});
+  else {
+    removeFromShortlist(carId, buyerEmail);
+  }
+  
+}
 
 async function saveToShortlist(carId, buyerEmail) {
   try {
@@ -494,7 +471,7 @@ function updateValues() {
     document.getElementById('loanAmount').innerText = '$0';
     document.getElementById('monthlyInstalment').innerText = '$0 /mth';
     
-    alert("Down payment value should not more than car price.")
+    alert("Down payment value should not be more than car price.")
     document.getElementById('downPayment').value = formatPrice(0);  // Reset value
     return; // Exit the function early
   }
@@ -784,9 +761,10 @@ function createRatingReviewBtn() {
 /* fetch all car listings JS */
 
 async function fetchCarListings() {
+  const buyerEmail = sessionStorage.getItem('email');
 
   try {
-    const response = await fetch('/viewBuyerCarlistingRoute/view-buyer-carlisting');
+    const response = await fetch(`/viewBuyerCarlistingRoute/view-buyer-carlisting/${buyerEmail}`);
     const carListings = await response.json();
 
     populateCarListings(carListings);

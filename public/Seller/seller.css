@@ -272,7 +272,7 @@ th, td {
     width:20%;
     padding: 8px 12px;
     text-align: left;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     /* border-bottom: 1px; */
 
 }
@@ -288,13 +288,13 @@ th, td {
 }
 
 .eye{
-    font-size:14px;
+    font-size:1.5rem;
     color:lightslategray;
 }
 
 .eye p, .heart p{
     margin-left: 10px;
-    font-size: 12px;
+    font-size: 1.5rem;
     color: black;
 }
 

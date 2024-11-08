@@ -13,6 +13,7 @@
     --medium-gray: #999;    /* button background */
     --dark-gray: #666;      /* suspended background */
     --yellow: #ffd300;      /* star rating */
+    --light-pink: #FFB6C1;  /* sold background*/
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     --border: .2rem solid rgba(0, 0, 0, .1);
     --outline: .1rem solid rgba(0, 0, 0, .1);

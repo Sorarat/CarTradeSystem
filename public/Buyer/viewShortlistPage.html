@@ -36,81 +36,6 @@
     <div class="grid-container">
         <!-- Fetch all car listings -->
 
-        <!-- Sample for a Car listing-->
-        <div class="car-card">
-            <div class="car-header">
-                <div class="car-name-container">
-                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
-                </div>
-                <div class="shortlist"> 
-                    <!-- input id has to be diff for each car-card for it to work individually -->
-                    <!-- label for has to be the same as id -->
-                    <input type="checkbox" id="shortlist1" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
-                    <label for="shortlist1"></label>
-                </div>
-            </div>
-            <!-- Car price & loan calculator button-->
-            <div class="price-button">
-                <span class="price">$85,000</span>  <!-- Fetch Car price -->
-                <button class="create-button" onclick="viewCarDetails(this)">View Details</button> <!-- Button to trigger popup-->
-            </div>
-        </div>
-        
-        <!-- Sample for a SOLD CAR -->
-        <div class="car-card disabled">
-            <div class="car-header">
-                <div class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</div> <!-- Fetch Car name -->
-                <div class="shortlist"> 
-                    <input type="checkbox" id="shortlist2" name="shortlist" value="1"> <!-- Fetch checked or uncheck? -->
-                    <label for="shortlist2"></label>
-                </div>
-            </div>
-            <span class="sold-label">SOLD</span>
-            <!-- Car price & Calculate Loan button-->
-            <div class="price-button">
-                <span class="price">$85,000</span>  <!-- Fetch Car price -->
-                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
-            </div>
-        </div>
-
-        <!-- Dummy to visualise -->
-        <div class="car-card">
-            <div class="car-header">
-                <div class="car-name-container">
-                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
-                </div>
-                <div class="shortlist"> 
-                    <!-- input id has to be diff for each car-card for it to work individually -->
-                    <!-- label for has to be the same as id -->
-                    <input type="checkbox" id="shortlist3" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
-                    <label for="shortlist3"></label>
-                </div>
-            </div>
-            <!-- Car price & loan calculator button-->
-            <div class="price-button">
-                <span class="price">$85,000</span>  <!-- Fetch Car price -->
-                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
-            </div>
-        </div>
-
-        <div class="car-card">
-            <div class="car-header">
-                <div class="car-name-container">
-                    <p class="car-name">Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p> <!-- Fetch Car name -->
-                </div>
-                <div class="shortlist"> 
-                    <!-- input id has to be diff for each car-card for it to work individually -->
-                    <!-- label for has to be the same as id -->
-                    <input type="checkbox" id="shortlist4" name="shortlist" value="1">  <!-- Fetch checked or uncheck-->
-                    <label for="shortlist4"></label>
-                </div>
-            </div>
-            <!-- Car price & loan calculator button-->
-            <div class="price-button">
-                <span class="price">$85,000</span>  <!-- Fetch Car price -->
-                <button class="create-button" onclick="viewCarDetails()">View Details</button> <!-- Button to trigger popup-->
-            </div>
-        </div>
     </div>
 
     <!-- Popup overlay -->
@@ -118,14 +43,14 @@
         <div class="popup-box">
             <h1>Car Information</h1>
             <br>
-            <p>Audi A3 Sportback 1.4A TFSI S-tronic (New 5-yr COE)</p>
+            <p id="carModel"></p>
             <div class="info-line">
                 <p>Reg Date:</p>
-                <span>12 April 2024</span>  <!-- Fetch Car Reg Date -->
+                <span id="carRegDate"></span>  <!-- Fetch Car Reg Date -->
             </div>
             <div class="info-line">
                 <p>Agent's Email:</p>
-                <span>JohnDoeAnderson@hotmail.com</span> <!-- Fetch Agent's Email -->
+                <span id="agentEmail"></span> <!-- Fetch Agent's Email -->
             </div>
             <br><br>
 

@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* View Details button - opens a popup */
 let lastSelectedButton = null; // Variable to keep track of the last selected button
 
-function viewCarDetails(button) { 
+function viewCarDetails(car) { 
   // Update database accordingly - for seller to see
   let viewCount = 0;
   viewCount += 1; // Increment onclick
@@ -74,8 +74,8 @@ function viewCarDetails(button) {
   const DownPayment = carPrice * (selectedRate/100);
   document.getElementById('downPayment').value = formatPrice(DownPayment);
 
-  // Set default Interest Rate (2.5%)
-  const defaultInterestRate = 2.5; // Set a default value
+  // Set default Interest Rate (2.75%)
+  const defaultInterestRate = 2.75; // Set a default value
   document.getElementById('interestRate').value = defaultInterestRate;
 
   // Set default Loan Term (1yr)
@@ -83,7 +83,7 @@ function viewCarDetails(button) {
 
   // Compute Total Interest Paid
   const totalInterestPaid = carPrice * (defaultInterestRate/100) * (defaultLoanTerm/12);
-  document.getElementById('interest').innerText = formatSGD(totalInterestPaid);
+  document.getElementById('interestRate').innerText = formatSGD(totalInterestPaid);
 
   // Compute Loan Amount
   const loanAmount = carPrice - DownPayment;
@@ -124,6 +124,13 @@ function viewCarDetails(button) {
   // Set up event listeners for buttons
   setDownPaymentListeners();
 
+  // Set the dynamic content of the popup
+  document.getElementById('carModel').textContent = car.car_model; // Car Model
+  document.getElementById('carRegDate').textContent = formatDate(car.reg_date); // Car Reg Date
+  document.getElementById('agentEmail').textContent = car.agent_email; // Agent's Email
+  document.getElementById('price').value = car.price; // Car Price
+
+
   // Set up event listeners for input fields
   const priceInput = document.getElementById('price');
   const downPaymentInput = document.getElementById('downPayment');
@@ -134,6 +141,16 @@ function viewCarDetails(button) {
   downPaymentInput.addEventListener('input', updateValues);
   interestRateInput.addEventListener('input', updateValues);
   loanTermSelect.addEventListener('change', updateValues);
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  // Format the date as 'DD Month YYYY', e.g., '14 May 2022'
+  return date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+  });
 }
 
 /* Compute Downpayment */
@@ -201,7 +218,7 @@ function updateValues() {
     document.getElementById('loanAmount').innerText = '$0';
     document.getElementById('monthlyInstalment').innerText = '$0 /mth';
     
-    alert("Down payment value should not more than car price.")
+    alert("Down payment value should not be more than car price.")
     document.getElementById('downPayment').value = formatPrice(0);  // Reset value
     return; // Exit the function early
   }
@@ -247,6 +264,54 @@ function closePopup() {
     lastSelectedButton = null; // Reset lastSelectedButton
   }
 }
+/* ---------------------------------- */
+/* HELPER JS */
+
+
+/* Format Price (10000 --> 10,000) */
+function formatPrice(price) {
+  // Convert price to a number
+  const numericPrice = Number(price);
+
+  // Check if the conversion was successful
+  if (isNaN(numericPrice)) {
+    throw new Error('Invalid price input');
+  }
+  
+  // Create a formatter for Singapore Dollars
+  const sgdFormatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0, // No decimal places
+    maximumFractionDigits: 0, // No decimal places
+  });
+
+  // Format the price
+  return `${sgdFormatter.format(price)}`;
+}
+
+/* Convert the formatPrice to int (10,000 --> 10000) */
+function parsePrice(formattedPrice) {
+  // Remove commas, then convert to a number
+  return Number(formattedPrice.replace(/,/g, ''));
+}
+
+/* Format Price (10000 --> $10,000) - Loan Breakdown */
+function formatSGD(price) {
+  // Create a formatter for Singapore Dollars
+  const sgdFormatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0, // No decimal places
+    maximumFractionDigits: 0, // No decimal places
+  });
+
+  // Format the price
+  return `$${sgdFormatter.format(price)}`;
+}
+
+/* Convert the formatSGD to int ($10,000 --> 10000) */
+function parseSGD(formattedPrice) {
+  // Remove commas, then convert to a number
+  return Number(formattedPrice.replace(/$,/g, ''));
+}
+
 
 /* ---------------------------------- */
 /* CreateRatingReviewPage JS*/
@@ -352,12 +417,185 @@ async function createRatingReviewBtn() {
 
     }
   }
+}
 
+/* ------------------------------------------------------------- */
+// view all shortlisted car listings
+async function fetchShortlistedCarListings() {
+  const buyerEmail = sessionStorage.getItem('email');
 
+  try {
+    const response = await fetch(`/viewBuyerShortlistedCarsRoute/view-shortlisted-cars/${buyerEmail}`);
+    const shortlistedCars = await response.json();
+
+    populateShortlistedCars(shortlistedCars);
+
+  }
+
+  catch(error) {
+    console.error('Error fetching car listings: ', error);
+  }
 
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.location.pathname.includes('viewShortlistPage.html')) {  
+    fetchShortlistedCarListings();
+  }
+});
 
+function populateShortlistedCars(shortlistedCars) {
+  const gridContainer = document.querySelector('.grid-container');
+  gridContainer.innerHTML = ''; // Clear existing listings
 
+  if (shortlistedCars.length === 0) {
+    const noResultsContainer = document.createElement('div'); // Create a wrapper
+    noResultsContainer.classList.add('no-car-listings-container'); // Add a class for styling
 
-/* ---------------------------------- */
+    const noResultsMessage = document.createElement('p');
+    noResultsMessage.textContent = 'No car listings found.';
+    noResultsMessage.classList.add('no-car-listings-message'); // Keep your existing message class
+
+    noResultsContainer.appendChild(noResultsMessage);
+    gridContainer.appendChild(noResultsContainer); // Append wrapper to grid container
+    return;
+}
+
+  shortlistedCars.forEach(car => {
+    const carCard = document.createElement('div');
+    carCard.className = 'car-card';
+
+    const carHeader = document.createElement('div');
+    carHeader.className = 'car-header';
+
+    const carNameContainer = document.createElement('div');
+    carNameContainer.className = 'car-name-container';
+
+    const carName = document.createElement('p');
+    carName.className = 'car-name';
+    carName.textContent = car.car_model; 
+    carNameContainer.appendChild(carName);
+    
+    // Check the status of the car
+    if (!car.status) {
+      // Add SOLD label
+      const soldLabel = document.createElement('span');
+      soldLabel.className = 'sold-label';
+      soldLabel.textContent = 'SOLD';
+      carNameContainer.appendChild(soldLabel);
+
+      // Mark card as disabled if car is sold
+      carCard.classList.add('disabled');
+    }
+    carHeader.appendChild(carNameContainer);
+
+    const shortlist = document.createElement('div');
+    shortlist.className = 'shortlist';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = `shortlist${car.car_id}`; 
+    checkbox.name = 'shortlist';
+    checkbox.onchange = () => shortlistCar(car.car_id);
+
+    if (car.is_shortlisted) {
+      checkbox.checked = true;
+    }
+
+    const label = document.createElement('label');
+    label.htmlFor = `shortlist${car.car_id}`;
+
+    shortlist.appendChild(checkbox);
+    shortlist.appendChild(label);
+    carHeader.appendChild(shortlist);
+
+    const priceButton = document.createElement('div');
+    priceButton.className = 'price-button';
+
+    const price = document.createElement('span');
+    price.className = 'price';
+    price.textContent = `$${car.price}`; 
+
+    const viewDetailsButton = document.createElement('button');
+    viewDetailsButton.className = 'create-button';
+    viewDetailsButton.textContent = 'View Details';
+    viewDetailsButton.onclick = () => viewCarDetails(car); // Add an onclick handler
+
+    priceButton.appendChild(price);
+    priceButton.appendChild(viewDetailsButton);
+    carCard.appendChild(carHeader);
+    carCard.appendChild(priceButton);
+
+    gridContainer.appendChild(carCard);
+  });
+}
+
+/* Shortlist checkbox - heart-icon */
+function shortlistCar(carId) {
+  const buyerEmail = sessionStorage.getItem('email');
+  const checkbox = document.getElementById(`shortlist${carId}`);
+
+  if (checkbox.checked) {
+    // save to shortlist
+    saveToShortlist(carId, buyerEmail);
+  }
+  else {
+    removeFromShortlist(carId, buyerEmail);
+  }
+  
+}
+
+async function saveToShortlist(carId, buyerEmail) {
+  try {
+    const response = await fetch('/saveListingRoute/saveListing', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ carId, buyerEmail })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        /*Success message*/
+      alert("Car Listing successfully saved into shortlist");
+    }
+    else {
+      alert('Carlisting cannot be saved.');
+    }
+
+  }
+  catch (error) {
+    console.error('Failed to add into shortlist:', error);
+    alert('An error occurred during the saving.');
+  }
+}
+
+async function removeFromShortlist(carId, buyerEmail) {
+  try {
+    const response = await fetch('/removeListingRoute/removeListing', {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ carId, buyerEmail })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        /*Success message*/
+      alert("Car Listing successfully removed from shortlist!");
+      location.reload();
+    }
+    else {
+      alert('Carlisting cannot be removed.');
+    }
+
+  }
+  catch (error) {
+    console.error('Failed to remove from shortlist:', error);
+    alert('An error occurred during the removal.');
+  }
+}
