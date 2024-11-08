@@ -125,7 +125,7 @@ async function performCarSearch() {
   try {
     const response = await fetch(url); 
     const carlistings = await response.json();
-    populateCarListings(carlistings);     
+    populateAllCarListings(carlistings);     
   }
 
   catch(error) {
@@ -135,7 +135,7 @@ async function performCarSearch() {
 
 }
 
-function populateCarListings(carListings) {
+function populateAllCarListings(carListings) {
   const gridContainer = document.querySelector('.grid-container');
   gridContainer.innerHTML = ''; // Clear existing listings
 
@@ -224,7 +224,7 @@ function populateCarListings(carListings) {
 document.addEventListener('DOMContentLoaded', function() {
   if (window.location.pathname.includes('homePage.html')) {
     
-    fetchCarListings();
+    fetchAllCarListings();
     const searchForm = document.getElementById('searchCarForm');
     if (searchForm) {
         searchForm.addEventListener('submit', function(event) {
@@ -247,6 +247,7 @@ function shortlistCar(carId) {
     saveToShortlist(carId, buyerEmail);
   }
   else {
+    // remove from shortlist
     removeFromShortlist(carId, buyerEmail);
   }
   
@@ -760,14 +761,14 @@ function createRatingReviewBtn() {
 
 /* fetch all car listings JS */
 
-async function fetchCarListings() {
+async function fetchAllCarListings() {
   const buyerEmail = sessionStorage.getItem('email');
 
   try {
     const response = await fetch(`/viewBuyerCarlistingRoute/view-buyer-carlisting/${buyerEmail}`);
     const carListings = await response.json();
 
-    populateCarListings(carListings);
+    populateAllCarListings(carListings);
 
   }
 

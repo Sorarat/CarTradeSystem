@@ -1,12 +1,12 @@
-const Carlisting = require('../entities/carlisting');
+const Shortlist = require('../entities/shortlist');
 
 class viewBuyerShortlistedCarsController {
     async viewBuyerShortlistedCars(req, res) {
         const buyerEmail = req.params.buyerEmail;
 
         try {
-            const carlisting =  new Carlisting();
-            const buyerShortlistedCars = await carlisting.viewBuyerShortlistedCars(buyerEmail);
+            const shortlistedCars =  new Shortlist();
+            const buyerShortlistedCars = await shortlistedCars.viewBuyerShortlistedCars(buyerEmail);
 
             return res.status(200).json(buyerShortlistedCars);
         }

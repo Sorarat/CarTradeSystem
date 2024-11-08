@@ -50,6 +50,29 @@ class Shortlist {
 
         return result.affectedRows > 0;
     }
+
+    // view buyer's shortlisted car listings
+    async viewBuyerShortlistedCars(buyerEmail) {
+        // get buyer id
+        const user = new User();
+        const buyer = await user.findByEmail(buyerEmail);
+        const query = `
+            SELECT 
+                Carlisting.*, 
+                User.email AS agent_email,
+                TRUE AS is_shortlisted
+            FROM
+                Shortlist
+            INNER JOIN
+                Carlisting ON Shortlist.car_id = Carlisting.car_id
+            LEFT JOIN
+                User ON Carlisting.agent_id = User.user_id
+            WHERE
+                Shortlist.buyer_id = ?
+        `;
+        const [listings] = await db.promise().query(query, [buyer.user_id]);
+        return listings;
+    }
 }
 
 module.exports = Shortlist;
