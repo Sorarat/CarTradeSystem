@@ -218,6 +218,7 @@ function populateCarListings(carListings) {
 
 document.addEventListener('DOMContentLoaded', function() {
   if (window.location.pathname.includes('homePage.html')) {
+    
     fetchCarListings();
     const searchForm = document.getElementById('searchCarForm');
     if (searchForm) {
@@ -788,90 +789,7 @@ async function fetchCarListings() {
     const response = await fetch('/viewBuyerCarlistingRoute/view-buyer-carlisting');
     const carListings = await response.json();
 
-    const gridContainer = document.querySelector('.grid-container');
-    gridContainer.innerHTML = ''; // clear existing listings
-
-    carListings.forEach(car => {
-      const carCard = document.createElement('div');
-      carCard.className = 'car-card';
-
-      const carHeader = document.createElement('div');
-      carHeader.className = 'car-header';
-
-      const carNameContainer = document.createElement('div');
-      carNameContainer.className = 'car-name-container';
-
-      const carName = document.createElement('p');
-      carName.className = 'car-name';
-      carName.textContent = car.car_model; 
-      carNameContainer.appendChild(carName);
-      
-      if (!car.status) {
-       
-       // add SOLD label
-        const soldLabel = document.createElement('span');
-        soldLabel.className = 'sold-label';
-        soldLabel.textContent = 'SOLD';
-        carNameContainer.appendChild(soldLabel);
-
-        // mark card as disabled if car is sold
-        carCard.classList.add('disabled');
-
-      }
-      carHeader.appendChild(carNameContainer);
-
-      const shortlist = document.createElement('div');
-      shortlist.className = 'shortlist';
-
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.id = `shortlist${car.car_id}`; 
-      checkbox.name = 'shortlist';
-      checkbox.value = car.id;
-
-      const label = document.createElement('label');
-      label.htmlFor = `shortlist${car.car_id}`;
-
-      shortlist.appendChild(checkbox);
-      shortlist.appendChild(label);
-      carHeader.appendChild(shortlist);
-
-      const priceButton = document.createElement('div');
-      priceButton.className = 'price-button';
-
-      const price = document.createElement('span');
-      price.className = 'price';
-      price.textContent = `$${car.price}`; 
-
-      const viewDetailsButton = document.createElement('button');
-      viewDetailsButton.className = 'create-button';
-      viewDetailsButton.textContent = 'View Details';
-      viewDetailsButton.onclick = () => viewCarDetails(car); 
-
-      priceButton.appendChild(price);
-      priceButton.appendChild(viewDetailsButton);
-      carCard.appendChild(carHeader);
-      carCard.appendChild(priceButton);
-
-      gridContainer.appendChild(carCard);
-
-      // Add event listener for the checkbox (heart icon)
-      checkbox.addEventListener('change', function () {
-        const buyerEmail = sessionStorage.getItem('email');
-        console.log('Checkbox state changed!');  // Debugging message
-        
-        const isChecked = checkbox.checked;
-        const carId = checkbox.value;
-
-        if (isChecked) {
-          saveToShortlist(carId, buyerEmail);
-        } else {
-          removeFromShortlist(carId, buyerEmail);
-        }
-      });
-      
-    })
-
+    populateCarListings(carListings);
 
   }
 
@@ -881,12 +799,6 @@ async function fetchCarListings() {
   }
 
 }
-// call the function when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.location.pathname.includes('homePage.html')) {
-    fetchCarListings();
-  }
-});
 
 /* ---------------------------------- */
 
