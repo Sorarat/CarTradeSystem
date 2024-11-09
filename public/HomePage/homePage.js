@@ -237,6 +237,35 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+async function increaseListingNumViews(car_id) {
+  
+  try {
+    const response = await fetch(`/updateCarlistingRoute/increaseListingNumViews/${car_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({car_id})
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('Increase num of views by 1 succesfully');
+    }
+
+    else {
+      console.log('Failed to increase num of views by 1');
+    }
+  }
+
+  catch (error) {
+    console.error('Failed to increase views of carlisting:', error);
+    alert('An error occurred during increasing listing num of views.');
+  }
+
+}
+
 /* Shortlist checkbox - heart-icon */
 function shortlistCar(carId) {
   const buyerEmail = sessionStorage.getItem('email');
@@ -245,10 +274,12 @@ function shortlistCar(carId) {
   if (checkbox.checked) {
     // save to shortlist
     saveToShortlist(carId, buyerEmail);
+    increaseListingNumShortlist(carId);
   }
   else {
     // remove from shortlist
     removeFromShortlist(carId, buyerEmail);
+    decreaseListingNumShortlist(carId);
   }
   
 }
@@ -304,6 +335,63 @@ async function removeFromShortlist(carId, buyerEmail) {
   catch (error) {
     console.error('Failed to remove from shortlist:', error);
     alert('An error occurred during the removal.');
+  }
+}
+
+
+async function increaseListingNumShortlist(car_id) {
+  
+  try {
+    const response = await fetch(`/updateCarlistingRoute/increaseListingNumShortlist/${car_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({car_id})
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('Increase num of shortlist by 1 succesfully');
+    }
+
+    else {
+      console.log('Failed to increase num of shortlist by 1');
+    }
+  }
+
+  catch (error) {
+    console.error('Failed to increase num of shortlist:', error);
+    alert('An error occurred during increasing num of shortlist.');
+  }
+}
+
+async function decreaseListingNumShortlist(car_id) {
+  
+  try {
+    const response = await fetch(`/updateCarlistingRoute/decreaseListingNumShortlist/${car_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({car_id})
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('Decrease num of shortlist by 1 succesfully');
+    }
+
+    else {
+      console.log('Failed to decrease num of shortlist by 1');
+    }
+  }
+
+  catch (error) {
+    console.error('Failed to decrease num of shortlist:', error);
+    alert('An error occurred during decreasing num of shortlist.');
   }
 }
 
@@ -407,6 +495,11 @@ function viewCarDetails(car) {
   downPaymentInput.addEventListener('input', updateValues);
   interestRateInput.addEventListener('input', updateValues);
   loanTermSelect.addEventListener('change', updateValues);
+
+
+  // update the num of views 
+  increaseListingNumViews(car.car_id);
+
 }
 
 /* Compute Downpayment */
@@ -699,7 +792,17 @@ function displayOverallRating(reviews) {
   const container = document.getElementById("overall-rating");
   
   if (reviews.length === 0) {
-    container.textContent = "No ratings available";
+    // Display 0 if no reviews are present
+    container.innerHTML = `
+      <div class="overall-rating-content">
+        <div class="star">
+          <input type="radio" id="star-overall" name="star" value="star" checked>
+          <label for="star-overall"></label>
+        </div>
+      </div>
+      <span class="average-rating-text">0 / 5</span>
+    `;
+    return;
   }
 
   // sum all ratings

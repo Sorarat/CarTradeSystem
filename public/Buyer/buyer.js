@@ -541,6 +541,7 @@ function shortlistCar(carId) {
   }
   else {
     removeFromShortlist(carId, buyerEmail);
+    decreaseListingNumShortlist(carId);
   }
   
 }
@@ -597,5 +598,33 @@ async function removeFromShortlist(carId, buyerEmail) {
   catch (error) {
     console.error('Failed to remove from shortlist:', error);
     alert('An error occurred during the removal.');
+  }
+}
+
+async function decreaseListingNumShortlist(car_id) {
+  
+  try {
+    const response = await fetch(`/updateCarlistingRoute/decreaseListingNumShortlist/${car_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({car_id})
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('Decrease num of shortlist by 1 succesfully');
+    }
+
+    else {
+      console.log('Failed to decrease num of shortlist by 1');
+    }
+  }
+
+  catch (error) {
+    console.error('Failed to decrease num of shortlist:', error);
+    alert('An error occurred during decreasing num of shortlist.');
   }
 }

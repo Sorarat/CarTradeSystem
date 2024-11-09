@@ -237,6 +237,49 @@ class Carlisting {
 
         return listings;
     }
+
+    async increaseListingNumViews(car_id) {
+        const query = 'UPDATE Carlisting SET num_views = num_views + 1 WHERE car_id = ?';
+        try {
+            const [result] = await db.promise().query(query, [car_id]);
+            return result.affectedRows > 0;
+        }
+
+        catch(error) {
+            console.error('Error updating num_views:' , error)
+            throw error;
+        }
+    }
+
+    /* hidden functions onwards */ 
+    
+    async increaseListingNumShortlist(car_id) {
+        const query = 'UPDATE Carlisting SET num_shortlist = num_shortlist + 1 WHERE car_id = ?';
+        try {
+            const [result] = await db.promise().query(query, [car_id]);
+            return result.affectedRows > 0;
+        }
+
+        catch(error) {
+            console.error('Error updating num_shortlist:' , error)
+            throw error;
+        }
+    }
+
+    async decreaseListingNumShortlist(car_id) {
+        const query = 'UPDATE Carlisting SET num_shortlist = num_shortlist - 1 WHERE car_id = ?';
+        try {
+            const [result] = await db.promise().query(query, [car_id]);
+            return result.affectedRows > 0;
+        }
+
+        catch(error) {
+            console.error('Error updating num_shortlist:' , error)
+            throw error;
+        }
+    }
+
+    
 }
 
 module.exports = Carlisting;
