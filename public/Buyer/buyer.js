@@ -377,10 +377,16 @@ async function createRatingReviewBtn() {
 
   if (!ratingInput) {
     alert('Please select a rating before submitting.'); // Custom alert
+    return;
   }
 
   const rating = ratingInput ? ratingInput.value : null;
   const review = document.getElementById('review').value.trim();
+
+  if (!review) {
+    alert('Please write a review before submitting.');
+    return;
+  }
 
   // check if the form is valid
   if (form.checkValidity()) {
@@ -402,9 +408,8 @@ async function createRatingReviewBtn() {
 
       if (data.success) {
         alert('Rating & Review created successfully');
-        document.location.href= './buyerDashboardPage.html';
+        document.location.href= `../HomePage/viewRatingReviewPage.html?agent_id=${agent_id}`;
       }
-
       else {
         alert('Rating & Review creation failed. Please try again.'); 
       }
