@@ -69,6 +69,21 @@ class ViewAccountController {
         }
     }
 
+    // get personal account details
+    async getPersonalAccount(req, res) {
+        const email = req.params.email;
+        const user = new User();
+
+        try {
+            const account = await user.findByEmail(email);
+            res.json(account);
+        }
+        catch(error) {
+            res.status(500).send({ message: error.message });
+            console.error("Error fetching personal account: ", error);
+        }
+    }
+
 }
 
 module.exports = ViewAccountController;

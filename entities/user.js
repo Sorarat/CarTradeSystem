@@ -50,7 +50,7 @@ class User {
         const lowercasedEmail = email.toLowerCase();  // Convert input email to lowercase
         const query = 'SELECT * FROM User WHERE LOWER(email) = ?';  // Ensure case-insensitive comparison
         const [results] = await db.promise().query(query, [lowercasedEmail]);
-    
+
         return results.length > 0 ? results[0] : null;
     }
 

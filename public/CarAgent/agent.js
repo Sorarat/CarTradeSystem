@@ -493,9 +493,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
 });
 
-
-
-
 async function fetchUsername() {
 
   try {
@@ -530,3 +527,39 @@ async function fetchUsername() {
 
   }
 }
+
+// for dashboard account details display
+document.addEventListener('DOMContentLoaded', async () => {
+  if (window.location.pathname.includes('agentDashboard.html')) {
+    const email = sessionStorage.getItem('email');
+
+    try {
+      // get average rating
+      const rateResponse = await fetch(`/agentViewRatingReviewRoute/agent-average-rating/${email}`);
+      const averageData = await rateResponse.json()
+      if (averageData.averageRating != null) {
+        const average = parseInt(averageData.averageRating);
+        document.getElementById('rating-number').textContent = average.toFixed(1);
+      } 
+      else {
+        document.getElementById('rating-number').textContent = "None";
+      }
+    } catch (error) {
+      console.error('Error fetching average rating:', error);
+    }
+
+    try {
+      // get personal details
+      const accResponse = await fetch(`/viewAccountRoute/fetch-personal-account/${email}`);
+      const data = await accResponse.json();
+      
+      // Populate the HTML with user data
+      document.getElementById('username').textContent = data.username;
+      document.getElementById('email').textContent = data.email;
+      document.getElementById('phoneNumber').textContent = data.phone;
+      
+    } catch (error) {
+        console.error('Error fetching user information:', error);
+    }
+  }
+});

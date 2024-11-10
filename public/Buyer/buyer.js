@@ -587,3 +587,23 @@ async function fetchUsername() {
 
   }
 }
+
+// for dashboard account details display
+document.addEventListener('DOMContentLoaded', async () => {
+  if (window.location.pathname.includes('buyerDashboardPage.html')) {
+    const email = sessionStorage.getItem('email');
+
+    try {
+      const response = await fetch(`/viewAccountRoute/fetch-personal-account/${email}`);
+      const data = await response.json();
+      
+      // Populate the HTML with user data
+      document.getElementById('username').textContent = data.username;
+      document.getElementById('email').textContent = data.email;
+      document.getElementById('phoneNumber').textContent = data.phone;
+      
+    } catch (error) {
+        console.error('Error fetching user information:', error);
+    }
+  }
+});
