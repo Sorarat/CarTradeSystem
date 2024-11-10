@@ -24,8 +24,38 @@ function logoutBtn(event){
   document.location.href="../LogoutPage/LogoutPage.html"; // Use relative path (one directory level up)
 }
 
+/* Function to set the Dashboard link & create "Home" dropdown option */
+function setDashboardLink() {
+  const dashboardLink = document.getElementById('dashboardLink');
+  const homeLinkContainer = document.getElementById('home-link-container');
+  const userRole = sessionStorage.getItem('role'); // Retrieve the user role from sessionStorage
+
+  // Create a dropdown menu option "Home" for Buyer only
+  if (userRole === 'buyer') {
+    const homeLink = document.createElement('a');
+    homeLink.href = '../HomePage/homePage.html';
+    homeLink.textContent = 'Home';
+    homeLinkContainer.appendChild(homeLink);
+  }
+
+  // Update Dashboard link according to user role upon login
+  if (userRole === 'buyer') {
+    dashboardLink.href = '../Buyer/buyerDashboardPage.html';
+  } else if (userRole === 'seller') {
+    dashboardLink.href = '../Seller/sellerDashboard.html';
+  } else {
+    dashboardLink.href = '#'; // Default or error page
+  }
+}
+
+// Call the function to set the link when the page loads
+window.onload = setDashboardLink;
+
+
 /* Shortlist checkbox - heart-icon */
 document.addEventListener('DOMContentLoaded', function() {
+
+  fetchUsername();
   let count = 0; // Initialize counter
 
   function updateCounter(checkbox) {
@@ -519,5 +549,37 @@ async function decreaseListingNumShortlist(car_id) {
   catch (error) {
     console.error('Failed to decrease num of shortlist:', error);
     alert('An error occurred during decreasing num of shortlist.');
+  }
+}
+
+
+async function fetchUsername() {
+
+  try {
+    // get email from session storage
+    const email = sessionStorage.getItem("email");
+    const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
+
+    // Check the response status
+    if (!response.ok) {
+      console.error('Error: Response not ok', response.status, response.statusText);
+      throw new Error('Failed to fetch username');
+    }
+    const data = await response.json();
+
+    if (data && data.username) {
+      document.querySelector('#username-text').textContent = data.username;
+    }
+
+    else {
+      console.log('Failed to fetch username');
+      document.querySelector('#username-text').textContent = 'username'; // Fallback string
+    }
+  }
+
+  catch(error) {
+    console.error('Error fetching username:', error);
+    document.querySelector('#username-text').textContent = 'username'; // Fallback string on error
+
   }
 }

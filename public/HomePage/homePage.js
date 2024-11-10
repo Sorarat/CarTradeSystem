@@ -56,6 +56,9 @@ window.onload = setDashboardLink;
 /* homePage JS */
 /* Ensure that min is always >= max */
 document.addEventListener('DOMContentLoaded', function() {
+
+  fetchUsername();
+
   // Get the min and max select elements
   const minSelect = document.getElementById('min');
   const maxSelect = document.getElementById('max');
@@ -98,6 +101,37 @@ document.addEventListener('DOMContentLoaded', function() {
   updateMinOptions();
 });
 
+
+async function fetchUsername() {
+
+  try {
+    // get email from session storage
+    const email = sessionStorage.getItem("email");
+    const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
+
+    // Check the response status
+    if (!response.ok) {
+      console.error('Error: Response not ok', response.status, response.statusText);
+      throw new Error('Failed to fetch username');
+    }
+    const data = await response.json();
+
+    if (data && data.username) {
+      document.querySelector('#username-text').textContent = data.username;
+    }
+
+    else {
+      console.log('Failed to fetch username');
+      document.querySelector('#username-text').textContent = 'username'; // Fallback string
+    }
+  }
+
+  catch(error) {
+    console.error('Error fetching username:', error);
+    document.querySelector('#username-text').textContent = 'username'; // Fallback string on error
+
+  }
+}
 
 /* Search button */
 async function performCarSearch() {
@@ -718,6 +752,7 @@ function populateAgentTable(agents) {
 document.addEventListener('DOMContentLoaded', function() {
 
   if (window.location.pathname.includes('viewAgentsPage.html')) {
+    fetchUsername();
     const agentTable = document.getElementById('agentInfoTable');
    
     if (agentTable) {

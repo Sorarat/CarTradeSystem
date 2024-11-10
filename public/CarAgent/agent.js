@@ -27,6 +27,9 @@ function logoutBtn(event){
 /*---------------------*/
 /*Create Car Listing - Create Button */
 document.addEventListener("DOMContentLoaded", function () {
+
+  fetchUsername();
+
   const createButton = document.getElementById("createListing");
   const form = document.querySelector("form");
 
@@ -490,4 +493,37 @@ document.addEventListener('DOMContentLoaded', function() {
   
 });
 
+
+
+
+async function fetchUsername() {
+
+  try {
+    // get email from session storage
+    const email = sessionStorage.getItem("email");
+    const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
+
+    // Check the response status
+    if (!response.ok) {
+      console.error('Error: Response not ok', response.status, response.statusText);
+      throw new Error('Failed to fetch username');
+    }
+    const data = await response.json();
+
+    if (data && data.username) {
+      document.querySelector('#username-text').textContent = data.username;
+    }
+
+    else {
+      console.log('Failed to fetch username');
+      document.querySelector('#username-text').textContent = 'username'; // Fallback string
+    }
+  }
+
+  catch(error) {
+    console.error('Error fetching username:', error);
+    document.querySelector('#username-text').textContent = 'username'; // Fallback string on error
+
+  }
+}
 

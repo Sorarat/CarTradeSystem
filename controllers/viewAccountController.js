@@ -18,6 +18,8 @@ class ViewAccountController {
         }
     }
 
+    /* Hidden functions onwards */
+
     // get specific account for update form
     async getAccount(req, res) {
         const userId = req.params.userId;
@@ -47,6 +49,23 @@ class ViewAccountController {
         catch(error) {
             res.status(500).send({ message: error.message });
             console.error("Error fetching agents:", error); 
+        }
+    }
+
+    // get username
+    async getUserName(req, res) {
+        const email = req.query.email;
+
+        const user = new User();
+
+        try {
+            const username = await user.getUsernameByEmail(email);
+            res.json({username});
+        }
+
+        catch(error) {
+            res.status(500).send({ message: error.message });
+            console.error("Error fetching username:", error); 
         }
     }
 
