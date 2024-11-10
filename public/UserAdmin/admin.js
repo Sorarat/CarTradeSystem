@@ -89,6 +89,27 @@ function cancelCreateBtn(event){
 /* ---------------------------------- */
 /* CreateAccount JS */
 // Ensure the DOM is fully loaded before accessing elements
+document.addEventListener('DOMContentLoaded', async () => {
+  if (window.location.pathname.includes('CreateAccount.html')) {
+    const roleSelect = document.getElementById('role');
+  
+    try {
+        const response = await fetch('/viewProfileRoute/getRoles');
+        const roles = await response.json();
+        console.log(roles);
+        // Populate the select menu
+        roles.forEach(role => {
+          const option = document.createElement('option');
+          option.value = role.profile_id;  // Set profile_id as the option value
+          option.textContent = role.role;  // Display role name as text
+          roleSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching roles:', error);
+    }
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('createAccount').addEventListener('click', createAccountBtn);
 
@@ -98,7 +119,7 @@ async function createAccountBtn(event) {
   const form = document.getElementById('createAccountForm');
   
   // Get input and textarea values
-  const role = document.getElementById('role').value.trim();
+  const profile_id = document.getElementById('role').value.trim();  // get profile_id of role
   const username = document.getElementById('username').value.trim();
   const email = document.getElementById('email').value.trim();
   const phoneNumber = document.getElementById('phoneNumber').value.trim();
@@ -108,7 +129,7 @@ async function createAccountBtn(event) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // Check for empty or whitespace-only values
-  if (role === "" || username === "" || email === "" || phoneNumber === "" || password === "") {
+  if (profile_id === "" || username === "" || email === "" || phoneNumber === "" || password === "") {
     event.preventDefault(); // Prevent form submission
     alert('Both fields are required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
@@ -132,7 +153,7 @@ async function createAccountBtn(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, username, phoneNumber, role })
+        body: JSON.stringify({ email, password, username, phoneNumber, profile_id })
     });
 
       const data = await response.json();
@@ -406,21 +427,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         const response = await fetch(`/viewAccountRoute/getAccount/${userId}`);
         const userData = await response.json();
 
-       
          if (userData) {
-
-          const roleMap = {
-            1: 'admin',
-            2: 'agent',
-            3: 'buyer',
-            4: 'seller'
-          };
-  
-          // map profile id to role
-          role = roleMap[userData.profile_id] || 'Invalid role';
-
           // Populate the form fields
-          document.getElementById('role').value = role;
+          document.getElementById('role').value = userData.role;
           document.getElementById('username').value = userData.username;
           document.getElementById('email').value = userData.email;
           document.getElementById('phoneNumber').value = userData.phone;
@@ -641,3 +650,33 @@ async function suspendProfile(profileId) {
   }
 }
 
+async function fetchUsername() {
+
+  try {
+    // get email from session storage
+    const email = sessionStorage.getItem("email");
+    const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
+
+    // Check the response status
+    if (!response.ok) {
+      console.error('Error: Response not ok', response.status, response.statusText);
+      throw new Error('Failed to fetch username');
+    }
+    const data = await response.json();
+
+    if (data && data.username) {
+      document.querySelector('#username-text').textContent = data.username;
+    }
+
+    else {
+      console.log('Failed to fetch username');
+      document.querySelector('#username-text').textContent = 'username'; // Fallback string
+    }
+  }
+
+  catch(error) {
+    console.error('Error fetching username:', error);
+    document.querySelector('#username-text').textContent = 'username'; // Fallback string on error
+
+  }
+}
