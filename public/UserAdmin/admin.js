@@ -447,7 +447,6 @@ async function updateAccountBtn(event) {
   const form = document.getElementById('updateAccountForm');
   
   // Get input and textarea values
-  const role = document.getElementById('role').value.trim();
   const username = document.getElementById('username').value.trim();
   const email = document.getElementById('email').value.trim();
   const phoneNumber = document.getElementById('phoneNumber').value.trim();
@@ -460,7 +459,7 @@ async function updateAccountBtn(event) {
   console.log(userId);
 
   // Check for empty or whitespace-only values
-  if (role === "" || username === "" || email === "" || phoneNumber === "" || password === "") {
+  if (username === "" || email === "" || phoneNumber === "" || password === "") {
     event.preventDefault(); // Prevent form submission
     alert('All fields are required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
@@ -487,7 +486,7 @@ async function updateAccountBtn(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId, email, password, username, phoneNumber, role  })
+        body: JSON.stringify({ userId, email, password, username, phoneNumber  })
       })
       
       const data = await response.json();
@@ -550,7 +549,6 @@ async function updateProfileBtn(event) {
   const form = document.getElementById('updateProfileForm');
   
   // Get input and textarea values
-  const role = document.getElementById('role').value.trim();
   const description = document.getElementById('description').value.trim();
 
    // get profile id of row to be updated
@@ -560,9 +558,9 @@ async function updateProfileBtn(event) {
    console.log(profileId);
 
   // Check for empty or whitespace-only values
-  if (role === "" || description === "") {
+  if (description === "") {
     event.preventDefault(); // Prevent form submission
-    alert('Both fields are required and cannot be empty or whitespace.'); // Custom alert
+    alert('Description field is required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
   }
 
@@ -577,7 +575,7 @@ async function updateProfileBtn(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ role, description })
+        body: JSON.stringify({ description })
       });
 
       const data = await response.json();

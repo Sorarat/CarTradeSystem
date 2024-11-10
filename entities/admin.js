@@ -65,7 +65,7 @@ class Admin extends User{
 
     }
 
-    async updateAccount(userId, email, password, username, phoneNumber, role) {
+    async updateAccount(userId, email, password, username, phoneNumber) {
         
         // Check if an account with the provided email exists (this could be the current user's email or another user's)
         const existingUser = await this.findByEmail(email);
@@ -78,12 +78,9 @@ class Admin extends User{
         // Hash the password 
         const hashedPassword = await bcrypt.hash(password, 10)
 
-        // Get the profile id for the role
-        const profileId = this.getProfileId(role);
-
         // Perform the update
-        const query = 'UPDATE User SET email = ?, password_hash = ?, username = ?, phone = ?, profile_id = ? WHERE user_id = ?';
-        const [result] = await db.promise().query(query, [email, hashedPassword, username, phoneNumber, profileId, userId]);
+        const query = 'UPDATE User SET email = ?, password_hash = ?, username = ?, phone = ? WHERE user_id = ?';
+        const [result] = await db.promise().query(query, [email, hashedPassword, username, phoneNumber, userId]);
 
         return result.affectedRows > 0 ? true : false;
     }

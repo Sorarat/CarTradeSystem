@@ -83,24 +83,26 @@ class UserProfile {
 
 
     // update profile
-    async updateProfile(profileId, role, roleDesc) {
-        // Check if the updated role belongs to another profile
-        const roleIsValid = await this.check_role(role, profileId);
+    async updateProfile(profileId, roleDesc) {
+        const query = 'UPDATE UserProfile SET roleDesc = ? WHERE profile_id = ?';
+        const [result] = await db.promise().query(query, [roleDesc, profileId]);
+        return result.affectedRows > 0;
 
-        if (roleIsValid) {
-            const query = 'UPDATE UserProfile SET role = ?, roleDesc = ? WHERE profile_id = ?';
-            await db.promise().query(query, [role, roleDesc, profileId]);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // suspend profile
     async suspendProfile(profileId) {
         const query = 'UPDATE UserProfile SET suspendStatus = ? WHERE profile_id = ?';
         const [result] = await db.promise().query(query, [true, profileId]);
-        return result.affectedRows > 0; 
+        // if successful suspension
+        if (result.affectedRows > 0) {
+            const accountSuspensionQuery = 'UPDATE User SET suspendStatus = ? WHERE profile_id = ?';
+            const [accountResult] = await db.promise().query(accountSuspensionQuery, [true, profileId]);
+
+            return accountResult.affectedRows > 0;
+        }
+
+        return false;
     }
 
     // search profile by role
