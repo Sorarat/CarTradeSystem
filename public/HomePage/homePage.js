@@ -24,7 +24,7 @@ function logoutBtn(event){
   document.location.href = "../logoutPage/logoutPage.html"; // Use relative path (one directory level up)
 }
 
-/* For viewAgentsPage & viewRatingReviewPage */
+/* For viewAgentsPage */
 /* Function to set the Dashboard link & create "Home" dropdown option */
 function setDashboardLink() {
   const dashboardLink = document.getElementById('dashboardLink');
@@ -733,132 +733,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* View Rating & Reviews button */
 function viewRatingReviewBtn(agent_id) {
-  window.location.href = `./viewRatingReviewPage.html?agent_id=${agent_id}`; 
+  window.location.href = `../RatingReview/viewRatingReviewPage.html?agent_id=${agent_id}`; 
 }
 
-/* ---------------------------------- */
-
-/* view rating & reviews js */
-
-let allRatingAndReviews = [];
-
-// function to fetch all rating and reviews and populate the table
-async function fetchAllRatingReviews(agent_id) {
-
-  try {
-    const response = await fetch(`/viewRatingReviewRoute/view-rating-reviews/${agent_id}`);
-    if (!response.ok) 
-      throw new Error('Failed to fetch rating and review');
-   
-    const data = await response.json();
-    
-    displayReviews(data);
-    displayOverallRating(data);
-
-  }
-
-  catch(err) {
-    console.error("Error fetching reviews: ", err);
-
-  }
-}
-
-// display fetched reviews
-function displayReviews(reviews) {
-  const container = document.getElementById("review-container");
-  container.innerHTML = ""; // clear any existing reviews
-
-  reviews.forEach(review => {
-    const reviewCard = document.createElement("div");
-    reviewCard.className = "review-card";
-    reviewCard.innerHTML = `
-      <div class="review-header">
-        <p class="review-username">${review.username}</p>
-        <div class="star">
-          <input type="radio" id="star" name="star" value="star" checked>
-          <label for="star"></label>
-          <p class="rating-text">${review.rating}</p>
-        </div>
-      </div>
-      <p class="review">${review.review}</p>
-      `;
-
-      container.appendChild(reviewCard);
-  });
-}
-
-// calculate and display the overall rating
-function displayOverallRating(reviews) {
-  const container = document.getElementById("overall-rating");
-  
-  if (reviews.length === 0) {
-    // Display 0 if no reviews are present
-    container.innerHTML = `
-      <div class="overall-rating-content">
-        <div class="star">
-          <input type="radio" id="star-overall" name="star" value="star" checked>
-          <label for="star-overall"></label>
-        </div>
-      </div>
-      <span class="average-rating-text">0 / 5</span>
-    `;
-    return;
-  }
-
-  // sum all ratings
-  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-  
-  // Calculate average rating
-  const averageRating = (totalRating / reviews.length).toFixed(1); // Round to 1 decimal
-  
-  // Display the average rating
-  container.innerHTML = `
-    <div class="overall-rating-content">
-      <div class="star">
-        <input type="radio" id="star-overall" name="star" value="star" checked>
-        <label for="star-overall"></label>
-      </div>
-    </div>
-    <span class="average-rating-text">${averageRating} / 5</span>
-  `;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-
-  if (window.location.pathname.includes('viewRatingReviewPage.html')){
-    // Extract agent_id from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const agent_id = urlParams.get('agent_id');
-    
-    if (agent_id) {
-      // Call fetchAllRatingReviews with the agent_id if it exists
-      fetchAllRatingReviews(agent_id);
-    } else {
-      console.error('No agent_id found in the URL');
-    }
-  }
-
-});
-
-
-
-/* ---------------------------------- */
-
-/* createRatingReview JS */
-function createRatingReviewBtn() {
-
-  // extract agent_id from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const agentId = urlParams.get('agent_id');
-
-  if (!agentId) {
-    alert('Agent ID not found. Cannot submit a review.');
-    return; 
-  }
- 
-  // redirect to create rating & review page
-  window.location.href = `../Buyer/createRatingReviewPage.html?agent_id=${agentId}`; // Redirect to the specified page
-}
 
 /* ---------------------------------- */
 
