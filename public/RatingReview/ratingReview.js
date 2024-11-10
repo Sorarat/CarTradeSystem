@@ -296,35 +296,38 @@ function createRatingReviewBtn() {
 
 
 
-async function fetchUsername() {
+  async function fetchUsername() {
 
-  try {
-    // get email from session storage
-    const email = sessionStorage.getItem("email");
-    const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
-
-    // Check the response status
-    if (!response.ok) {
-      console.error('Error: Response not ok', response.status, response.statusText);
-      throw new Error('Failed to fetch username');
+    try {
+      // get email from session storage
+      const email = sessionStorage.getItem("email");
+      const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
+  
+      // Check the response status
+      if (!response.ok) {
+        console.error('Error: Response not ok', response.status, response.statusText);
+        throw new Error('Failed to fetch username');
+      }
+      const data = await response.json();
+  
+      if (data && data.username) {
+        document.querySelector('.dropbtn').textContent = data.username;
+        document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+  
+      }
+  
+      else {
+        console.log('Failed to fetch username');
+        document.querySelector('.dropbtn').textContent = 'Username'; // Fallback string
+        document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+      }
     }
-    const data = await response.json();
-
-    if (data && data.username) {
-      document.querySelector('#username-text').textContent = data.username;
-    }
-
-    else {
-      console.log('Failed to fetch username');
-      document.querySelector('#username-text').textContent = 'username'; // Fallback string
+  
+    catch(error) {
+      console.error('Error fetching username:', error);
+      document.querySelector('.dropbtn').textContent = 'Username'; // Fallback string on error
+      document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+  
     }
   }
-
-  catch(error) {
-    console.error('Error fetching username:', error);
-    document.querySelector('#username-text').textContent = 'username'; // Fallback string on error
-
-  }
-}
-
 
