@@ -21,6 +21,7 @@ window.onclick = function(event) {
 
 function logoutBtn(event){
     event.preventDefault(); // Prevent the form from submitting
+    sessionStorage.clear();
     document.location.href="../LogoutPage/LogoutPage.html"; // Use relative path (one directory level up)
 }
 
@@ -535,11 +536,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       // get average rating
-      const rateResponse = await fetch(`/agentViewRatingReviewRoute/agent-average-rating/${email}`);
-      const averageData = await rateResponse.json()
-      if (averageData.averageRating != null) {
-        const average = parseInt(averageData.averageRating);
-        document.getElementById('rating-number').textContent = average.toFixed(1);
+      const rateResponse = await fetch(`/agentViewRatingReviewRoute/agent-rating/${email}`);
+      const ratingData = await rateResponse.json()
+
+      if (ratingData.length !== 0) {
+        const totalRating = ratingData.reduce((sum, data) => sum + data.rating, 0);
+        const averageRating = (totalRating / ratingData.length).toFixed(1); // Round to 1 decimal
+        document.getElementById('rating-number').textContent = averageRating;
       } 
       else {
         document.getElementById('rating-number').textContent = "None";

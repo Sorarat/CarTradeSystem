@@ -21,6 +21,7 @@ window.onclick = function(event) {
 
 function logoutBtn(event){
   event.preventDefault(); // Prevent the form from submitting
+  sessionStorage.clear();
   document.location.href="../LogoutPage/LogoutPage.html"; // Use relative path (one directory level up)
 }
 /* ---------------------------------- */

@@ -21,6 +21,7 @@ window.onclick = function(event) {
 
 function logoutBtn(event){
   event.preventDefault(); // Prevent the form from submitting
+  sessionStorage.clear();
   document.location.href="../LogoutPage/LogoutPage.html"; // Use relative path (one directory level up)
 }
 
@@ -171,6 +172,38 @@ function viewCarDetails(car) {
   downPaymentInput.addEventListener('input', updateValues);
   interestRateInput.addEventListener('input', updateValues);
   loanTermSelect.addEventListener('change', updateValues);
+
+  // update the num of views 
+  increaseListingNumViews(car.car_id);
+}
+
+async function increaseListingNumViews(car_id) {
+  
+  try {
+    const response = await fetch(`/updateCarlistingRoute/increaseListingNumViews/${car_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({car_id})
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('Increase num of views by 1 successfully');
+    }
+
+    else {
+      console.log('Failed to increase num of views by 1');
+    }
+  }
+
+  catch (error) {
+    console.error('Failed to increase views of carlisting:', error);
+    alert('An error occurred during increasing listing num of views.');
+  }
+
 }
 
 function formatDate(dateString) {

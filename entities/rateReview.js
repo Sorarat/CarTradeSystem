@@ -103,17 +103,17 @@ class rateReview {
     }
 
     // hidden - agent dashboard display average rating
-    async getAgentAverageRating(email) {
+    async getAgentRating(email) {
         const user = new User();
         
         const agent = await user.findByEmail(email);
         const agentId = agent.user_id;
 
-        const query = 'SELECT AVG(rating) AS averageRating FROM RateReview WHERE agent_id = ?';
+        const query = 'SELECT rating FROM RateReview WHERE agent_id = ?';
         const [results] = await db.promise().query(query, [agentId]);
         
-        // Return the average rating or null if no ratings exist
-        return results[0]?.averageRating || null;
+        // Return the rating or null if no ratings exist
+        return results || null;
     }
 
 

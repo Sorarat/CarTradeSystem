@@ -20,12 +20,12 @@ class agentViewRatingReviewController {
     }
 
     // hidden - for agent dashboard average rating display
-    async agentAverageRating(req, res) {
+    async agentRating(req, res) {
         const agentEmail = req.params.email;
         try {
             const rateReviewInstance = new rateReview();
-            const averageRating = await rateReviewInstance.getAgentAverageRating(agentEmail);
-            res.json({averageRating});
+            const ratings = await rateReviewInstance.getAgentRating(agentEmail);
+            res.json(ratings);
         }
 
         catch(error) {
