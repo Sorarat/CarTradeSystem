@@ -1,7 +1,6 @@
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
 const User = require('../entities/user');
-const UserProfile = require('../entities/userprofile')
 
 class Admin extends User{
 

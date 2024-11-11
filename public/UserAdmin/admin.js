@@ -91,7 +91,7 @@ function cancelCreateBtn(event){
 /* CreateAccount JS */
 // Ensure the DOM is fully loaded before accessing elements
 document.addEventListener('DOMContentLoaded', async () => {
-  if (window.location.pathname.includes('CreateAccount.html')) {
+  if (window.location.pathname.includes('createAccount.html')) {
     const roleSelect = document.getElementById('role');
   
     try {
@@ -593,7 +593,7 @@ async function updateProfileBtn(event) {
       if (data.success) {
         console.log('Profile updated successfully');
         alert('User profile updated!');
-        document.location.href = "./ViewProfile.html"; // Use relative path
+        document.location.href = "./viewProfile.html"; // Use relative path
       }
       else {
         alert('Profile cannot be updated. Please check your input.');

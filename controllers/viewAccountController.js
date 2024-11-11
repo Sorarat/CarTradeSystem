@@ -1,7 +1,7 @@
 const Admin = require('../entities/admin');
 const User = require('../entities/user');
 
-class ViewAccountController {
+class viewAccountController {
     // view all accounts
     async viewUserAccounts(req, res) {
         const admin = new Admin();
@@ -86,4 +86,4 @@ class ViewAccountController {
 
 }
 
-module.exports = ViewAccountController;
+module.exports = viewAccountController;

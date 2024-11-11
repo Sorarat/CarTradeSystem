@@ -1,6 +1,6 @@
 const Admin = require('../entities/admin');
 
-class SuspendAccountController {
+class suspendAccountController {
     async suspendAccount(req, res) {
         const userId = req.params.userId;
 
@@ -27,4 +27,4 @@ class SuspendAccountController {
 }
 
 
-module.exports = SuspendAccountController;
+module.exports = suspendAccountController;

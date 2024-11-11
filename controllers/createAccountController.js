@@ -1,6 +1,6 @@
 const Admin = require('../entities/admin');
 
-class CreateAccountController {
+class createAccountController {
     async createAccount(req, res) {
         const { email, password, username, phoneNumber, profile_id } = req.body;
 
@@ -25,4 +25,4 @@ class CreateAccountController {
 }
 
 
-module.exports = CreateAccountController;
+module.exports = createAccountController;

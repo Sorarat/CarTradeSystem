@@ -1,6 +1,6 @@
 const Admin = require('../entities/admin');
 
-class UpdateAccountController {
+class updateAccountController {
     async updateAccount(req, res) {
         const userId = req.params.userId;
         const { email, password, username, phoneNumber } = req.body;
@@ -24,4 +24,4 @@ class UpdateAccountController {
     }
 }
 
-module.exports = UpdateAccountController;
+module.exports = updateAccountController;
