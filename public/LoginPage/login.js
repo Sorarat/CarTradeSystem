@@ -47,7 +47,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
             if (role === 'admin')
             {
-                window.location.href = '/UserAdmin/adminDashboard.html';
+                window.location.href = '/UserAdmin/AdminDashboard.html';
             } else if (role === 'agent') {
                 window.location.href = '../CarAgent/agentDashboard.html';
             } else if (role == 'seller') {
