@@ -216,10 +216,10 @@ function displayReviews(reviews) {
 }
 
 // calculate and display the overall rating
-function displayOverallRating(reviews) {
+function displayOverallRating(ratings) {
   const container = document.getElementById("overall-rating");
   
-  if (reviews.length === 0) {
+  if (ratings.length === 0) {
     // Display 0 if no reviews are present
     container.innerHTML = `
       <div class="overall-rating-content">
@@ -234,10 +234,10 @@ function displayOverallRating(reviews) {
   }
 
   // sum all ratings
-  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  const totalRating = ratings.reduce((sum, rating) => sum + rating.rating, 0);
   
   // Calculate average rating
-  const averageRating = (totalRating / reviews.length).toFixed(1); // Round to 1 decimal
+  const averageRating = (totalRating / ratings.length).toFixed(1); // Round to 1 decimal
   
   // Display the average rating
   container.innerHTML = `
