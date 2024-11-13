@@ -15,6 +15,8 @@ class viewProfileController {
         }
     }
 
+    // hidden functions
+    
     // get specific profile for update form
     async getProfile(req, res) {
         const profileId = req.params.profileId;

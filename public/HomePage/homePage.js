@@ -694,12 +694,6 @@ function formatSGD(price) {
   return `$${sgdFormatter.format(price)}`;
 }
 
-/* Convert the formatSGD to int ($10,000 --> 10000) */
-function parseSGD(formattedPrice) {
-  // Remove commas, then convert to a number
-  return Number(formattedPrice.replace(/$,/g, ''));
-}
-
 
 /* ---------------------------------- */
 /* viewAgentPage JS */

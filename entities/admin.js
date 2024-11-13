@@ -54,7 +54,7 @@ class Admin extends User{
         const query = 'SELECT * FROM User WHERE user_id = ?';
         const [rows] = await db.promise().query(query, [userId]);
     
-        // Assuming the user_id is unique, return the first user found or null
+        // return the first user found or null
         return rows.length > 0 ? rows[0] : null;
     }
     

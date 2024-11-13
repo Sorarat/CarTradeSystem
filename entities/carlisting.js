@@ -238,6 +238,8 @@ class Carlisting {
         return listings;
     }
 
+    /* hidden functions onwards */ 
+    
     async increaseListingNumViews(car_id) {
         const query = 'UPDATE Carlisting SET num_views = num_views + 1 WHERE car_id = ?';
         try {
@@ -250,8 +252,6 @@ class Carlisting {
             throw error;
         }
     }
-
-    /* hidden functions onwards */ 
     
     async increaseListingNumShortlist(car_id) {
         const query = 'UPDATE Carlisting SET num_shortlist = num_shortlist + 1 WHERE car_id = ?';

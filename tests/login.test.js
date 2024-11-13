@@ -126,11 +126,11 @@ describe('LoginController - login', () => {
         expect(res.json).toHaveBeenCalledWith({ success: false });
     });
 
-    // test for incorrect username
-    test('Failed login due to incorrect username', async () => {
+    // test for incorrect email
+    test('Failed login due to incorrect email', async () => {
         const req = {
             body: {
-                email: 'testadmin@email.com',       // incorrect username
+                email: 'testadmin@email.com',       // incorrect email
                 password: 'testagentPassword',
                 role: 'agent'
             }

@@ -61,7 +61,7 @@ class rateReview {
 
 
         catch(error) {
-            console.error("Error creating viewL: ", error.message);
+            console.error("Error creating review: ", error.message);
             return false;
         }
     

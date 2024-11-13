@@ -294,9 +294,6 @@ function createRatingReviewBtn() {
   }
   
 
-
-
-
   async function fetchUsername() {
 
     try {

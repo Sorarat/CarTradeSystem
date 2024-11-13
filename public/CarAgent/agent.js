@@ -176,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+// hidden
 function applySoldStyling(row) {
   const buttons = row.querySelectorAll('button');
 

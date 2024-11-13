@@ -184,14 +184,13 @@ async function createAccountBtn(event) {
 let allAccounts = [];
 
 // function to fetch all user accounts and populate the table
-async function fetchAllAccounts(shouldPopulateTable = true) {
+async function fetchAllAccounts() {
 
   try {
     const response = await fetch('/viewAccountRoute/view-accounts'); 
     allAccounts = await response.json();
-    if (shouldPopulateTable) {
-      populateAccountTable(allAccounts);
-    }
+
+    populateAccountTable(allAccounts);
   }
 
   catch(err) {
@@ -314,7 +313,7 @@ async function suspendAccount(userId) {
   }
 
   try {
-      const response = await fetch(`/SuspendAccountRoute/suspend/${userId}`, { 
+      const response = await fetch(`/suspendAccountRoute/suspend/${userId}`, { 
           method: 'PUT',
           headers: {
               'Content-Type': 'application/json',
