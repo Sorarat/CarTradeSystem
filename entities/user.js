@@ -50,7 +50,7 @@ class User {
         const lowercasedEmail = email.toLowerCase();  // Convert input email to lowercase
         const query = 'SELECT * FROM User WHERE LOWER(email) = ?';  // Ensure case-insensitive comparison
         const [results] = await db.promise().query(query, [lowercasedEmail]);
-    
+
         return results.length > 0 ? results[0] : null;
     }
 
@@ -92,6 +92,7 @@ class User {
 
     }
 
+    /* hidden functions onwards */
     async getAgentAccounts() {
         
         const query = 'SELECT * FROM User WHERE profile_id = ?';
@@ -99,6 +100,16 @@ class User {
         return rows;
 
     }
+
+    async getUsernameByEmail(email) {
+        const lowercasedEmail = email.toLowerCase(); 
+        const query = 'SELECT username FROM User WHERE LOWER(email) = ?'; // Query to get the username
+        const [results] = await db.promise().query(query, [lowercasedEmail]);
+        
+        // Return the username if a result is found, otherwise return null
+        return results.length > 0 ? results[0].username : null;
+    }
+    
 }
 
 module.exports = User;

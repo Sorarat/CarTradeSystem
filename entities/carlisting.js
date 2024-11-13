@@ -116,6 +116,17 @@ class Carlisting {
         return listingsWithSellerEmail;
     }
 
+    async viewSellerCarListings(sellerEmail) {
+        // get seller id
+        const user = new User();
+        const seller = await user.findByEmail(sellerEmail);
+
+        const query = 'SELECT car_model, DATE_FORMAT(reg_date, "%Y-%m-%d") as reg_date, price, seller_id, num_views, num_shortlist from Carlisting WHERE seller_id = ?';
+        const [listings] = await db.promise().query(query, [seller.user_id]);
+
+        return listings;
+    }
+
     // update car listing
     async updateCarListing(car_id, car_model, reg_date, price, sellerEmail, status) {
         // create empty instance of user
@@ -173,17 +184,23 @@ class Carlisting {
     }
 
     // view all car listings
-    async viewAllCarListings() {
-        const query = 
-            `SELECT 
+    async viewAllCarListings(buyerEmail) {
+        // get buyer id
+        const user = new User();
+        const buyer = await user.findByEmail(buyerEmail);
+        const query = `
+            SELECT 
                 Carlisting.*, 
-                User.email AS agent_email
+                User.email AS agent_email,
+                CASE WHEN Shortlist.car_id IS NOT NULL THEN TRUE ELSE FALSE END AS is_shortlisted
             FROM
                 Carlisting
             LEFT JOIN
                 User ON Carlisting.agent_id = User.user_id
-            `;
-        const [listings] = await db.promise().query(query);
+            LEFT JOIN
+                Shortlist ON Carlisting.car_id = Shortlist.car_id AND Shortlist.buyer_id = ?
+        `;
+        const [listings] = await db.promise().query(query, [buyer.user_id]);
         return listings;
     }
 
@@ -220,6 +237,49 @@ class Carlisting {
 
         return listings;
     }
+
+    /* hidden functions onwards */ 
+    
+    async increaseListingNumViews(car_id) {
+        const query = 'UPDATE Carlisting SET num_views = num_views + 1 WHERE car_id = ?';
+        try {
+            const [result] = await db.promise().query(query, [car_id]);
+            return result.affectedRows > 0;
+        }
+
+        catch(error) {
+            console.error('Error updating num_views:' , error)
+            throw error;
+        }
+    }
+    
+    async increaseListingNumShortlist(car_id) {
+        const query = 'UPDATE Carlisting SET num_shortlist = num_shortlist + 1 WHERE car_id = ?';
+        try {
+            const [result] = await db.promise().query(query, [car_id]);
+            return result.affectedRows > 0;
+        }
+
+        catch(error) {
+            console.error('Error updating num_shortlist:' , error)
+            throw error;
+        }
+    }
+
+    async decreaseListingNumShortlist(car_id) {
+        const query = 'UPDATE Carlisting SET num_shortlist = num_shortlist - 1 WHERE car_id = ?';
+        try {
+            const [result] = await db.promise().query(query, [car_id]);
+            return result.affectedRows > 0;
+        }
+
+        catch(error) {
+            console.error('Error updating num_shortlist:' , error)
+            throw error;
+        }
+    }
+
+    
 }
 
 module.exports = Carlisting;

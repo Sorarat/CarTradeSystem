@@ -19,6 +19,21 @@ class agentViewRatingReviewController {
         }
     }
 
+    // hidden - for agent dashboard average rating display
+    async agentRating(req, res) {
+        const agentEmail = req.params.email;
+        try {
+            const rateReviewInstance = new rateReview();
+            const ratings = await rateReviewInstance.getAgentRating(agentEmail);
+            res.json(ratings);
+        }
+
+        catch(error) {
+            res.status(500).send({ message: error.message});
+            console.error("Error fetching ratings and reviews: ", error);
+        }
+    }
+
 }
 
 module.exports = agentViewRatingReviewController;

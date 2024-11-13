@@ -9,4 +9,7 @@ router.get('/view-profiles', (req, res) => viewProfileController.viewProfiles(re
 // view specific profile for update profile
 router.get('/getProfile/:profileId', (req, res) => viewProfileController.getProfile(req, res));
 
+// get all roles for create account role options
+router.get('/getRoles', (req, res) => viewProfileController.getAllRoles(req, res));
+
 module.exports = router;

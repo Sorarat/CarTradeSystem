@@ -34,7 +34,6 @@ class rateReview {
     }
 
     async createRatingReview(agent_id, reviewer_email, rating, review) {
-
         const user = new User();
 
         try {
@@ -62,13 +61,10 @@ class rateReview {
 
 
         catch(error) {
-            console.error("Error creating viewL: ", error.message);
+            console.error("Error creating review: ", error.message);
             return false;
         }
-        
-	
-	
-
+    
     }
 
     async getRatingReview(agent_id) {
@@ -95,7 +91,6 @@ class rateReview {
             return false;
         }
 
-
         // fetch all rating & reviews 
         const query = `
             SELECT rr.*, u.username
@@ -105,7 +100,20 @@ class rateReview {
 
         const [rows] = await db.promise().query(query, [agentId]);
         return rows;
+    }
 
+    // hidden - agent dashboard display average rating
+    async getAgentRating(email) {
+        const user = new User();
+        
+        const agent = await user.findByEmail(email);
+        const agentId = agent.user_id;
+
+        const query = 'SELECT rating FROM RateReview WHERE agent_id = ?';
+        const [results] = await db.promise().query(query, [agentId]);
+        
+        // Return the rating or null if no ratings exist
+        return results || null;
     }
 
 

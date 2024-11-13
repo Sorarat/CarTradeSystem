@@ -83,36 +83,50 @@ class UserProfile {
 
 
     // update profile
-    async updateProfile(profileId, role, roleDesc) {
-        // Check if the updated role belongs to another profile
-        const roleIsValid = await this.check_role(role, profileId);
+    async updateProfile(profileId, roleDesc) {
+        const query = 'UPDATE UserProfile SET roleDesc = ? WHERE profile_id = ?';
+        const [result] = await db.promise().query(query, [roleDesc, profileId]);
+        return result.affectedRows > 0;
 
-        if (roleIsValid) {
-            const query = 'UPDATE UserProfile SET role = ?, roleDesc = ? WHERE profile_id = ?';
-            await db.promise().query(query, [role, roleDesc, profileId]);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // suspend profile
     async suspendProfile(profileId) {
-        const query = 'UPDATE UserProfile SET suspendStatus = ? WHERE profile_id = ?';
-        const [result] = await db.promise().query(query, [true, profileId]);
-        return result.affectedRows > 0; 
+        try {
+            const query = 'UPDATE UserProfile SET suspendStatus = ? WHERE profile_id = ?';
+            const [result] = await db.promise().query(query, [true, profileId]);
+
+            if (result.affectedRows > 0) { // Profile suspension successful
+                const accountSuspensionQuery = 'UPDATE User SET suspendStatus = ? WHERE profile_id = ?';
+                const [accountResult] = await db.promise().query(accountSuspensionQuery, [true, profileId]);
+
+                // Return true if either accounts were suspended or no accounts found but profile was suspended
+                return accountResult.affectedRows > 0 || true;
+            } else {
+                console.warn(`No profile found with profile_id: ${profileId}`);
+            }
+
+            return false; // Profile suspension failed
+        } catch (error) {
+            console.error('Error suspending profile and related accounts:', error);
+            return false;
+        }
     }
 
+
     // search profile by role
-    
     async searchProfilesByRole(role) {
         const query = 'SELECT * FROM UserProfile WHERE LOWER(role) LIKE ?';
         const [rows] = await db.promise().query(query, [`%${role.toLowerCase()}%`]);
         return rows;
     }
 
-
-    
+    // get all active roles for create account form
+    async getAllRoles() {
+        const query = 'SELECT profile_id, role FROM UserProfile WHERE suspendStatus != 1';
+        const [rows] = await db.promise().query(query);
+        return rows;
+    }    
 }
 
 module.exports = UserProfile;

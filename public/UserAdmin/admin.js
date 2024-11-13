@@ -21,6 +21,7 @@ window.onclick = function(event) {
 
 function logoutBtn(event){
     event.preventDefault(); // Prevent the form from submitting
+    sessionStorage.clear();
     document.location.href="../LogoutPage/LogoutPage.html"; // Use relative path (one directory level up)
 }
 
@@ -29,6 +30,7 @@ function logoutBtn(event){
 /* Create Button */
 // Ensure the DOM is fully loaded before accessing elements
 document.addEventListener('DOMContentLoaded', function() {
+  fetchUsername();
   document.getElementById('createProfile').addEventListener('click', createProfileBtn);
 });
 
@@ -89,6 +91,27 @@ function cancelCreateBtn(event){
 /* ---------------------------------- */
 /* CreateAccount JS */
 // Ensure the DOM is fully loaded before accessing elements
+document.addEventListener('DOMContentLoaded', async () => {
+  if (window.location.pathname.includes('createAccount.html')) {
+    const roleSelect = document.getElementById('role');
+  
+    try {
+        const response = await fetch('/viewProfileRoute/getRoles');
+        const roles = await response.json();
+        console.log(roles);
+        // Populate the select menu
+        roles.forEach(role => {
+          const option = document.createElement('option');
+          option.value = role.profile_id;  // Set profile_id as the option value
+          option.textContent = role.role;  // Display role name as text
+          roleSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching roles:', error);
+    }
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('createAccount').addEventListener('click', createAccountBtn);
 
@@ -98,7 +121,7 @@ async function createAccountBtn(event) {
   const form = document.getElementById('createAccountForm');
   
   // Get input and textarea values
-  const role = document.getElementById('role').value.trim();
+  const profile_id = document.getElementById('role').value.trim();  // get profile_id of role
   const username = document.getElementById('username').value.trim();
   const email = document.getElementById('email').value.trim();
   const phoneNumber = document.getElementById('phoneNumber').value.trim();
@@ -108,7 +131,7 @@ async function createAccountBtn(event) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // Check for empty or whitespace-only values
-  if (role === "" || username === "" || email === "" || phoneNumber === "" || password === "") {
+  if (profile_id === "" || username === "" || email === "" || phoneNumber === "" || password === "") {
     event.preventDefault(); // Prevent form submission
     alert('Both fields are required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
@@ -132,7 +155,7 @@ async function createAccountBtn(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, username, phoneNumber, role })
+        body: JSON.stringify({ email, password, username, phoneNumber, profile_id })
     });
 
       const data = await response.json();
@@ -161,14 +184,13 @@ async function createAccountBtn(event) {
 let allAccounts = [];
 
 // function to fetch all user accounts and populate the table
-async function fetchAllAccounts(shouldPopulateTable = true) {
+async function fetchAllAccounts() {
 
   try {
     const response = await fetch('/viewAccountRoute/view-accounts'); 
     allAccounts = await response.json();
-    if (shouldPopulateTable) {
-      populateAccountTable(allAccounts);
-    }
+
+    populateAccountTable(allAccounts);
   }
 
   catch(err) {
@@ -291,7 +313,7 @@ async function suspendAccount(userId) {
   }
 
   try {
-      const response = await fetch(`/SuspendAccountRoute/suspend/${userId}`, { 
+      const response = await fetch(`/suspendAccountRoute/suspend/${userId}`, { 
           method: 'PUT',
           headers: {
               'Content-Type': 'application/json',
@@ -406,21 +428,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         const response = await fetch(`/viewAccountRoute/getAccount/${userId}`);
         const userData = await response.json();
 
-       
          if (userData) {
-
-          const roleMap = {
-            1: 'admin',
-            2: 'agent',
-            3: 'buyer',
-            4: 'seller'
-          };
-  
-          // map profile id to role
-          role = roleMap[userData.profile_id] || 'Invalid role';
-
           // Populate the form fields
-          document.getElementById('role').value = role;
+          document.getElementById('role').value = userData.role;
           document.getElementById('username').value = userData.username;
           document.getElementById('email').value = userData.email;
           document.getElementById('phoneNumber').value = userData.phone;
@@ -447,7 +457,6 @@ async function updateAccountBtn(event) {
   const form = document.getElementById('updateAccountForm');
   
   // Get input and textarea values
-  const role = document.getElementById('role').value.trim();
   const username = document.getElementById('username').value.trim();
   const email = document.getElementById('email').value.trim();
   const phoneNumber = document.getElementById('phoneNumber').value.trim();
@@ -460,7 +469,7 @@ async function updateAccountBtn(event) {
   console.log(userId);
 
   // Check for empty or whitespace-only values
-  if (role === "" || username === "" || email === "" || phoneNumber === "" || password === "") {
+  if (username === "" || email === "" || phoneNumber === "" || password === "") {
     event.preventDefault(); // Prevent form submission
     alert('All fields are required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
@@ -487,7 +496,7 @@ async function updateAccountBtn(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId, email, password, username, phoneNumber, role  })
+        body: JSON.stringify({ userId, email, password, username, phoneNumber  })
       })
       
       const data = await response.json();
@@ -550,7 +559,6 @@ async function updateProfileBtn(event) {
   const form = document.getElementById('updateProfileForm');
   
   // Get input and textarea values
-  const role = document.getElementById('role').value.trim();
   const description = document.getElementById('description').value.trim();
 
    // get profile id of row to be updated
@@ -560,9 +568,9 @@ async function updateProfileBtn(event) {
    console.log(profileId);
 
   // Check for empty or whitespace-only values
-  if (role === "" || description === "") {
+  if (description === "") {
     event.preventDefault(); // Prevent form submission
-    alert('Both fields are required and cannot be empty or whitespace.'); // Custom alert
+    alert('Description field is required and cannot be empty or whitespace.'); // Custom alert
     return; // Exit the function
   }
 
@@ -577,7 +585,7 @@ async function updateProfileBtn(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ role, description })
+        body: JSON.stringify({ description })
       });
 
       const data = await response.json();
@@ -585,7 +593,7 @@ async function updateProfileBtn(event) {
       if (data.success) {
         console.log('Profile updated successfully');
         alert('User profile updated!');
-        document.location.href = "./ViewProfile.html"; // Use relative path
+        document.location.href = "./viewProfile.html"; // Use relative path
       }
       else {
         alert('Profile cannot be updated. Please check your input.');
@@ -643,3 +651,58 @@ async function suspendProfile(profileId) {
   }
 }
 
+// for top right corner username display
+async function fetchUsername() {
+
+  try {
+    // get email from session storage
+    const email = sessionStorage.getItem("email");
+    const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
+
+    // Check the response status
+    if (!response.ok) {
+      console.error('Error: Response not ok', response.status, response.statusText);
+      throw new Error('Failed to fetch username');
+    }
+    const data = await response.json();
+
+    if (data && data.username) {
+      document.querySelector('.dropbtn').textContent = data.username;
+      document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+
+    }
+
+    else {
+      console.log('Failed to fetch username');
+      document.querySelector('.dropbtn').textContent = 'Username'; // Fallback string
+      document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+    }
+  }
+
+  catch(error) {
+    console.error('Error fetching username:', error);
+    document.querySelector('.dropbtn').textContent = 'Username'; // Fallback string on error
+    document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+
+  }
+}
+
+// for dashboard account details display
+document.addEventListener('DOMContentLoaded', async () => {
+  if (window.location.pathname.includes('AdminDashboard.html')) {
+    const email = sessionStorage.getItem('email');
+
+    try {
+      const response = await fetch(`/viewAccountRoute/fetch-personal-account/${email}`);
+      const data = await response.json();
+      
+      // Populate the HTML with user data
+      document.getElementById('username').textContent = data.username;
+      document.getElementById('email').textContent = data.email;
+      document.getElementById('phoneNumber').textContent = data.phone;
+      
+    } catch (error) {
+        console.error('Error fetching user information:', error);
+    }
+  }
+});

@@ -13,5 +13,11 @@ router.get('/getAccount/:userId', (req, res) => viewAccountController.getAccount
 // view all agents accounts
 router.get('/view-agents', (req, res) => viewAccountController.viewAllAgents(req, res));
 
+// fetch username
+router.get('/fetch-username', (req, res) => viewAccountController.getUserName(req, res));
+
+// fetch personal account
+router.get('/fetch-personal-account/:email', (req, res) => viewAccountController.getPersonalAccount(req, res));
+
 
 module.exports = router;

@@ -4,7 +4,7 @@
   "description": "Car Trade System -\r A system for buying and selling used cars",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +14,8 @@
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "mysql2": "^3.11.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

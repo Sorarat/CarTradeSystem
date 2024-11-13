@@ -21,12 +21,16 @@ window.onclick = function(event) {
 
 function logoutBtn(event){
     event.preventDefault(); // Prevent the form from submitting
+    sessionStorage.clear();
     document.location.href="../LogoutPage/LogoutPage.html"; // Use relative path (one directory level up)
 }
 
 /*---------------------*/
 /*Create Car Listing - Create Button */
 document.addEventListener("DOMContentLoaded", function () {
+
+  fetchUsername();
+
   const createButton = document.getElementById("createListing");
   const form = document.querySelector("form");
 
@@ -172,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+// hidden
 function applySoldStyling(row) {
   const buttons = row.querySelectorAll('button');
 
@@ -490,4 +495,75 @@ document.addEventListener('DOMContentLoaded', function() {
   
 });
 
+async function fetchUsername() {
 
+  try {
+    // get email from session storage
+    const email = sessionStorage.getItem("email");
+    const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
+
+    // Check the response status
+    if (!response.ok) {
+      console.error('Error: Response not ok', response.status, response.statusText);
+      throw new Error('Failed to fetch username');
+    }
+    const data = await response.json();
+
+    if (data && data.username) {
+      document.querySelector('.dropbtn').textContent = data.username;
+      document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+
+    }
+
+    else {
+      console.log('Failed to fetch username');
+      document.querySelector('.dropbtn').textContent = 'Username'; // Fallback string
+      document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+    }
+  }
+
+  catch(error) {
+    console.error('Error fetching username:', error);
+    document.querySelector('.dropbtn').textContent = 'Username'; // Fallback string on error
+    document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+
+  }
+}
+
+// for dashboard account details display
+document.addEventListener('DOMContentLoaded', async () => {
+  if (window.location.pathname.includes('agentDashboard.html')) {
+    const email = sessionStorage.getItem('email');
+
+    try {
+      // get average rating
+      const rateResponse = await fetch(`/agentViewRatingReviewRoute/agent-rating/${email}`);
+      const ratingData = await rateResponse.json()
+
+      if (ratingData.length !== 0) {
+        const totalRating = ratingData.reduce((sum, data) => sum + data.rating, 0);
+        const averageRating = (totalRating / ratingData.length).toFixed(1); // Round to 1 decimal
+        document.getElementById('rating-number').textContent = averageRating;
+      } 
+      else {
+        document.getElementById('rating-number').textContent = "None";
+      }
+    } catch (error) {
+      console.error('Error fetching average rating:', error);
+    }
+
+    try {
+      // get personal details
+      const accResponse = await fetch(`/viewAccountRoute/fetch-personal-account/${email}`);
+      const data = await accResponse.json();
+      
+      // Populate the HTML with user data
+      document.getElementById('username').textContent = data.username;
+      document.getElementById('email').textContent = data.email;
+      document.getElementById('phoneNumber').textContent = data.phone;
+      
+    } catch (error) {
+        console.error('Error fetching user information:', error);
+    }
+  }
+});

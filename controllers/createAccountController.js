@@ -1,12 +1,12 @@
 const Admin = require('../entities/admin');
 
-class CreateAccountController {
+class createAccountController {
     async createAccount(req, res) {
-        const { email, password, username, phoneNumber, role } = req.body;
+        const { email, password, username, phoneNumber, profile_id } = req.body;
 
         try {
             const admin = new Admin();
-            const canCreate = await admin.createAccount(email, password, username, phoneNumber, role );
+            const canCreate = await admin.createAccount(email, password, username, phoneNumber, profile_id );
             
             if (canCreate) {
                 return res.status(200).json({ success: true });
@@ -25,4 +25,4 @@ class CreateAccountController {
 }
 
 
-module.exports = CreateAccountController;
+module.exports = createAccountController;

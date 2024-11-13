@@ -19,13 +19,16 @@ class Admin extends User{
 
     // get specific account for update form
     async getAccountById(userId) {
-        const query = 'SELECT * FROM User WHERE user_id = ?';
+        const query = `SELECT User.*, role FROM User 
+                        LEFT JOIN 
+                        UserProfile ON User.profile_id = UserProfile.profile_id
+                        WHERE User.user_id = ?`;
         const [rows] = await db.promise().query(query, [userId]);
 
         return rows[0] || null; // Return the first result if exists, otherwise null
     }
 
-    async createAccount(email, password, username, phoneNumber, role) {
+    async createAccount(email, password, username, phoneNumber, profile_id) {
 
         // check if the email is already in use
         const emailAvailable = await this.check_email(email);
@@ -34,14 +37,12 @@ class Admin extends User{
             throw new Error("Email already exists.");
         }
 
-        const profileId = this.getProfileId(role);
-
         // hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // insert new user into the database
         const query = 'INSERT INTO User (email, password_hash, username, phone, profile_id) VALUES (?, ?, ?, ?, ?)';
-        const values = [email, hashedPassword, username, phoneNumber, profileId];
+        const values = [email, hashedPassword, username, phoneNumber, profile_id];
 
         await db.promise().query(query, values);
 
@@ -53,7 +54,7 @@ class Admin extends User{
         const query = 'SELECT * FROM User WHERE user_id = ?';
         const [rows] = await db.promise().query(query, [userId]);
     
-        // Assuming the user_id is unique, return the first user found or null
+        // return the first user found or null
         return rows.length > 0 ? rows[0] : null;
     }
     
@@ -65,7 +66,7 @@ class Admin extends User{
 
     }
 
-    async updateAccount(userId, email, password, username, phoneNumber, role) {
+    async updateAccount(userId, email, password, username, phoneNumber) {
         
         // Check if an account with the provided email exists (this could be the current user's email or another user's)
         const existingUser = await this.findByEmail(email);
@@ -78,12 +79,9 @@ class Admin extends User{
         // Hash the password 
         const hashedPassword = await bcrypt.hash(password, 10)
 
-        // Get the profile id for the role
-        const profileId = this.getProfileId(role);
-
         // Perform the update
-        const query = 'UPDATE User SET email = ?, password_hash = ?, username = ?, phone = ?, profile_id = ? WHERE user_id = ?';
-        const [result] = await db.promise().query(query, [email, hashedPassword, username, phoneNumber, profileId, userId]);
+        const query = 'UPDATE User SET email = ?, password_hash = ?, username = ?, phone = ? WHERE user_id = ?';
+        const [result] = await db.promise().query(query, [email, hashedPassword, username, phoneNumber, userId]);
 
         return result.affectedRows > 0 ? true : false;
     }
@@ -101,22 +99,6 @@ class Admin extends User{
         const [rows] = await db.promise().query(query, [`%${email.toLowerCase()}%`]);
         return rows; // returns an array of user accounts
     }
-
-    getProfileId(role) {
-        switch(role) {
-            case 'admin':
-                return 1; 
-            case 'agent':
-                return 2; 
-            case 'buyer':
-                return 3; 
-            case 'seller':
-                return 4; 
-            default:
-                throw new Error('Invalid role'); // Handle invalid role
-        }
-    }
-
 
 }
 

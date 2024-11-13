@@ -21,10 +21,11 @@ window.onclick = function(event) {
 
 function logoutBtn(event){
   event.preventDefault(); // Prevent the form from submitting
+  sessionStorage.clear();
   document.location.href = "../logoutPage/logoutPage.html"; // Use relative path (one directory level up)
 }
 
-/* For viewAgentsPage & viewRatingReviewPage */
+/* For viewAgentsPage */
 /* Function to set the Dashboard link & create "Home" dropdown option */
 function setDashboardLink() {
   const dashboardLink = document.getElementById('dashboardLink');
@@ -43,7 +44,7 @@ function setDashboardLink() {
   if (userRole === 'buyer') {
     dashboardLink.href = '../Buyer/buyerDashboardPage.html';
   } else if (userRole === 'seller') {
-    dashboardLink.href = '../Seller/sellerDashboardPage.html';
+    dashboardLink.href = '../Seller/sellerDashboard.html';
   } else {
     dashboardLink.href = '#'; // Default or error page
   }
@@ -56,6 +57,9 @@ window.onload = setDashboardLink;
 /* homePage JS */
 /* Ensure that min is always >= max */
 document.addEventListener('DOMContentLoaded', function() {
+
+  fetchUsername();
+
   // Get the min and max select elements
   const minSelect = document.getElementById('min');
   const maxSelect = document.getElementById('max');
@@ -99,6 +103,41 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+async function fetchUsername() {
+
+  try {
+    // get email from session storage
+    const email = sessionStorage.getItem("email");
+    const response = await fetch(`/viewAccountRoute/fetch-username?email=${encodeURIComponent(email)}`);
+
+    // Check the response status
+    if (!response.ok) {
+      console.error('Error: Response not ok', response.status, response.statusText);
+      throw new Error('Failed to fetch username');
+    }
+    const data = await response.json();
+
+    if (data && data.username) {
+      document.querySelector('.dropbtn').textContent = data.username;
+      document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+
+    }
+
+    else {
+      console.log('Failed to fetch username');
+      document.querySelector('.dropbtn').textContent = 'Username'; // Fallback string
+      document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+    }
+  }
+
+  catch(error) {
+    console.error('Error fetching username:', error);
+    document.querySelector('.dropbtn').textContent = 'Username'; // Fallback string on error
+    document.querySelector('.dropbtn').innerHTML += '<i class="arrow down"></i>';
+
+  }
+}
+
 /* Search button */
 async function performCarSearch() {
   
@@ -125,7 +164,7 @@ async function performCarSearch() {
   try {
     const response = await fetch(url); 
     const carlistings = await response.json();
-    populateCarListings(carlistings);     
+    populateAllCarListings(carlistings);     
   }
 
   catch(error) {
@@ -135,7 +174,7 @@ async function performCarSearch() {
 
 }
 
-function populateCarListings(carListings) {
+function populateAllCarListings(carListings) {
   const gridContainer = document.querySelector('.grid-container');
   gridContainer.innerHTML = ''; // Clear existing listings
 
@@ -151,9 +190,6 @@ function populateCarListings(carListings) {
     gridContainer.appendChild(noResultsContainer); // Append wrapper to grid container
     return;
 }
-
-
-
 
   carListings.forEach(car => {
     const carCard = document.createElement('div');
@@ -190,7 +226,11 @@ function populateCarListings(carListings) {
     checkbox.type = 'checkbox';
     checkbox.id = `shortlist${car.car_id}`; 
     checkbox.name = 'shortlist';
-    checkbox.value = car.car_id;
+    checkbox.onchange = () => shortlistCar(car.car_id);
+
+    if (car.is_shortlisted) {
+      checkbox.checked = true;
+    }
 
     const label = document.createElement('label');
     label.htmlFor = `shortlist${car.car_id}`;
@@ -220,47 +260,179 @@ function populateCarListings(carListings) {
   });
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
-  const searchForm = document.getElementById('searchCarForm');
-  if (searchForm) {
-      searchForm.addEventListener('submit', function(event) {
-          event.preventDefault(); // Prevent the form from submitting normally
-          performCarSearch();
-      });
-  } else {
-      console.warn('searchCarForm element not found in the DOM');
+  if (window.location.pathname.includes('homePage.html')) {
+    
+    fetchAllCarListings();
+    const searchForm = document.getElementById('searchCarForm');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            performCarSearch();
+        });
+    } else {
+        console.warn('searchCarForm element not found in the DOM');
+    }
   }
 });
 
+async function increaseListingNumViews(car_id) {
+  
+  try {
+    const response = await fetch(`/updateCarlistingRoute/increaseListingNumViews/${car_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({car_id})
+    });
 
+    const data = await response.json();
 
-
-/* Shortlist checkbox - heart-icon */
-document.addEventListener('DOMContentLoaded', function() {
-  let count = 0; // Initialize counter
-
-  function updateCounter(checkbox) {
-    // Update the count based on the checkbox state
-    if (checkbox.checked) {
-      count += 1; // Increment if checked
-    } else {
-      count -= 1; // Decrement if unchecked
+    if (data.success) {
+      console.log('Increase num of views by 1 succesfully');
     }
 
-    console.log('Current Count:', count); // Log the count to the console
+    else {
+      console.log('Failed to increase num of views by 1');
+    }
   }
 
-  // Get all checkboxes with the name "shortlist"
-  const checkboxes = document.querySelectorAll('input[name="shortlist"]');
+  catch (error) {
+    console.error('Failed to increase views of carlisting:', error);
+    alert('An error occurred during increasing listing num of views.');
+  }
 
-  // Add event listeners to each checkbox
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        updateCounter(checkbox); // Call the function to update the counter
+}
+
+/* Shortlist checkbox - heart-icon */
+function shortlistCar(carId) {
+  const buyerEmail = sessionStorage.getItem('email');
+  const checkbox = document.getElementById(`shortlist${carId}`);
+
+  if (checkbox.checked) {
+    // save to shortlist
+    saveToShortlist(carId, buyerEmail);
+    increaseListingNumShortlist(carId);
+  }
+  else {
+    // remove from shortlist
+    removeFromShortlist(carId, buyerEmail);
+    decreaseListingNumShortlist(carId);
+  }
+  
+}
+
+async function saveToShortlist(carId, buyerEmail) {
+  try {
+    const response = await fetch('/saveListingRoute/saveListing', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ carId, buyerEmail })
     });
-  });
-});
+
+    const data = await response.json();
+
+    if (data.success) {
+        /*Success message*/
+      alert("Car Listing successfully saved into shortlist");
+    }
+    else {
+      alert('Carlisting cannot be saved.');
+    }
+
+  }
+  catch (error) {
+    console.error('Failed to add into shortlist:', error);
+    alert('An error occurred during the saving.');
+  }
+}
+
+async function removeFromShortlist(carId, buyerEmail) {
+  try {
+    const response = await fetch('/removeListingRoute/removeListing', {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ carId, buyerEmail })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        /*Success message*/
+      alert("Car Listing successfully removed from shortlist!");
+    }
+    else {
+      alert('Carlisting cannot be removed.');
+    }
+
+  }
+  catch (error) {
+    console.error('Failed to remove from shortlist:', error);
+    alert('An error occurred during the removal.');
+  }
+}
+
+
+async function increaseListingNumShortlist(car_id) {
+  
+  try {
+    const response = await fetch(`/updateCarlistingRoute/increaseListingNumShortlist/${car_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({car_id})
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('Increase num of shortlist by 1 succesfully');
+    }
+
+    else {
+      console.log('Failed to increase num of shortlist by 1');
+    }
+  }
+
+  catch (error) {
+    console.error('Failed to increase num of shortlist:', error);
+    alert('An error occurred during increasing num of shortlist.');
+  }
+}
+
+async function decreaseListingNumShortlist(car_id) {
+  
+  try {
+    const response = await fetch(`/updateCarlistingRoute/decreaseListingNumShortlist/${car_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({car_id})
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('Decrease num of shortlist by 1 succesfully');
+    }
+
+    else {
+      console.log('Failed to decrease num of shortlist by 1');
+    }
+  }
+
+  catch (error) {
+    console.error('Failed to decrease num of shortlist:', error);
+    alert('An error occurred during decreasing num of shortlist.');
+  }
+}
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -295,8 +467,8 @@ function viewCarDetails(car) {
   const DownPayment = carPrice * (selectedRate/100);
   document.getElementById('downPayment').value = formatPrice(DownPayment);
 
-  // Set default Interest Rate (2.5%)
-  const defaultInterestRate = 2.5; // Set a default value
+  // Set default Interest Rate (2.75%)
+  const defaultInterestRate = 2.75; // Set a default value
   document.getElementById('interestRate').value = defaultInterestRate;
 
   // Set default Loan Term (1yr)
@@ -351,7 +523,6 @@ function viewCarDetails(car) {
   document.getElementById('agentEmail').textContent = car.agent_email; // Agent's Email
   document.getElementById('price').value = car.price; // Car Price
 
-  //window.location.href = "./carDetailsPage.html"; // Redirect to the specified page
 
   // Set up event listeners for input fields
   const priceInput = document.getElementById('price');
@@ -363,6 +534,11 @@ function viewCarDetails(car) {
   downPaymentInput.addEventListener('input', updateValues);
   interestRateInput.addEventListener('input', updateValues);
   loanTermSelect.addEventListener('change', updateValues);
+
+
+  // update the num of views 
+  increaseListingNumViews(car.car_id);
+
 }
 
 /* Compute Downpayment */
@@ -428,7 +604,7 @@ function updateValues() {
     document.getElementById('loanAmount').innerText = '$0';
     document.getElementById('monthlyInstalment').innerText = '$0 /mth';
     
-    alert("Down payment value should not more than car price.")
+    alert("Down payment value should not be more than car price.")
     document.getElementById('downPayment').value = formatPrice(0);  // Reset value
     return; // Exit the function early
   }
@@ -518,12 +694,6 @@ function formatSGD(price) {
   return `$${sgdFormatter.format(price)}`;
 }
 
-/* Convert the formatSGD to int ($10,000 --> 10000) */
-function parseSGD(formattedPrice) {
-  // Remove commas, then convert to a number
-  return Number(formattedPrice.replace(/$,/g, ''));
-}
-
 
 /* ---------------------------------- */
 /* viewAgentPage JS */
@@ -581,6 +751,7 @@ function populateAgentTable(agents) {
 document.addEventListener('DOMContentLoaded', function() {
 
   if (window.location.pathname.includes('viewAgentsPage.html')) {
+    fetchUsername();
     const agentTable = document.getElementById('agentInfoTable');
    
     if (agentTable) {
@@ -596,202 +767,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* View Rating & Reviews button */
 function viewRatingReviewBtn(agent_id) {
-  window.location.href = `./viewRatingReviewPage.html?agent_id=${agent_id}`; 
+  window.location.href = `../RatingReview/viewRatingReviewPage.html?agent_id=${agent_id}`; 
 }
 
-/* ---------------------------------- */
-
-/* view rating & reviews js */
-
-let allRatingAndReviews = [];
-
-// function to fetch all rating and reviews and populate the table
-async function fetchAllRatingReviews(agent_id) {
-
-  try {
-    const response = await fetch(`/viewRatingReviewRoute/view-rating-reviews/${agent_id}`);
-    if (!response.ok) 
-      throw new Error('Failed to fetch rating and review');
-   
-    const data = await response.json();
-    
-    displayReviews(data);
-    displayOverallRating(data);
-
-  }
-
-  catch(err) {
-    console.error("Error fetching reviews: ", err);
-
-  }
-}
-
-// display fetched reviews
-function displayReviews(reviews) {
-  const container = document.getElementById("review-container");
-  container.innerHTML = ""; // clear any existing reviews
-
-  reviews.forEach(review => {
-    const reviewCard = document.createElement("div");
-    reviewCard.className = "review-card";
-    reviewCard.innerHTML = `
-      <div class="review-header">
-        <p class="review-username">${review.username}</p>
-        <div class="star">
-          <input type="radio" id="star" name="star" value="star" checked>
-          <label for="star"></label>
-          <p class="rating-text">${review.rating}</p>
-        </div>
-      </div>
-      <p class="review">${review.review}</p>
-      `;
-
-      container.appendChild(reviewCard);
-  });
-}
-
-// calculate and display the overall rating
-function displayOverallRating(reviews) {
-  const container = document.getElementById("overall-rating");
-  
-  if (reviews.length === 0) {
-    container.textContent = "No ratings available";
-  }
-
-  // sum all ratings
-  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-  
-  // Calculate average rating
-  const averageRating = (totalRating / reviews.length).toFixed(1); // Round to 1 decimal
-  
-  // Display the average rating
-  container.innerHTML = `
-    <div class="overall-rating-content">
-      <div class="star">
-        <input type="radio" id="star-overall" name="star" value="star" checked>
-        <label for="star-overall"></label>
-      </div>
-    </div>
-    <span class="average-rating-text">${averageRating} / 5</span>
-  `;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-
-  if (window.location.pathname.includes('viewRatingReviewPage.html')){
-    // Extract agent_id from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const agent_id = urlParams.get('agent_id');
-    
-    if (agent_id) {
-      // Call fetchAllRatingReviews with the agent_id if it exists
-      fetchAllRatingReviews(agent_id);
-    } else {
-      console.error('No agent_id found in the URL');
-    }
-  }
-
-});
-
-
-
-/* ---------------------------------- */
-
-/* createRatingReview JS */
-function createRatingReviewBtn() {
-
-  // extract agent_id from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const agentId = urlParams.get('agent_id');
-
-  if (!agentId) {
-    alert('Agent ID not found. Cannot submit a review.');
-    return; 
-  }
- 
-  // redirect to create rating & review page
-  window.location.href = `../Buyer/createRatingReviewPage.html?agent_id=${agentId}`; // Redirect to the specified page
-}
 
 /* ---------------------------------- */
 
 /* fetch all car listings JS */
 
-async function fetchCarListings() {
+async function fetchAllCarListings() {
+  const buyerEmail = sessionStorage.getItem('email');
 
   try {
-    const response = await fetch('/viewBuyerCarlistingRoute/view-buyer-carlisting');
+    const response = await fetch(`/viewBuyerCarlistingRoute/view-buyer-carlisting/${buyerEmail}`);
     const carListings = await response.json();
 
-    const gridContainer = document.querySelector('.grid-container');
-    gridContainer.innerHTML = ''; // clear existing listings
-
-    carListings.forEach(car => {
-      const carCard = document.createElement('div');
-      carCard.className = 'car-card';
-
-      const carHeader = document.createElement('div');
-      carHeader.className = 'car-header';
-
-      const carNameContainer = document.createElement('div');
-      carNameContainer.className = 'car-name-container';
-
-      const carName = document.createElement('p');
-      carName.className = 'car-name';
-      carName.textContent = car.car_model; 
-      carNameContainer.appendChild(carName);
-      
-      if (!car.status) {
-       
-       // add SOLD label
-        const soldLabel = document.createElement('span');
-        soldLabel.className = 'sold-label';
-        soldLabel.textContent = 'SOLD';
-        carNameContainer.appendChild(soldLabel);
-
-        // mark card as disabled if car is sold
-        carCard.classList.add('disabled');
-
-      }
-      carHeader.appendChild(carNameContainer);
-
-      const shortlist = document.createElement('div');
-      shortlist.className = 'shortlist';
-
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.id = `shortlist${car.car_id}`; 
-      checkbox.name = 'shortlist';
-      checkbox.value = car.id;
-
-      const label = document.createElement('label');
-      label.htmlFor = `shortlist${car.car_id}`;
-
-      shortlist.appendChild(checkbox);
-      shortlist.appendChild(label);
-      carHeader.appendChild(shortlist);
-
-      const priceButton = document.createElement('div');
-      priceButton.className = 'price-button';
-
-      const price = document.createElement('span');
-      price.className = 'price';
-      price.textContent = `$${car.price}`; 
-
-      const viewDetailsButton = document.createElement('button');
-      viewDetailsButton.className = 'create-button';
-      viewDetailsButton.textContent = 'View Details';
-      viewDetailsButton.onclick = () => viewCarDetails(car); 
-
-      priceButton.appendChild(price);
-      priceButton.appendChild(viewDetailsButton);
-      carCard.appendChild(carHeader);
-      carCard.appendChild(priceButton);
-
-      gridContainer.appendChild(carCard);
-      
-    })
-
+    populateAllCarListings(carListings);
 
   }
 
@@ -801,12 +792,6 @@ async function fetchCarListings() {
   }
 
 }
-// call the function when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.location.pathname.includes('homePage.html')) {
-    fetchCarListings();
-  }
-});
 
 /* ---------------------------------- */
 

@@ -1,0 +1,305 @@
+/* General CSS */
+/* Declare color scheme: TO BE CONFIRMED*/
+:root{
+    --header-height: 10rem;
+    --orange: #ff7800;      /* hover text */
+    --silver: #c0c0c0;      /* hover background */
+    --gray: #ddd;           /* hover background - previous page icon */
+    --black: #130f40;       /* text */
+    --white: #fff;          /* header background */
+    --light-gray: #eee;     /* body background */
+    --light-gray1: #f1f1f1; /* menu-dropdown background */
+    --light-gray2: #ccc;    /* separator line */ 
+    --medium-gray: #999;    /* button background */
+    --dark-gray: #666;      /* suspended background */
+    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    --border: .2rem solid rgba(0, 0, 0, .1);
+    --outline: .1rem solid rgba(0, 0, 0, .1);
+    --outline-hover: .2rem solid var(--black);
+}
+
+*{
+    font-family: Arial, sans-serif;
+    margin: 0; 
+    padding: 0;
+    box-sizing: border-box;
+    outline: none; 
+    border: none;
+    text-decoration: none;
+    /* text-transform: capitalize; */
+    transition: all .2s linear;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+}
+
+body {
+    padding: var(--header-height); /* To match the height of the header*/
+    background: var(--light-gray);
+}
+
+/* ---------------------------------- */
+/* Header CSS - STANDARD */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 9%;
+    background: var(--white);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+.header .logo{
+    font-size: 2.5rem;
+    color:var(--black);
+}
+
+.header a{
+    font-size: 1.7rem;
+    margin: 1rem;
+    color: var(--black);
+}
+
+.header a:hover{
+    color: var(--orange);
+}
+
+.header .navbar span{
+    font-size: 1.7rem;
+    margin: 1rem;
+    color: var(--black)
+}
+
+/* drop-down icon */
+.arrow{
+    border: solid var(--black);
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    vertical-align: middle;     /* Align it with the text */
+    margin-left: 1rem;          /* Add space between the button and the arrow */
+    position: relative;         /* Allow positioning adjustments */
+    top: -2px;                  /* Move the arrow up;*/
+    cursor: pointer;
+}
+
+.down{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: var(--white);
+    font-size: 1.7rem;
+    margin: 1rem;
+    color: var(--black);
+    /*color: white;*/
+    /*padding: 16px;*/
+    /*font-size: 16px;*/
+    border: none;
+    cursor: pointer;
+}
+  
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    /*background-color: var(--orange);*/
+    color: var(--orange);
+}
+  
+/* The container <div> - needed to position the dropdown content */
+.menu {
+    position: relative;
+    display: inline-block;
+}
+  
+/* Dropdown Content (Hidden by Default) */
+.menu-content {
+    display: none;
+    position: absolute;
+    background-color: var(--light-gray1);
+    min-width: 160px;
+    box-shadow: var(--box-shadow);
+    z-index: 1;
+}
+  
+/* Links inside the dropdown */
+.menu-content a {
+    color: var(--black);
+    padding: 6px 12px;
+    text-decoration: none;
+    display: block;
+}
+  
+/* Change color of dropdown links on hover */
+.menu-content a:hover {
+    background-color: var(--silver);
+    border: var(--border);
+    outline: var(--outline-hover);
+}
+  
+/* Show the dropdown menu 
+(use JS to add this class to the .menu-content container 
+when the user clicks on the dropdown button) */
+.show {
+    display:block;
+}
+
+
+
+/* ---------------------------------- */
+/* SellerDashboard CSS */
+/* User Information Card - STANDARD */
+.card{
+    background-color: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--box-shadow);
+    height: auto;
+    margin: 20px auto;                  /* Center the card with auto margins */
+    padding: 20px 50px 20px 50px;
+    width: 80%;                         /* Adjust this value as needed */
+    max-width: 600px;                   /* Set a maximum width */
+    overflow: hidden;                   /* Prevent content overflowing */
+}
+
+.account-info {
+    overflow-x: auto;                   /* Horizontal scroll if the table is too wide */
+}
+
+table {
+    width: 100%;                        /* Full width of the card */
+    border-collapse: collapse;          /* Collapse borders for a cleaner look */
+    font-size: 1.5rem;                  /* Set font size for the table */
+}
+
+th, td {
+    padding: 10px;                      /* Cell padding */
+    text-align: left;                   /* Left alignment */
+    /*border: 1px solid #ddd;           /* Cell borders - FOR CHECKING */
+    text-transform: none;               /* Preserve original capitalization */
+    white-space: nowrap;                /* Prevent text wrapping */
+}
+
+.center{
+    text-align: center;
+}
+
+.round-image{
+    width: 60px;                        /* Image width */
+    height: 60px;                       /* Image height */
+    border-radius: 60%;                 /* Makes the image round */
+    display: inline-block;              /* Keep image inline */
+    object-fit: cover;                  /* Cover the area without distortion */
+    border: 3px solid var(--light-gray2);
+    vertical-align: middle;
+}
+
+/* Seller Functions */
+.seller-functions {
+    text-align: center;                 /* Center align the link */
+    margin-top: 20px;                   /* Optional: Add some space above */
+    font-size: 1.5rem;                  /* Set font size for the table */
+}
+
+.link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 30px;
+    color: var(--black);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.link:hover {
+    background-color: var(--silver);    /* Darker shade on hover */
+    color: var(--orange);
+    border: var(--border);
+    outline: var(--outline-hover);
+}
+
+.separator {
+    border: none;                           /* Remove default border */
+    height: 1px;                            /* Set height for the line */
+    background-color: var(--light-gray2);   /* Line color */
+    margin: 10px auto;                      /* Space above and below the line */
+    width: 40%;
+}
+
+
+/* -- View Used Car Listing -- */
+/* Previous page icon - return to previous page */
+.previous {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    color: var(--black);
+    border-radius: 50%;
+}
+.previous:hover {
+    background-color: var(--gray);
+}
+
+.car-info {
+    margin-top: 30px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    background: white;
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+
+.car-info table {
+    width: 80%;
+    border-collapse: separate; /* Use "separate" to allow rounded corners */
+    border-spacing: 0; 
+    border-radius: 20px; 
+}
+
+.car-info th, .car-info td{
+    width:20%;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 1.5rem;
+    /* border-bottom: 1px; */
+
+}
+/*------------------------------------------*/
+/*Style for Shortlist & View Icon*/
+
+.eye , .heart {
+    display: flex;
+    align-items: center;
+    margin-left: 100px;
+    margin-right: auto;
+
+}
+
+.eye{
+    font-size:1.5rem;
+    color:lightslategray;
+}
+
+.eye p, .heart p{
+    margin-left: 10px;
+    font-size: 1.5rem;
+    color: black;
+}
+
+
+.red-heart {
+    color: red; /* Set the heart color to red */
+  
+}

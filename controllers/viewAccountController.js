@@ -1,7 +1,7 @@
 const Admin = require('../entities/admin');
 const User = require('../entities/user');
 
-class ViewAccountController {
+class viewAccountController {
     // view all accounts
     async viewUserAccounts(req, res) {
         const admin = new Admin();
@@ -17,6 +17,8 @@ class ViewAccountController {
 
         }
     }
+
+    /* Hidden functions onwards */
 
     // get specific account for update form
     async getAccount(req, res) {
@@ -50,6 +52,38 @@ class ViewAccountController {
         }
     }
 
+    // get username
+    async getUserName(req, res) {
+        const email = req.query.email;
+
+        const user = new User();
+
+        try {
+            const username = await user.getUsernameByEmail(email);
+            res.json({username});
+        }
+
+        catch(error) {
+            res.status(500).send({ message: error.message });
+            console.error("Error fetching username:", error); 
+        }
+    }
+
+    // get personal account details
+    async getPersonalAccount(req, res) {
+        const email = req.params.email;
+        const user = new User();
+
+        try {
+            const account = await user.findByEmail(email);
+            res.json(account);
+        }
+        catch(error) {
+            res.status(500).send({ message: error.message });
+            console.error("Error fetching personal account: ", error);
+        }
+    }
+
 }
 
-module.exports = ViewAccountController;
+module.exports = viewAccountController;

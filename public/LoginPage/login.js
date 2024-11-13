@@ -1,3 +1,24 @@
+document.addEventListener('DOMContentLoaded', async () => {
+    if (window.location.pathname.includes('LoginPage.html')) {
+      const roleSelect = document.getElementById('role');
+    
+      try {
+          const response = await fetch('/viewProfileRoute/getRoles');
+          const roles = await response.json();
+    
+          // Populate the select menu
+          roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.role;  // Set profile_id as the option value
+            option.textContent = role.role;  // Display role name as text
+            roleSelect.appendChild(option);
+          });
+      } catch (error) {
+          console.error('Error fetching roles:', error);
+      }
+    }
+  });
+
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
     e.preventDefault(); // Prevent the default form submission behavior
 
@@ -26,10 +47,13 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
             if (role === 'admin')
             {
-                window.location.href = '/UserAdmin/adminDashboard.html';
+                window.location.href = '/UserAdmin/AdminDashboard.html';
             } else if (role === 'agent') {
                 window.location.href = '../CarAgent/agentDashboard.html';
-            } else {
+            } else if (role == 'seller') {
+                window.location.href = '../Seller/sellerDashboard.html';
+            }
+            else {
                 window.location.href = '/HomePage/homePage.html';
             }
 
